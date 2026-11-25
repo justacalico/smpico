@@ -491,10 +491,7 @@ class _DownloadCardState extends State<_DownloadCard> {
         j.state == 'downloading' ||
         j.state == 'unpacking';
     final stateText = switch (j.state) {
-      'downloading' => tr('Downloading… {} of {}', [
-        fmtBytes(j.received),
-        j.total > 0 ? fmtBytes(j.total) : '?',
-      ]),
+      'downloading' => tr('Downloading…'),
       'unpacking' => tr('Unpacking…'),
       'done' => tr('Successful'),
       'failed' => tr('Error'),
@@ -506,6 +503,14 @@ class _DownloadCardState extends State<_DownloadCard> {
       'waiting' => EZColors.textDim,
       _ => EZColors.warn,
     };
+    final subtitle =
+        j.error ??
+        (j.state == 'downloading'
+            ? tr('Downloading… {} of {}', [
+                fmtBytes(j.received),
+                j.total > 0 ? fmtBytes(j.total) : '?',
+              ])
+            : (j.outPath ?? j.url));
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: cardDecoration(),
@@ -532,7 +537,7 @@ class _DownloadCardState extends State<_DownloadCard> {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        j.error ?? j.outPath ?? j.url,
+                        subtitle,
                         style: EZText.hint.copyWith(
                           color: j.state == 'failed' ? EZColors.bad : null,
                         ),
@@ -542,12 +547,15 @@ class _DownloadCardState extends State<_DownloadCard> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Text(
-                  stateText,
-                  style: TextStyle(
-                    color: stateColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
+                Flexible(
+                  child: Text(
+                    stateText,
+                    style: TextStyle(
+                      color: stateColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const SizedBox(width: 8),

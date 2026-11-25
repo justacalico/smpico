@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../app.dart';
 import '../i18n.dart';
 import '../theme.dart';
+import 'download_queue.dart';
 
 /// Left sidebar: transparent buttons, sliding indicator with a bright
 /// bar on its left edge (#sidebarIndicator + #sidebarIndicatorBar).
@@ -68,6 +69,9 @@ class Sidebar extends StatelessWidget {
                     compact: compact,
                     onTap: () => onSelect(i),
                   ),
+                const Spacer(),
+                DownloadQueueButton(compact: compact),
+                const SizedBox(height: 6),
               ],
             ),
           ],
