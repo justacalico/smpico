@@ -15,19 +15,32 @@ class DownloadQueueButton extends StatefulWidget {
   State<DownloadQueueButton> createState() => _DownloadQueueButtonState();
 }
 
-class _DownloadQueueButtonState extends State<DownloadQueueButton> {
+class _DownloadQueueButtonState extends State<DownloadQueueButton>
+    with SingleTickerProviderStateMixin {
   final _link = LayerLink();
   OverlayEntry? _overlay;
+  late final _anim = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 140),
+    reverseDuration: const Duration(milliseconds: 120),
+  );
 
   @override
   void dispose() {
-    _close();
+    _close(immediate: true);
+    _anim.dispose();
     super.dispose();
   }
 
-  void _close() {
-    _overlay?.remove();
+  void _close({bool immediate = false}) {
+    final e = _overlay;
+    if (e == null) return;
     _overlay = null;
+    if (immediate || !_anim.isAnimating && _anim.value == 0) {
+      e.remove();
+    } else {
+      _anim.reverse().whenComplete(e.remove);
+    }
   }
 
   void _toggle() {
@@ -50,12 +63,25 @@ class _DownloadQueueButtonState extends State<DownloadQueueButton> {
             targetAnchor: Alignment.topRight,
             followerAnchor: Alignment.bottomLeft,
             offset: const Offset(8, 0),
-            child: const _QueueFlyout(),
+            child: FadeTransition(
+              opacity: _anim.drive(CurveTween(curve: Curves.easeOut)),
+              child: ScaleTransition(
+                alignment: Alignment.bottomLeft,
+                scale: _anim.drive(
+                  Tween<double>(
+                    begin: .95,
+                    end: 1,
+                  ).chain(CurveTween(curve: Curves.easeOut)),
+                ),
+                child: const _QueueFlyout(),
+              ),
+            ),
           ),
         ],
       ),
     );
     Overlay.of(context).insert(_overlay!);
+    _anim.forward(from: 0);
   }
 
   @override
