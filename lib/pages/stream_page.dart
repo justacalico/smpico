@@ -36,6 +36,7 @@ class _StreamPageState extends State<StreamPage> {
   String? _error;
   String? _scrcpy;
   bool _checkingTool = true;
+  bool _checked = false;
 
   @override
   void initState() {
@@ -57,12 +58,17 @@ class _StreamPageState extends State<StreamPage> {
   }
 
   Future<void> _checkTool() async {
-    _checkingTool = true;
-    final s = await Tools.instance.scrcpy();
+    setState(() => _checkingTool = true);
+    // always take at least a second so the spinner doesn't flicker
+    final s = await Future.wait([
+      Tools.instance.scrcpy(),
+      Future.delayed(const Duration(seconds: 1)),
+    ]).then((r) => r.first as String?);
     if (!mounted) return;
     setState(() {
       _scrcpy = s;
       _checkingTool = false;
+      _checked = true;
     });
   }
 
@@ -127,7 +133,7 @@ class _StreamPageState extends State<StreamPage> {
   @override
   Widget build(BuildContext context) {
     final connected = Devices.instance.connected;
-    final missing = _scrcpy == null && !_checkingTool;
+    final missing = _scrcpy == null && _checked;
     return Container(
       color: EZColors.page,
       padding: const EdgeInsets.all(12),
@@ -399,7 +405,22 @@ class _StreamPageState extends State<StreamPage> {
                 ),
               ),
               const SizedBox(width: 8),
-              EZButton(tr('Check again'), onPressed: _checkTool),
+              _checkingTool
+                  ? const SizedBox(
+                      width: 86,
+                      height: 34,
+                      child: Center(
+                        child: SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: EZColors.textDim,
+                          ),
+                        ),
+                      ),
+                    )
+                  : EZButton(tr('Check again'), onPressed: _checkTool),
             ],
           ),
         ],
