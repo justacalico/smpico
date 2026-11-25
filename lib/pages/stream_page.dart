@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../core/adb.dart';
 import '../core/devices.dart';
 import '../core/paths.dart';
@@ -31,6 +32,9 @@ class _StreamPageState extends State<StreamPage> {
   bool _fullscreen = false;
   bool _running = false;
   String? _error;
+  String? _scrcpy;
+  bool _checkingTool = true;
+  bool _missingShown = false;
 
   @override
   void initState() {
@@ -43,9 +47,55 @@ class _StreamPageState extends State<StreamPage> {
     _audio = Settings.instance.get('stream_audio', true);
     _record = Settings.instance.get('stream_record', false);
     Devices.instance.addListener(_r);
+    _checkTool();
   }
 
-  void _r() => setState(() {});
+  void _r() {
+    setState(() {});
+    if (_scrcpy == null && !_checkingTool) _checkTool(silent: true);
+  }
+
+  Future<void> _checkTool({bool silent = false}) async {
+    _checkingTool = true;
+    final s = await Tools.instance.scrcpy();
+    if (!mounted) return;
+    setState(() {
+      _scrcpy = s;
+      _checkingTool = false;
+      if (s != null) _missingShown = false;
+    });
+    if (s == null && !silent && !_missingShown) {
+      _missingShown = true;
+      _showMissingDialog();
+    }
+  }
+
+  void _showMissingDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: EZColors.panel,
+        title: Text(tr('scrcpy not found'), style: EZText.section),
+        content: Text(
+          tr('The Stream tab needs scrcpy to show the headset screen. Download it and place it in the tools folder (or install it so it is on PATH), then press "Check again".'),
+          style: EZText.label,
+        ),
+        actions: [
+          EZButton(tr('Get scrcpy'),
+              icon: Icons.download,
+              color: EZColors.accent,
+              textColor: const Color(0xFF111111),
+              onPressed: () => launchUrl(Uri.parse(
+                  'https://github.com/Genymobile/scrcpy/releases'))),
+          EZButton(tr('Check again'), onPressed: () {
+            Navigator.pop(context);
+            _missingShown = false;
+            _checkTool();
+          }),
+        ],
+      ),
+    );
+  }
   @override
   void dispose() {
     Devices.instance.removeListener(_r);
@@ -53,9 +103,9 @@ class _StreamPageState extends State<StreamPage> {
   }
 
   Future<void> _start() async {
-    final scrcpy = await Tools.instance.scrcpy();
+    final scrcpy = _scrcpy ?? await Tools.instance.scrcpy();
     if (scrcpy == null) {
-      setState(() => _error = tr('scrcpy not found: {}', ['tools/scrcpy']));
+      _showMissingDialog();
       return;
     }
     final args = <String>[];
@@ -107,10 +157,19 @@ class _StreamPageState extends State<StreamPage> {
   @override
   Widget build(BuildContext context) {
     final connected = Devices.instance.connected;
+    final missing = _scrcpy == null && !_checkingTool;
     return Container(
       color: EZColors.page,
       padding: const EdgeInsets.all(12),
-      child: Row(
+      child: IgnorePointer(
+        ignoring: missing,
+        child: ColorFiltered(
+          colorFilter: missing
+              ? const ColorFilter.mode(Color(0xFF808080), BlendMode.saturation)
+              : const ColorFilter.mode(Colors.transparent, BlendMode.dst),
+          child: Opacity(
+            opacity: missing ? 0.35 : 1.0,
+            child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
@@ -262,6 +321,9 @@ class _StreamPageState extends State<StreamPage> {
             ),
           ),
         ],
+            ),
+          ),
+        ),
       ),
     );
   }
