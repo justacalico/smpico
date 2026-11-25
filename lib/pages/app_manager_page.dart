@@ -80,7 +80,7 @@ class _AppManagerPageState extends State<AppManagerPage> {
                     ),
                     decoration: InputDecoration(
                       isDense: true,
-                      hintText: tr('Search by name or package…'),
+                      hintText: t.searchByNameOrPackage,
                       hintStyle: EZText.hint,
                       prefixIcon: const Icon(
                         Icons.search,
@@ -105,13 +105,13 @@ class _AppManagerPageState extends State<AppManagerPage> {
               ),
               const SizedBox(width: 10),
               EZButton(
-                tr('Refresh'),
+                t.refresh,
                 icon: Icons.refresh,
                 height: 34,
                 onPressed: connected ? () => pkgs.refresh() : null,
               ),
               const Spacer(),
-              Text(tr('{} item(s)', [list.length]), style: EZText.hint),
+              Text(t.itemCount(n: list.length), style: EZText.hint),
             ],
           ),
           const SizedBox(height: 10),
@@ -119,28 +119,22 @@ class _AppManagerPageState extends State<AppManagerPage> {
             child: !connected
                 ? EmptyPlug(
                     Icons.usb_off,
-                    tr('No Device Connected'),
-                    subtitle: tr(
-                      'Connect your PICO VR headset\nand PC with a USB cable.',
-                    ),
+                    t.noDeviceConnected,
+                    subtitle: t.connectYourPICOVRHeadsetNandPC,
                   )
                 : pkgs.loading && list.isEmpty
-                ? Center(
-                    child: Text(tr('Loading packages…'), style: EZText.hint),
-                  )
+                ? Center(child: Text(t.loadingPackages, style: EZText.hint))
                 : pkgs.error != null
                 ? EmptyPlug(
                     Icons.error_outline,
-                    tr('Failed to load packages'),
+                    t.failedToLoadPackages,
                     subtitle: pkgs.error,
                   )
                 : list.isEmpty
                 ? EmptyPlug(
                     Icons.apps,
-                    tr('Nothing installed yet'),
-                    subtitle: tr(
-                      'Apps installed through SMPico will appear here',
-                    ),
+                    t.nothingInstalledYet,
+                    subtitle: t.appsInstalledThroughSMPicoWillAppearHere,
                   )
                 : ListView.builder(
                     itemCount: list.length,
@@ -209,18 +203,18 @@ class _PackageRowState extends State<_PackageRow> {
                 children: [
                   EZIconButton(
                     Icons.play_arrow,
-                    tooltip: tr('Launch'),
+                    tooltip: t.launch,
                     onPressed: () => _run(
                       () => Packages.instance.launch(e.name),
-                      okMsg: tr('Launching…'),
+                      okMsg: t.launching,
                     ),
                   ),
                   EZIconButton(
                     Icons.save_alt,
-                    tooltip: tr('Save APK to PC'),
+                    tooltip: t.saveAPKToPC,
                     onPressed: () async {
                       final dir = await getDirectoryPath(
-                        confirmButtonText: tr('Save to folder'),
+                        confirmButtonText: t.saveToFolder,
                       );
                       if (dir != null) {
                         _run(
@@ -232,20 +226,20 @@ class _PackageRowState extends State<_PackageRow> {
                   ),
                   EZIconButton(
                     Icons.backup,
-                    tooltip: tr('Save game data'),
+                    tooltip: t.saveGameData,
                     onPressed: () => _run(() async {
                       await Packages.instance.backupSaves(e.name);
-                      return tr('Game data saved ({})', [e.name]);
+                      return t.gameDataSaved(arg1: e.name);
                     }),
                   ),
                   EZIconButton(
                     Icons.lock_outline,
-                    tooltip: tr('Permissions'),
+                    tooltip: t.permissions,
                     onPressed: () => _showPerms(e),
                   ),
                   EZIconButton(
                     Icons.delete_outline,
-                    tooltip: tr('Uninstall'),
+                    tooltip: t.uninstall,
                     onPressed: () => _confirmUninstall(e),
                   ),
                 ],
@@ -261,17 +255,12 @@ class _PackageRowState extends State<_PackageRow> {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: EZColors.panel,
-        title: Text(tr('Permissions'), style: EZText.section),
+        title: Text(t.permissions, style: EZText.section),
         content: SizedBox(
           width: 420,
           height: 300,
           child: perms.isEmpty
-              ? Text(
-                  tr(
-                    'The app does not request permissions that can be changed',
-                  ),
-                  style: EZText.hint,
-                )
+              ? Text(t.theAppDoesNotRequestPermissionsThat, style: EZText.hint)
               : ListView(
                   children: perms
                       .map((p) => Text(p, style: EZText.console))
@@ -280,16 +269,16 @@ class _PackageRowState extends State<_PackageRow> {
         ),
         actions: [
           EZButton(
-            tr('Grant all'),
+            t.grantAll,
             onPressed: () {
               _run(() async {
                 await Packages.instance.grantAll(e.name);
-                return tr('Granted {} of {}', [perms.length, perms.length]);
+                return t.grantedOf(arg1: perms.length, arg2: perms.length);
               });
               Navigator.pop(context);
             },
           ),
-          EZButton(tr('Close'), onPressed: () => Navigator.pop(context)),
+          EZButton(t.close, onPressed: () => Navigator.pop(context)),
         ],
       ),
     );
@@ -300,21 +289,15 @@ class _PackageRowState extends State<_PackageRow> {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: EZColors.panel,
-        title: Text(tr('Uninstall'), style: EZText.section),
+        title: Text(t.uninstall, style: EZText.section),
         content: Text(
-          tr(
-            'Uninstall {}? Game data on the headset will be deleted. Save it first if you want to keep your progress.',
-            [e.name],
-          ),
+          t.uninstallGameDataOnTheHeadsetWill(arg1: e.name),
           style: EZText.label,
         ),
         actions: [
+          EZButton(t.cancel, onPressed: () => Navigator.pop(context, false)),
           EZButton(
-            tr('Cancel'),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-          EZButton(
-            tr('Uninstall'),
+            t.uninstall,
             color: EZColors.bad,
             textColor: Colors.white,
             onPressed: () => Navigator.pop(context, true),
@@ -323,7 +306,7 @@ class _PackageRowState extends State<_PackageRow> {
       ),
     );
     if (yes == true) {
-      _run(() => Packages.instance.uninstall(e.name), okMsg: tr('Uninstalled'));
+      _run(() => Packages.instance.uninstall(e.name), okMsg: t.uninstalled);
     }
   }
 }

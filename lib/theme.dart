@@ -147,10 +147,7 @@ MarkdownStyleSheet get mdStyle => MarkdownStyleSheet(
   ),
   listBullet: const TextStyle(color: EZColors.textDim, fontSize: 13),
   listBulletPadding: const EdgeInsets.only(right: 6),
-  a: TextStyle(
-    color: EZColors.accent,
-    decoration: TextDecoration.underline,
-  ),
+  a: TextStyle(color: EZColors.accent, decoration: TextDecoration.underline),
   horizontalRuleDecoration: const BoxDecoration(
     border: Border(top: BorderSide(color: EZColors.separator)),
   ),

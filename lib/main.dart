@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:window_manager/legacy.dart';
+
+import 'i18n.dart';
 import 'app.dart';
 import 'settings.dart';
 import 'theme.dart';
@@ -33,7 +36,7 @@ Future<void> main() async {
     Updater.instance.check();
   }
 
-  runApp(const SMPicoApp());
+  runApp(TranslationProvider(child: const SMPicoApp()));
 }
 
 class SMPicoApp extends StatelessWidget {
@@ -43,9 +46,12 @@ class SMPicoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: Settings.instance,
-      builder: (_, __) => MaterialApp(
+      builder: (context, __) => MaterialApp(
         title: 'SMPico',
         debugShowCheckedModeBanner: false,
+        locale: TranslationProvider.of(context).locale.flutterLocale,
+        supportedLocales: AppLocaleUtils.supportedLocales,
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
         theme: buildEZTheme(),
         home: const MainWindow(),
       ),

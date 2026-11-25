@@ -75,24 +75,24 @@ class _FilesPageState extends State<FilesPage> {
             children: [
               EZIconButton(
                 Icons.arrow_back,
-                tooltip: tr('Back (Alt+←)'),
+                tooltip: t.backAlt,
                 onPressed: fm.historyPos > 0 ? () => fm.back() : null,
               ),
               EZIconButton(
                 Icons.arrow_forward,
-                tooltip: tr('Forward (Alt+→)'),
+                tooltip: t.forwardAlt,
                 onPressed: fm.historyPos < fm.history.length - 1
                     ? () => fm.forward()
                     : null,
               ),
               EZIconButton(
                 Icons.arrow_upward,
-                tooltip: tr('Up one level (Backspace)'),
+                tooltip: t.upOneLevelBackspace,
                 onPressed: fm.currentPath != '/' ? () => fm.up() : null,
               ),
               EZIconButton(
                 Icons.refresh,
-                tooltip: tr('Refresh (F5)'),
+                tooltip: t.refreshF5,
                 onPressed: () => fm.refresh(),
               ),
               const SizedBox(width: 8),
@@ -109,7 +109,7 @@ class _FilesPageState extends State<FilesPage> {
                     ),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      _heaviest ? tr('Heaviest files') : fm.currentPath,
+                      _heaviest ? t.heaviestFiles : fm.currentPath,
                       style: EZText.console.copyWith(
                         color: const Color(0xFFE6E6E6),
                       ),
@@ -120,7 +120,7 @@ class _FilesPageState extends State<FilesPage> {
               ),
               const SizedBox(width: 8),
               EZButton(
-                tr('Heaviest files'),
+                t.heaviestFiles,
                 height: 32,
                 fontSize: 11,
                 onPressed: connected ? _scanHeaviest : null,
@@ -128,17 +128,17 @@ class _FilesPageState extends State<FilesPage> {
               const SizedBox(width: 6),
               EZIconButton(
                 Icons.create_new_folder,
-                tooltip: tr('Create a folder (Ctrl+Shift+N)'),
+                tooltip: t.createAFolderCtrlShiftN,
                 onPressed: connected ? () => _newFolder(fm) : null,
               ),
               EZIconButton(
                 Icons.upload_file,
-                tooltip: tr('Upload files…'),
+                tooltip: t.uploadFiles,
                 onPressed: connected ? _uploadFiles : null,
               ),
               EZIconButton(
                 Icons.drive_folder_upload,
-                tooltip: tr('Upload folder…'),
+                tooltip: t.uploadFolder,
                 onPressed: connected ? _uploadFolder : null,
               ),
             ],
@@ -162,7 +162,7 @@ class _FilesPageState extends State<FilesPage> {
                   ),
                   decoration: InputDecoration(
                     isDense: true,
-                    hintText: tr('Filter… (Enter — deep search)'),
+                    hintText: t.filterEnterDeepSearch,
                     hintStyle: EZText.hint,
                     filled: true,
                     fillColor: EZColors.consoleBg,
@@ -190,7 +190,7 @@ class _FilesPageState extends State<FilesPage> {
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     visualDensity: VisualDensity.compact,
                   ),
-                  Text(tr('Hidden files'), style: EZText.hint),
+                  Text(t.hiddenFiles, style: EZText.hint),
                 ],
               ),
             ],
@@ -221,7 +221,7 @@ class _FilesPageState extends State<FilesPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: !connected
-                    ? EmptyPlug(Icons.usb_off, tr('No Device Connected'))
+                    ? EmptyPlug(Icons.usb_off, t.noDeviceConnected)
                     : fm.loading
                     ? Center(
                         child: CircularProgressIndicator(
@@ -233,10 +233,8 @@ class _FilesPageState extends State<FilesPage> {
                     : shown.isEmpty
                     ? EmptyPlug(
                         Icons.folder_open,
-                        tr('Folder is empty.'),
-                        subtitle: tr(
-                          'Drag files here from the PC to upload them to the headset.',
-                        ),
+                        t.folderIsEmpty,
+                        subtitle: t.dragFilesHereFromThePCTo,
                       )
                     : Column(
                         children: [
@@ -259,33 +257,30 @@ class _FilesPageState extends State<FilesPage> {
             children: [
               Text(
                 _heaviest
-                    ? tr('Heaviest files: {} (total {}) · scanned at {}', [
-                        _heavy.length,
-                        '',
-                        '',
-                      ])
-                    : tr('Folders: {}  ·  Files: {}', [
-                        shown.where((e) => e.isDir).length,
-                        shown.where((e) => !e.isDir).length,
-                      ]),
+                    ? t.heaviestFilesTotalScannedAt(
+                        arg1: _heavy.length,
+                        arg2: '',
+                        arg3: '',
+                      )
+                    : t.foldersFiles(
+                        arg1: shown.where((e) => e.isDir).length,
+                        arg2: shown.where((e) => !e.isDir).length,
+                      ),
                 style: EZText.hint,
               ),
               const Spacer(),
               if (_selected.isNotEmpty) ...[
-                Text(
-                  tr('Selected: {}', [_selected.length]),
-                  style: EZText.hint,
-                ),
+                Text(t.selected(arg1: _selected.length), style: EZText.hint),
                 const SizedBox(width: 8),
                 EZButton(
-                  tr('Download'),
+                  t.download,
                   height: 28,
                   fontSize: 11,
                   onPressed: _downloadSelected,
                 ),
                 const SizedBox(width: 4),
                 EZButton(
-                  tr('Delete'),
+                  t.delete,
                   height: 28,
                   fontSize: 11,
                   color: EZColors.bad,
@@ -296,12 +291,12 @@ class _FilesPageState extends State<FilesPage> {
               if (Transfers.instance.items.isNotEmpty) ...[
                 const SizedBox(width: 8),
                 Text(
-                  '${Transfers.instance.items.where((t) => !t.done).length} ${tr('active:')}',
+                  '${Transfers.instance.items.where((t) => !t.done).length} ${t.active}',
                   style: EZText.hint,
                 ),
                 EZIconButton(
                   Icons.clear_all,
-                  tooltip: tr('Clear finished'),
+                  tooltip: t.clearFinished,
                   size: 24,
                   onPressed: () => Transfers.instance.clearFinished(),
                 ),
@@ -319,9 +314,9 @@ class _FilesPageState extends State<FilesPage> {
       child: Row(
         children: [
           const SizedBox(width: 28),
-          Expanded(flex: 4, child: Text(tr('Name'), style: EZText.group)),
-          Expanded(child: Text(tr('Size'), style: EZText.group)),
-          Expanded(child: Text(tr('Modified'), style: EZText.group)),
+          Expanded(flex: 4, child: Text(t.name, style: EZText.group)),
+          Expanded(child: Text(t.size, style: EZText.group)),
+          Expanded(child: Text(t.modified, style: EZText.group)),
           const SizedBox(width: 100),
         ],
       ),
@@ -376,20 +371,20 @@ class _FilesPageState extends State<FilesPage> {
                 children: [
                   EZIconButton(
                     Icons.save_alt,
-                    tooltip: tr('Download to PC…'),
+                    tooltip: t.downloadToPC,
                     size: 24,
                     onPressed: () => _download([e]),
                   ),
                   if (!e.isDir)
                     EZIconButton(
                       Icons.calculate,
-                      tooltip: tr('Calculate size'),
+                      tooltip: t.calculateSize,
                       size: 24,
                       onPressed: null,
                     ),
                   EZIconButton(
                     Icons.delete_outline,
-                    tooltip: tr('Delete'),
+                    tooltip: t.delete,
                     size: 24,
                     onPressed: () => _delete([e]),
                   ),
@@ -409,9 +404,9 @@ class _FilesPageState extends State<FilesPage> {
       position: const RelativeRect.fromLTRB(200, 200, 0, 0),
       color: const Color(0xFF242424),
       items: [
-        PopupMenuItem(value: 'rename', child: Text(tr('Rename'))),
-        PopupMenuItem(value: 'delete', child: Text(tr('Delete'))),
-        PopupMenuItem(value: 'copypath', child: Text(tr('Copy path'))),
+        PopupMenuItem(value: 'rename', child: Text(t.rename)),
+        PopupMenuItem(value: 'delete', child: Text(t.delete)),
+        PopupMenuItem(value: 'copypath', child: Text(t.copyPath)),
       ],
     );
     if (act == 'rename') {
@@ -419,16 +414,16 @@ class _FilesPageState extends State<FilesPage> {
         context: context,
         builder: (_) => AlertDialog(
           backgroundColor: EZColors.panel,
-          title: Text(tr('Rename'), style: EZText.section),
+          title: Text(t.rename, style: EZText.section),
           content: TextField(
             controller: ctrl,
             autofocus: true,
             style: const TextStyle(fontSize: 13),
           ),
           actions: [
-            EZButton(tr('Cancel'), onPressed: () => Navigator.pop(context)),
+            EZButton(t.cancel, onPressed: () => Navigator.pop(context)),
             EZButton(
-              tr('Save'),
+              t.save,
               onPressed: () => Navigator.pop(context, ctrl.text),
             ),
           ],
@@ -458,16 +453,11 @@ class _FilesPageState extends State<FilesPage> {
           controller: ctrl,
           autofocus: true,
           style: EZText.console,
-          decoration: InputDecoration(
-            hintText: tr('Click to type a path (Ctrl+L)'),
-          ),
+          decoration: InputDecoration(hintText: t.clickToTypeAPathCtrlL),
         ),
         actions: [
-          EZButton(tr('Cancel'), onPressed: () => Navigator.pop(context)),
-          EZButton(
-            tr('Open'),
-            onPressed: () => Navigator.pop(context, ctrl.text),
-          ),
+          EZButton(t.cancel, onPressed: () => Navigator.pop(context)),
+          EZButton(t.open, onPressed: () => Navigator.pop(context, ctrl.text)),
         ],
       ),
     );
@@ -483,12 +473,12 @@ class _FilesPageState extends State<FilesPage> {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: EZColors.panel,
-        title: Text(tr('New folder'), style: EZText.section),
+        title: Text(t.newFolder, style: EZText.section),
         content: TextField(controller: ctrl, autofocus: true),
         actions: [
-          EZButton(tr('Cancel'), onPressed: () => Navigator.pop(context)),
+          EZButton(t.cancel, onPressed: () => Navigator.pop(context)),
           EZButton(
-            tr('Create'),
+            t.create,
             onPressed: () => Navigator.pop(context, ctrl.text),
           ),
         ],
@@ -538,18 +528,15 @@ class _FilesPageState extends State<FilesPage> {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: EZColors.panel,
-        title: Text(tr('Delete files'), style: EZText.section),
+        title: Text(t.deleteFiles, style: EZText.section),
         content: Text(
-          tr('Delete {} items from the headset?', [items.length]),
+          t.deleteItemsFromTheHeadset(arg1: items.length),
           style: EZText.label,
         ),
         actions: [
+          EZButton(t.cancel, onPressed: () => Navigator.pop(context, false)),
           EZButton(
-            tr('Cancel'),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-          EZButton(
-            tr('Delete'),
+            t.delete,
             color: EZColors.bad,
             textColor: Colors.white,
             onPressed: () => Navigator.pop(context, true),
@@ -577,7 +564,7 @@ class _QuickPath extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = path == '/' ? tr('Root') : path.split('/').last;
+    final name = path == '/' ? t.root : path.split('/').last;
     return GestureDetector(
       onTap: onTap,
       child: Container(

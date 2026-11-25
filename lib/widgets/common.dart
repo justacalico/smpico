@@ -102,7 +102,7 @@ Future<void> openExternalUrl(BuildContext context, String url) async {
     dlog('openExternalUrl: $url -> $e');
   }
   if (!ok && context.mounted) {
-    toast(context, tr('Could not open the link'));
+    toast(context, t.couldNotOpenTheLink);
   }
 }
 

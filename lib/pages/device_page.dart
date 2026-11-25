@@ -54,7 +54,7 @@ class _DevicePageState extends State<DevicePage> {
     await Adb.instance.pull('/sdcard/$name', p.join(dir.path, name));
     await Adb.instance.rm('/sdcard/$name');
     if (mounted) {
-      toast(context, tr('Screenshot saved: {}', [name]));
+      toast(context, t.screenshotSaved(arg1: name));
     }
   }
 
@@ -74,7 +74,7 @@ class _DevicePageState extends State<DevicePage> {
               const Spacer(),
               if (d != null)
                 Text(
-                  '${tr('Serial number: {}', [d.serial])}  ·  ${d.wifi ? 'Wi-Fi' : 'USB'}',
+                  '${t.serialNumber(arg1: d.serial)}  ·  ${d.wifi ? 'Wi-Fi' : 'USB'}',
                   style: EZText.hint,
                 ),
             ],
@@ -84,10 +84,8 @@ class _DevicePageState extends State<DevicePage> {
             child: d == null
                 ? EmptyPlug(
                     Icons.usb_off,
-                    tr('No Device Connected'),
-                    subtitle: tr(
-                      'Connect your PICO VR headset\nand PC with a USB cable.',
-                    ),
+                    t.noDeviceConnected,
+                    subtitle: t.connectYourPICOVRHeadsetNandPC,
                   )
                 : LayoutBuilder(
                     builder: (_, c) {
@@ -109,7 +107,7 @@ class _DevicePageState extends State<DevicePage> {
                                   const SizedBox(height: 10),
                                   Text(
                                     d.model.isEmpty
-                                        ? tr('Unknown headset')
+                                        ? t.unknownHeadset
                                         : d.model,
                                     style: const TextStyle(
                                       color: Color(0xFFF0F0F0),
@@ -141,30 +139,26 @@ class _DevicePageState extends State<DevicePage> {
                               children: [
                                 _action(
                                   Icons.camera_alt,
-                                  tr('Screenshot'),
-                                  tr(
-                                    'Save a picture of what the headset shows to the PC',
-                                  ),
+                                  t.screenshot,
+                                  t.saveAPictureOfWhatTheHeadset,
                                   _screenshot,
                                 ),
                                 _action(
                                   Icons.wifi,
-                                  tr('Wi-Fi mode'),
-                                  tr(
-                                    'Switch to Wi-Fi: then the cable can be unplugged. The PC and the headset must be on the same network',
-                                  ),
+                                  t.wiFiMode,
+                                  t.switchToWiFiThenTheCable,
                                   () => devs.switchToWifi(),
                                 ),
                                 _action(
                                   Icons.restart_alt,
-                                  tr('Reboot'),
-                                  tr('Restart the headset'),
+                                  t.reboot,
+                                  t.restartTheHeadset,
                                   () => Adb.instance.reboot(),
                                 ),
                                 _action(
                                   Icons.power_settings_new,
-                                  tr('Shutdown'),
-                                  tr('Turn the headset off'),
+                                  t.shutdown,
+                                  t.turnTheHeadsetOff,
                                   () => Adb.instance.shutdown(),
                                   danger: true,
                                 ),
@@ -182,25 +176,23 @@ class _DevicePageState extends State<DevicePage> {
                             runSpacing: 8,
                             children: [
                               _tile(
-                                tr('Firmware'),
+                                t.firmware,
                                 d.firmware.isEmpty ? '—' : d.firmware,
                                 sub: d.displayId,
                                 width: tw,
                               ),
                               _tile(
-                                tr('Battery'),
+                                t.battery,
                                 d.batteryPct < 0 ? '—' : '${d.batteryPct}%',
-                                sub: d.charging
-                                    ? tr('charging')
-                                    : tr('on battery'),
+                                sub: d.charging ? t.charging : t.onBattery,
                                 frac: d.batteryPct < 0 ? 0 : d.batteryPct / 100,
                                 state: d.batteryPct < 20 ? 'warn' : 'ok',
                                 width: tw,
                               ),
                               _tile(
-                                tr('Storage'),
+                                t.storage,
                                 fmtBytes(d.totalBytes - d.freeBytes),
-                                sub: tr('free of {}', [fmtBytes(d.freeBytes)]),
+                                sub: t.freeOf(arg1: fmtBytes(d.freeBytes)),
                                 frac: d.totalBytes > 0
                                     ? 1 - d.freeBytes / d.totalBytes
                                     : 0,
@@ -215,12 +207,8 @@ class _DevicePageState extends State<DevicePage> {
                                 'PUI Matrix',
                                 d.matrixText,
                                 sub: d.matrixCracked
-                                    ? tr(
-                                        'Protection removed — games run without licence checks',
-                                      )
-                                    : tr(
-                                        'Licence check is on — use OVRport or repacked games',
-                                      ),
+                                    ? t.protectionRemovedGamesRunWithoutLicenceChecks
+                                    : t.licenceCheckIsOnUseOVRportOr,
                                 state: d.matrixCracked ? 'ok' : 'warn',
                                 width: tw,
                               ),
@@ -455,7 +443,7 @@ class _DeviceSelectorState extends State<_DeviceSelector> {
   @override
   Widget build(BuildContext context) {
     final devs = Devices.instance;
-    final current = Adb.instance.device ?? tr('Not selected');
+    final current = Adb.instance.device ?? t.notSelected;
     return PopupMenuButton<String>(
       tooltip: '',
       offset: const Offset(0, 46),
@@ -584,11 +572,11 @@ class _AdbConsoleState extends State<_AdbConsole> {
       children: [
         Row(
           children: [
-            Text(tr('ADB Command'), style: EZText.section),
+            Text(t.adbCommand, style: EZText.section),
             const Spacer(),
             if (_saved.isNotEmpty)
               PopupMenuButton<String>(
-                tooltip: tr('Saved commands'),
+                tooltip: t.savedCommands,
                 color: const Color(0xFF242424),
                 onSelected: (c) {
                   _ctrl.text = c;
@@ -647,9 +635,7 @@ class _AdbConsoleState extends State<_AdbConsole> {
             padding: const EdgeInsets.all(8),
             child: _out.isEmpty
                 ? Text(
-                    tr(
-                      'Output will appear here. Double-click a saved command to run it, ↑/↓ — history.',
-                    ),
+                    t.outputWillAppearHereDoubleClickA,
                     style: EZText.console.copyWith(color: EZColors.textDim),
                   )
                 : ListView.builder(
@@ -721,7 +707,7 @@ class _AdbConsoleState extends State<_AdbConsole> {
             const SizedBox(width: 6),
             EZIconButton(
               Icons.save_outlined,
-              tooltip: tr('Save'),
+              tooltip: t.save,
               onPressed: () {
                 final c = _ctrl.text.trim();
                 if (c.isNotEmpty && !_saved.contains(c)) {
@@ -731,7 +717,7 @@ class _AdbConsoleState extends State<_AdbConsole> {
               },
             ),
             EZButton(
-              tr('Run'),
+              t.run,
               color: EZColors.accent,
               textColor: const Color(0xFF111111),
               height: 32,

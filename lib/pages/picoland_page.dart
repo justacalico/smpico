@@ -109,7 +109,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
                       ),
                       decoration: InputDecoration(
                         isDense: true,
-                        hintText: tr('Search games…'),
+                        hintText: t.searchGames,
                         hintStyle: EZText.hint,
                         prefixIcon: const Icon(
                           Icons.search,
@@ -131,25 +131,20 @@ class _PicoLandPageState extends State<PicoLandPage> {
                   ),
                   const SizedBox(width: 8),
                   _filterMenu(
-                    tr('Type'),
-                    {null: tr('All'), 'ovrport': 'OVRport', 'fnal': 'FNAL'},
+                    t.type,
+                    {null: t.all, 'ovrport': 'OVRport', 'fnal': 'FNAL'},
                     _type,
                     (v) => setState(() => _type = v),
                   ),
                   _filterMenu(
-                    tr('Size'),
-                    {
-                      null: tr('All'),
-                      's': tr('< 1 GB'),
-                      'm': tr('1–5 GB'),
-                      'l': tr('5+ GB'),
-                    },
+                    t.size,
+                    {null: t.all, 's': t.k1GB, 'm': t.k15GB, 'l': t.k5GB},
                     _sizeKey(),
                     _setSize,
                   ),
                   _filterMenu(
-                    tr('Sort'),
-                    {'name': tr('A–Z'), 'size': tr('Size')},
+                    t.sort,
+                    {'name': t.aZ, 'size': t.size},
                     _sort,
                     (v) => setState(() => _sort = v ?? 'name'),
                   ),
@@ -158,13 +153,13 @@ class _PicoLandPageState extends State<PicoLandPage> {
                   const SizedBox(width: 12),
                   if (cat.version.isNotEmpty)
                     Text(
-                      tr('Catalog version {}', [cat.version]),
+                      t.catalogVersion2(arg1: cat.version),
                       style: EZText.hint,
                       overflow: TextOverflow.ellipsis,
                     ),
                   EZIconButton(
                     Icons.refresh,
-                    tooltip: tr('Check for updates'),
+                    tooltip: t.checkForUpdates,
                     onPressed: cat.loading ? null : () => cat.checkUpdates(),
                   ),
                 ],
@@ -174,17 +169,15 @@ class _PicoLandPageState extends State<PicoLandPage> {
           const SizedBox(height: 10),
           Expanded(
             child: cat.loading && games.isEmpty
-                ? Center(
-                    child: Text(tr('Loading the catalog…'), style: EZText.hint),
-                  )
+                ? Center(child: Text(t.loadingTheCatalog, style: EZText.hint))
                 : !cat.available
                 ? EmptyPlug(
                     Icons.cloud_off,
-                    tr('Catalog is unavailable'),
+                    t.catalogIsUnavailable,
                     subtitle: cat.error,
                   )
                 : games.isEmpty
-                ? EmptyPlug(Icons.search_off, tr('Nothing matches the filter'))
+                ? EmptyPlug(Icons.search_off, t.nothingMatchesTheFilter)
                 : GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -269,7 +262,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '$label: ${items[current] ?? tr('All')}',
+                '$label: ${items[current] ?? t.all}',
                 style: const TextStyle(fontSize: 11, color: EZColors.text),
               ),
               const Icon(
@@ -286,7 +279,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
 
   Widget _genreMenu(Catalog cat) {
     return PopupMenuButton<String>(
-      tooltip: tr('Find a category…'),
+      tooltip: t.findACategory,
       color: const Color(0xFF242424),
       onSelected: (g) => setState(() {
         _genres.contains(g) ? _genres.remove(g) : _genres.add(g);
@@ -321,7 +314,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
           ),
         ),
         child: Text(
-          _genres.isEmpty ? tr('All games') : '${_genres.length}',
+          _genres.isEmpty ? t.allGames : '${_genres.length}',
           style: const TextStyle(fontSize: 11, color: EZColors.text),
         ),
       ),
@@ -454,7 +447,7 @@ class _GameDetails extends StatelessWidget {
           Row(
             children: [
               EZButton(
-                tr('← Back to catalog'),
+                t.backToCatalog,
                 icon: Icons.arrow_back,
                 height: 32,
                 onPressed: onBack,
@@ -463,7 +456,7 @@ class _GameDetails extends StatelessWidget {
               if (g.youtube != null || g.trailer != null)
                 EZIconButton(
                   Icons.play_circle_outline,
-                  tooltip: tr('Trailer'),
+                  tooltip: t.trailer,
                   onPressed: () => openExternalUrl(
                     context,
                     g.trailer ?? 'https://youtu.be/${g.youtube}',
@@ -472,7 +465,7 @@ class _GameDetails extends StatelessWidget {
               if (g.postUrl != null)
                 EZIconButton(
                   Icons.telegram,
-                  tooltip: tr('Post in Telegram'),
+                  tooltip: t.postInTelegram,
                   onPressed: () => openExternalUrl(context, g.postUrl!),
                 ),
             ],
@@ -508,7 +501,7 @@ class _GameDetails extends StatelessWidget {
                           children: [
                             Expanded(
                               child: EZButton(
-                                tr('Download and install'),
+                                t.downloadAndInstall,
                                 icon: Icons.download,
                                 color: EZColors.accent,
                                 textColor: const Color(0xFF111111),
@@ -528,7 +521,7 @@ class _GameDetails extends StatelessWidget {
                                 return Padding(
                                   padding: const EdgeInsets.only(left: 4),
                                   child: PopupMenuButton<String>(
-                                    tooltip: tr('Choose a headset'),
+                                    tooltip: t.chooseAHeadset,
                                     color: const Color(0xFF242424),
                                     onSelected: (s) {
                                       Devices.instance.selectDevice(s);
@@ -582,7 +575,7 @@ class _GameDetails extends StatelessWidget {
                             const SizedBox(width: 6),
                             EZIconButton(
                               Icons.settings,
-                              tooltip: tr('Install settings'),
+                              tooltip: t.installSettings,
                               onPressed: () async {
                                 final o = await showInstallOptionsDialog(
                                   context,
@@ -604,7 +597,7 @@ class _GameDetails extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: EZButton(
-                            tr('Download to PC…'),
+                            t.downloadToPC,
                             onPressed: g.links.isEmpty
                                 ? null
                                 : () => _download(context, g, install: false),
@@ -623,11 +616,9 @@ class _GameDetails extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                tr('Special install') +
+                                t.specialInstall +
                                     ' — ' +
-                                    tr(
-                                      'Non-standard installation — read the notes below.',
-                                    ),
+                                    t.nonStandardInstallationReadTheNotesBelow,
                                 style: const TextStyle(
                                   color: EZColors.warn,
                                   fontSize: 12,
@@ -646,9 +637,7 @@ class _GameDetails extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  tr(
-                                    'From the post (as written by its author):',
-                                  ),
+                                  t.fromThePostAsWrittenByIts,
                                   style: EZText.group,
                                 ),
                                 const SizedBox(height: 6),
@@ -693,12 +682,12 @@ class _GameDetails extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 12),
-                        Text(tr('Description'), style: EZText.section),
+                        Text(t.description, style: EZText.section),
                         const SizedBox(height: 4),
                         SelectableText(
                           g.description?.isNotEmpty == true
                               ? g.description!
-                              : tr('No description'),
+                              : t.noDescription,
                           style: const TextStyle(
                             color: EZColors.text,
                             fontSize: 13,
@@ -706,11 +695,11 @@ class _GameDetails extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 14),
-                        Text(tr('Download'), style: EZText.section),
+                        Text(t.download, style: EZText.section),
                         const SizedBox(height: 6),
                         if (g.links.isEmpty)
                           Text(
-                            tr('No download links — open the post in Telegram'),
+                            t.noDownloadLinksOpenThePostIn,
                             style: EZText.hint,
                           ),
                         for (final l in g.links) _linkRow(context, g, l),
@@ -786,23 +775,23 @@ class _GameDetails extends StatelessWidget {
             ),
             EZIconButton(
               Icons.copy,
-              tooltip: tr('Copy link'),
+              tooltip: t.copyLink,
               size: 24,
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: l.url));
                 dlog('copied link: ${l.url}');
-                toast(context, tr('Copied: {}', [l.url]));
+                toast(context, t.copied(arg1: l.url));
               },
             ),
             EZIconButton(
               Icons.open_in_new,
-              tooltip: tr('Open in the browser'),
+              tooltip: t.openInTheBrowser,
               size: 24,
               onPressed: () => openExternalUrl(context, l.url),
             ),
             EZIconButton(
               Icons.download,
-              tooltip: tr('Download'),
+              tooltip: t.download,
               size: 24,
               onPressed: () => Downloads.instance.enqueue(
                 title: g.title,
@@ -831,7 +820,7 @@ class _GameDetails extends StatelessWidget {
     );
     if (link == null) {
       dlog('no usable link for ${g.title}');
-      toast(context, tr('No download links — open the post in Telegram'));
+      toast(context, t.noDownloadLinksOpenThePostIn);
       return;
     }
     dlog(
@@ -844,6 +833,6 @@ class _GameDetails extends StatelessWidget {
       kind: link.kind,
       installAfter: install ? (opts ?? InstallOptions()) : null,
     );
-    toast(context, tr('Download added to queue — see the Install tab'));
+    toast(context, t.downloadAddedToQueueSeeTheInstall);
   }
 }

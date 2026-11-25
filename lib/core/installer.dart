@@ -177,7 +177,7 @@ class Installer extends ChangeNotifier {
           src,
           onProgress: (v) {
             job.setStage(
-              '${tr('Extracting archive')} ${(v * 100).round()}%',
+              '${t.extractingArchive} ${(v * 100).round()}%',
               .05 + v * .1,
             );
           },
@@ -248,9 +248,8 @@ class Installer extends ChangeNotifier {
       }
       if (missing.isNotEmpty) {
         throw StateError(
-          tr(
-            'Missing tools: {} — installation cannot continue. Put them in the tools folder or add them to PATH',
-            [missing.join(', ')],
+          t.missingToolsInstallationCannotContinuePutThem(
+            arg1: missing.join(', '),
           ),
         );
       }

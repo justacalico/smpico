@@ -86,34 +86,29 @@ class _InstallPageState extends State<InstallPage> {
             child: ListView(
               shrinkWrap: narrow,
               children: [
-                Text(tr('Installation'), style: EZText.section),
+                Text(t.installation, style: EZText.section),
                 const SizedBox(height: 4),
-                Text(
-                  tr(
-                    'APK, ZIP, 7z, RAR, multi-part .001 or a folder with them',
-                  ),
-                  style: EZText.hint,
-                ),
+                Text(t.apkZIP7zRARMultiPart001, style: EZText.hint),
                 const SizedBox(height: 12),
                 Row(
                   children: [
                     Expanded(
                       child: EZButton(
-                        tr('Choose files…'),
+                        t.chooseFiles,
                         onPressed: connected ? _pickFiles : null,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: EZButton(
-                        tr('Choose folder…'),
+                        t.chooseFolder2,
                         onPressed: connected ? _pickFolder : null,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 14),
-                Text(tr('Mode').toUpperCase(), style: EZText.group),
+                Text(t.mode.toUpperCase(), style: EZText.group),
                 const SizedBox(height: 6),
                 _ModeSegment(
                   auto: _options.method == InstallMethod.auto,
@@ -126,10 +121,8 @@ class _InstallPageState extends State<InstallPage> {
                 const SizedBox(height: 8),
                 Text(
                   _options.method == InstallMethod.auto
-                      ? tr(
-                          'SMPico picks the method itself (Matrix 9.9.9 — clean install, OVRport — direct, otherwise repack)',
-                        )
-                      : tr('Each option is chosen by hand'),
+                      ? t.smpicoPicksTheMethodItselfMatrix9
+                      : t.eachOptionIsChosenByHand,
                   style: EZText.hint,
                 ),
                 if (Devices.instance.info?.matrixCracked == true ||
@@ -137,36 +130,29 @@ class _InstallPageState extends State<InstallPage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(
-                      tr(
-                        'On this headset (Matrix 9.9.9) Auto installs the APK directly: repack and signing are not used',
-                      ),
+                      t.onThisHeadsetMatrix999,
                       style: EZText.hint.copyWith(color: EZColors.accent),
                     ),
                   ),
                 const SizedBox(height: 14),
                 Row(
                   children: [
-                    Text(tr('Install settings'), style: EZText.section),
+                    Text(t.installSettings, style: EZText.section),
                     const Spacer(),
                     EZButton(
                       _options.method == InstallMethod.auto
-                          ? tr('auto')
-                          : tr('manual options'),
+                          ? t.auto2
+                          : t.manualOptions,
                       height: 28,
                       fontSize: 11,
                       icon: Icons.settings,
-                      tooltip: tr(
-                        'Download with install settings… (method, cache, signing, or download only)',
-                      ),
+                      tooltip: t.downloadWithInstallSettingsMethodCacheSigning,
                       onPressed: _openOptions,
                     ),
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  tr('Applies to the next files you add, then resets'),
-                  style: EZText.hint,
-                ),
+                Text(t.appliesToTheNextFilesYouAdd, style: EZText.hint),
                 if (!connected) ...[
                   const SizedBox(height: 14),
                   Container(
@@ -177,7 +163,7 @@ class _InstallPageState extends State<InstallPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      tr('Files can be added once the headset is connected'),
+                      t.filesCanBeAddedOnceTheHeadset,
                       style: const TextStyle(
                         color: EZColors.warn,
                         fontSize: 12,
@@ -187,9 +173,9 @@ class _InstallPageState extends State<InstallPage> {
                   ),
                 ],
                 const SizedBox(height: 14),
-                Text(tr('Queue').toUpperCase(), style: EZText.group),
+                Text(t.queue.toUpperCase(), style: EZText.group),
                 const SizedBox(height: 6),
-                Text(tr('{} item(s)', [jobs.length]), style: EZText.hint),
+                Text(t.itemCount(n: jobs.length), style: EZText.hint),
               ],
             ),
           );
@@ -241,8 +227,8 @@ class _InstallPageState extends State<InstallPage> {
                           const SizedBox(height: 12),
                           Text(
                             connected
-                                ? tr('Drop an APK, archive or folder here')
-                                : tr('Connect a headset to install'),
+                                ? t.dropAnAPKArchiveOrFolderHere
+                                : t.connectAHeadsetToInstall,
                             style: const TextStyle(
                               color: Color(0xFFECECEC),
                               fontSize: 14,
@@ -251,7 +237,7 @@ class _InstallPageState extends State<InstallPage> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            tr('Drop files anywhere on this page'),
+                            t.dropFilesAnywhereOnThisPage,
                             style: EZText.hint,
                           ),
                         ],
@@ -308,8 +294,8 @@ class _ModeSegment extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _seg(tr('Auto'), auto, () => onChanged(true)),
-          _seg(tr('Manual'), !auto, () => onChanged(false)),
+          _seg(t.auto, auto, () => onChanged(true)),
+          _seg(t.manual, !auto, () => onChanged(false)),
         ],
       ),
     );
@@ -374,11 +360,11 @@ class _JobCardState extends State<_JobCard> {
   };
 
   String _stateText(JobState s) => switch (s) {
-    JobState.waiting => 'Waiting',
-    JobState.running => 'In progress',
-    JobState.done => 'Successful',
-    JobState.failed => 'Error',
-    JobState.cancelled => 'Cancelled',
+    JobState.waiting => t.waiting,
+    JobState.running => t.inProgress,
+    JobState.done => t.successful,
+    JobState.failed => t.error,
+    JobState.cancelled => t.cancelled,
   };
 
   @override
@@ -420,7 +406,7 @@ class _JobCardState extends State<_JobCard> {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    tr(_stateText(j.state)),
+                    _stateText(j.state),
                     style: TextStyle(
                       color: _stateColor(j.state),
                       fontSize: 12,
@@ -432,7 +418,7 @@ class _JobCardState extends State<_JobCard> {
                       j.state == JobState.waiting)
                     EZIconButton(
                       Icons.close,
-                      tooltip: tr('Cancel'),
+                      tooltip: t.cancel,
                       size: 26,
                       onPressed: () => Installer.instance.cancel(j),
                     ),
@@ -507,11 +493,11 @@ class _DownloadCardState extends State<_DownloadCard> {
         j.state == 'downloading' ||
         j.state == 'unpacking';
     final stateText = switch (j.state) {
-      'downloading' => tr('Downloading…'),
-      'unpacking' => tr('Unpacking…'),
-      'done' => tr('Successful'),
-      'failed' => tr('Error'),
-      _ => tr('Waiting'),
+      'downloading' => t.downloading,
+      'unpacking' => t.unpacking,
+      'done' => t.successful,
+      'failed' => t.error,
+      _ => t.waiting,
     };
     final stateColor = switch (j.state) {
       'done' => EZColors.ok,
@@ -573,14 +559,14 @@ class _DownloadCardState extends State<_DownloadCard> {
                 if (active)
                   EZIconButton(
                     Icons.close,
-                    tooltip: tr('Cancel'),
+                    tooltip: t.cancel,
                     size: 26,
                     onPressed: () => Downloads.instance.cancel(j),
                   )
                 else
                   EZIconButton(
                     Icons.close,
-                    tooltip: tr('Remove'),
+                    tooltip: t.remove,
                     size: 26,
                     onPressed: () => Downloads.instance.remove(j),
                   ),

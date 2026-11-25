@@ -60,7 +60,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                   Icon(Icons.headset, size: 22, color: EZColors.accent),
                   const SizedBox(width: 10),
                   Text(
-                    tr('Welcome to SMPico'),
+                    t.welcomeToSMPico,
                     style: const TextStyle(
                       color: EZColors.textBright,
                       fontSize: 17,
@@ -84,7 +84,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                 children: [
                   const Spacer(),
                   EZButton(
-                    tr('Accept'),
+                    t.accept,
                     color: EZColors.accent,
                     textColor: const Color(0xFF111111),
                     onPressed: () => Navigator.of(context).pop(true),

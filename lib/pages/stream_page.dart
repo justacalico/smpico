@@ -118,7 +118,7 @@ class _StreamPageState extends State<StreamPage> {
             _running = false;
             dlog('scrcpy exited with code $code');
             if (code != 0) {
-              _error = tr('Stream stopped with an error ({})', [code]);
+              _error = t.streamStoppedWithAnError(arg1: code);
             }
           });
         }
@@ -160,37 +160,33 @@ class _StreamPageState extends State<StreamPage> {
                       padding: const EdgeInsets.all(14),
                       child: ListView(
                         children: [
-                          Text(tr('Stream'), style: EZText.section),
+                          Text(t.stream, style: EZText.section),
                           const SizedBox(height: 4),
                           Text(
-                            tr(
-                              'Shows the headset screen in a separate window (scrcpy)',
-                            ),
+                            t.showsTheHeadsetScreenInASeparate,
                             style: EZText.hint,
                           ),
                           const SizedBox(height: 14),
-                          _group(tr('Picture')),
+                          _group(t.picture),
                           _dropdown(
-                            tr('Image'),
+                            t.image,
                             _eye,
                             {
-                              'both': tr('Both eyes'),
-                              'left': tr('Left eye'),
-                              'right': tr('Right eye'),
+                              'both': t.bothEyes,
+                              'left': t.leftEye,
+                              'right': t.rightEye,
                             },
                             (v) {
                               setState(() => _eye = v);
                               Settings.instance.set('stream_eye', v);
                             },
-                            hint: tr(
-                              'Which eye image to show. One eye is lighter and looks like a normal video',
-                            ),
+                            hint: t.whichEyeImageToShowOneEye,
                           ),
                           _dropdown(
-                            tr('Resolution'),
+                            t.resolution,
                             '$_maxSize',
                             {
-                              '0': tr('Native package'),
+                              '0': t.nativePackage,
                               '1920': '1920',
                               '1280': '1280',
                               '1024': '1024',
@@ -202,15 +198,13 @@ class _StreamPageState extends State<StreamPage> {
                                 _maxSize,
                               );
                             },
-                            hint: tr(
-                              'Maximum side of the picture in pixels. Lower — smoother on weak PCs and cables',
-                            ),
+                            hint: t.maximumSideOfThePictureInPixels,
                           ),
                           _dropdown(
-                            tr('Frame rate'),
+                            t.frameRate,
                             '$_fps',
                             {
-                              '0': tr('Native package'),
+                              '0': t.nativePackage,
                               '72': '72',
                               '90': '90',
                               '60': '60',
@@ -220,25 +214,21 @@ class _StreamPageState extends State<StreamPage> {
                               setState(() => _fps = int.parse(v));
                               Settings.instance.set('stream_fps', _fps);
                             },
-                            hint: tr(
-                              'Frames per second. 72–90 matches the headset',
-                            ),
+                            hint: t.framesPerSecond7290MatchesThe,
                           ),
                           _dropdown(
-                            tr('Codec'),
+                            t.codec,
                             _codec,
                             {'h264': 'H.264', 'h265': 'H.265'},
                             (v) {
                               setState(() => _codec = v);
                               Settings.instance.set('stream_codec', v);
                             },
-                            hint: tr(
-                              'H.265 is sharper at the same bitrate, H.264 works everywhere',
-                            ),
+                            hint: t.h265IsSharperAtTheSame,
                           ),
-                          _group(tr('Quality')),
+                          _group(t.quality),
                           Text(
-                            '${tr('Bitrate, Mbit/s')}: ${_bitrate.round()}',
+                            '${t.bitrateMbitS}: ${_bitrate.round()}',
                             style: EZText.label,
                           ),
                           Slider(
@@ -252,15 +242,13 @@ class _StreamPageState extends State<StreamPage> {
                                 Settings.instance.set('stream_bitrate', v),
                           ),
                           Text(
-                            tr(
-                              'Image quality. Higher — sharper, but needs a good cable or Wi-Fi',
-                            ),
+                            t.imageQualityHigherSharperButNeedsA,
                             style: EZText.hint,
                           ),
-                          _group(tr('Sound')),
+                          _group(t.sound),
                           _switch(
-                            tr('Audio'),
-                            tr('Play the headset sound on the PC'),
+                            t.audio,
+                            t.playTheHeadsetSoundOnThePC,
                             _audio,
                             (v) {
                               setState(() => _audio = v);
@@ -268,10 +256,8 @@ class _StreamPageState extends State<StreamPage> {
                             },
                           ),
                           _switch(
-                            tr('Record to video'),
-                            tr(
-                              'Save the stream to an MP4 file in the recordings folder',
-                            ),
+                            t.recordToVideo,
+                            t.saveTheStreamToAnMP4File,
                             _record,
                             (v) {
                               setState(() => _record = v);
@@ -279,14 +265,14 @@ class _StreamPageState extends State<StreamPage> {
                             },
                           ),
                           _switch(
-                            tr('Fullscreen'),
-                            tr('Open the stream window fullscreen'),
+                            t.fullscreen,
+                            t.openTheStreamWindowFullscreen,
                             _fullscreen,
                             (v) => setState(() => _fullscreen = v),
                           ),
                           const SizedBox(height: 16),
                           EZButton(
-                            _running ? tr('Stop stream') : tr('Start stream'),
+                            _running ? t.stopStream : t.startStream,
                             icon: _running ? Icons.stop : Icons.play_arrow,
                             color: _running ? EZColors.bad : EZColors.accent,
                             textColor: _running
@@ -300,7 +286,7 @@ class _StreamPageState extends State<StreamPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: Text(
-                                tr('Streaming — window is open'),
+                                t.streamingWindowIsOpen,
                                 style: EZText.hint.copyWith(
                                   color: EZColors.accent,
                                 ),
@@ -320,9 +306,7 @@ class _StreamPageState extends State<StreamPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: Text(
-                                tr(
-                                  'Headset is asleep — the picture will be black until you put it on.',
-                                ),
+                                t.headsetIsAsleepThePictureWillBe,
                                 style: EZText.hint,
                               ),
                             ),
@@ -348,17 +332,12 @@ class _StreamPageState extends State<StreamPage> {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            Text(
-                              tr('Headset screen on the PC'),
-                              style: EZText.title,
-                            ),
+                            Text(t.headsetScreenOnThePC, style: EZText.title),
                             const SizedBox(height: 6),
                             Text(
                               connected
-                                  ? tr(
-                                      'Press «Start stream» — a separate scrcpy window opens',
-                                    )
-                                  : tr('Connect a headset to install'),
+                                  ? t.pressStartStreamASeparateScrcpyWindow
+                                  : t.connectAHeadsetToInstall,
                               style: EZText.hint,
                             ),
                           ],
@@ -387,20 +366,15 @@ class _StreamPageState extends State<StreamPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(tr('scrcpy not found'), style: EZText.section),
+          Text(t.scrcpyNotFound, style: EZText.section),
           const SizedBox(height: 8),
-          Text(
-            tr(
-              'The Stream tab needs scrcpy to show the headset screen. Download it and place it in the tools folder (or install it so it is on PATH), then press "Check again".',
-            ),
-            style: EZText.label,
-          ),
+          Text(t.theStreamTabNeedsScrcpyToShow, style: EZText.label),
           const SizedBox(height: 14),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               EZButton(
-                tr('Get scrcpy'),
+                t.getScrcpy,
                 icon: Icons.download,
                 color: EZColors.accent,
                 textColor: const Color(0xFF111111),
@@ -425,7 +399,7 @@ class _StreamPageState extends State<StreamPage> {
                         ),
                       ),
                     )
-                  : EZButton(tr('Check again'), onPressed: _checkTool),
+                  : EZButton(t.checkAgain, onPressed: _checkTool),
             ],
           ),
         ],

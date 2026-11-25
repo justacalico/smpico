@@ -140,7 +140,7 @@ class _DownloadQueueButtonState extends State<DownloadQueueButton>
           ),
         );
         return widget.compact
-            ? Tooltip(message: tr('Downloads'), child: button)
+            ? Tooltip(message: t.downloads, child: button)
             : button;
       },
     );
@@ -192,7 +192,7 @@ class _QueueButtonBodyState extends State<_QueueButtonBody> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
-                            tr('Downloads'),
+                            t.downloads,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               color: Color(0xFF5A5A5A),
@@ -254,7 +254,7 @@ class _QueueFlyout extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(14, 12, 14, 8),
                   child: Text(
-                    tr('Downloads'),
+                    t.downloads,
                     style: const TextStyle(
                       color: EZColors.textBright,
                       fontSize: 14,
@@ -269,7 +269,7 @@ class _QueueFlyout extends StatelessWidget {
                       horizontal: 14,
                     ),
                     child: Center(
-                      child: Text(tr('No downloads'), style: EZText.hint),
+                      child: Text(t.noDownloads, style: EZText.hint),
                     ),
                   )
                 else
@@ -320,11 +320,11 @@ class _QueueJobRowState extends State<_QueueJobRow> {
         j.state == 'downloading' ||
         j.state == 'unpacking';
     final stateText = switch (j.state) {
-      'downloading' => tr('Downloading…'),
-      'unpacking' => tr('Unpacking…'),
-      'done' => tr('Successful'),
-      'failed' => tr('Error'),
-      _ => tr('Waiting'),
+      'downloading' => t.downloading,
+      'unpacking' => t.unpacking,
+      'done' => t.successful,
+      'failed' => t.error,
+      _ => t.waiting,
     };
     final subtitle =
         j.error ??
@@ -382,14 +382,14 @@ class _QueueJobRowState extends State<_QueueJobRow> {
               if (active)
                 EZIconButton(
                   Icons.close,
-                  tooltip: tr('Cancel'),
+                  tooltip: t.cancel,
                   size: 24,
                   onPressed: () => Downloads.instance.cancel(j),
                 )
               else
                 EZIconButton(
                   Icons.close,
-                  tooltip: tr('Remove'),
+                  tooltip: t.remove,
                   size: 24,
                   onPressed: () => Downloads.instance.remove(j),
                 ),

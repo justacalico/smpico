@@ -1,5 +1,6 @@
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+
 import '../core/installer.dart';
 import '../i18n.dart';
 import '../theme.dart';
@@ -9,7 +10,9 @@ import 'common.dart';
 /// suffix, signing key, SDK metadata, store installer, cache folder,
 /// download-only toggle — mirrors InstallOptionsDialog.
 Future<InstallOptions?> showInstallOptionsDialog(
-    BuildContext context, InstallOptions opts) {
+  BuildContext context,
+  InstallOptions opts,
+) {
   return showDialog<InstallOptions>(
     context: context,
     builder: (_) => _InstallOptionsDialog(opts),
@@ -41,69 +44,102 @@ class _InstallOptionsDialogState extends State<_InstallOptionsDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(tr('Install settings'), style: EZText.section),
+                Text(t.installSettings, style: EZText.section),
                 const SizedBox(height: 4),
-                Text(tr('Install settings for this game'), style: EZText.hint),
+                Text(t.installSettingsForThisGame, style: EZText.hint),
                 const SizedBox(height: 14),
-                Text(tr('Install method').toUpperCase(), style: EZText.group),
+                Text(t.installMethod.toUpperCase(), style: EZText.group),
                 const SizedBox(height: 8),
-                _methodRow(InstallMethod.auto, tr('Auto'),
-                    tr('Picked from the package and the headset')),
-                _methodRow(InstallMethod.direct, tr('Direct'),
-                    tr('The APK is installed as is')),
-                _methodRow(InstallMethod.overport, tr('Overport'),
-                    tr('Re-signed with a new key, no repack')),
-                _methodRow(InstallMethod.repack, tr('Repack'),
-                    tr('Decompiled, patched and built again')),
+                _methodRow(
+                  InstallMethod.auto,
+                  t.auto,
+                  t.pickedFromThePackageAndTheHeadset,
+                ),
+                _methodRow(
+                  InstallMethod.direct,
+                  t.direct,
+                  t.theAPKIsInstalledAsIs,
+                ),
+                _methodRow(
+                  InstallMethod.overport,
+                  t.overport,
+                  t.reSignedWithANewKeyNo,
+                ),
+                _methodRow(
+                  InstallMethod.repack,
+                  t.repack,
+                  t.decompiledPatchedAndBuiltAgain,
+                ),
                 const SizedBox(height: 14),
-                _field(tr('Package suffix'), tr('Installs next to the original app'),
-                    o.packageSuffix, (v) => o.packageSuffix = v),
+                _field(
+                  t.packageSuffix,
+                  t.installsNextToTheOriginalApp,
+                  o.packageSuffix,
+                  (v) => o.packageSuffix = v,
+                ),
                 const SizedBox(height: 8),
-                _check(tr('New signing key'), tr('A fresh key for every install'),
-                    o.newKey, (v) => setState(() => o.newKey = v)),
-                _check(tr('Keep SDK metadata'),
-                    tr('Leave pvr.sdk.version and similar in the manifest'),
-                    o.keepSdkMeta, (v) => setState(() => o.keepSdkMeta = v)),
-                _check(tr('Store installer'),
-                    tr('Pass -i com.picovr.store to pm install'),
-                    o.storeInstaller, (v) => setState(() => o.storeInstaller = v)),
+                _check(
+                  t.newSigningKey,
+                  t.aFreshKeyForEveryInstall,
+                  o.newKey,
+                  (v) => setState(() => o.newKey = v),
+                ),
+                _check(
+                  t.keepSDKMetadata,
+                  t.leavePvrSdkVersionAndSimilarIn,
+                  o.keepSdkMeta,
+                  (v) => setState(() => o.keepSdkMeta = v),
+                ),
+                _check(
+                  t.storeInstaller,
+                  t.passIComPicovrStoreToPm,
+                  o.storeInstaller,
+                  (v) => setState(() => o.storeInstaller = v),
+                ),
                 const SizedBox(height: 14),
-                Text(tr('Game cache (OBB)').toUpperCase(), style: EZText.group),
+                Text(t.gameCacheOBB.toUpperCase(), style: EZText.group),
                 const SizedBox(height: 8),
                 Row(
                   children: [
                     Expanded(
                       child: Text(
-                        o.cacheFolder ?? tr('Folder next to the APK (automatically)'),
+                        o.cacheFolder ?? t.folderNextToTheAPKAutomatically,
                         style: EZText.hint,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    EZButton(tr('Choose folder'),
-                        height: 28,
-                        fontSize: 11,
-                        onPressed: () async {
-                      final d = await getDirectoryPath(
-                          confirmButtonText: tr('Choose the game cache folder'));
-                      if (d != null) setState(() => o.cacheFolder = d);
-                    }),
+                    EZButton(
+                      t.chooseFolder,
+                      height: 28,
+                      fontSize: 11,
+                      onPressed: () async {
+                        final d = await getDirectoryPath(
+                          confirmButtonText: t.chooseTheGameCacheFolder,
+                        );
+                        if (d != null) setState(() => o.cacheFolder = d);
+                      },
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                _check(tr('download only'),
-                    tr('Off — only download, install later with the «Install» button'),
-                    o.downloadOnly, (v) => setState(() => o.downloadOnly = v)),
+                _check(
+                  t.downloadOnly,
+                  t.offOnlyDownloadInstallLaterWithThe,
+                  o.downloadOnly,
+                  (v) => setState(() => o.downloadOnly = v),
+                ),
                 const SizedBox(height: 18),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    EZButton(tr('Cancel'),
-                        onPressed: () => Navigator.pop(context)),
+                    EZButton(t.cancel, onPressed: () => Navigator.pop(context)),
                     const SizedBox(width: 8),
-                    EZButton(tr('Apply'),
-                        color: EZColors.accent,
-                        textColor: const Color(0xFF111111),
-                        onPressed: () => Navigator.pop(context, o)),
+                    EZButton(
+                      t.apply,
+                      color: EZColors.accent,
+                      textColor: const Color(0xFF111111),
+                      onPressed: () => Navigator.pop(context, o),
+                    ),
                   ],
                 ),
               ],
@@ -127,23 +163,29 @@ class _InstallOptionsDialogState extends State<_InstallOptionsDialog> {
             color: sel ? const Color(0xFF2B2B2B) : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-                color: sel ? EZColors.accent : const Color(0xFF2C2C2C)),
+              color: sel ? EZColors.accent : const Color(0xFF2C2C2C),
+            ),
           ),
           child: Row(
             children: [
-              Icon(sel ? Icons.radio_button_checked : Icons.radio_button_off,
-                  size: 16,
-                  color: sel ? EZColors.accent : EZColors.textDim),
+              Icon(
+                sel ? Icons.radio_button_checked : Icons.radio_button_off,
+                size: 16,
+                color: sel ? EZColors.accent : EZColors.textDim,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,
-                        style: const TextStyle(
-                            color: Color(0xFFE4E4E4),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600)),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Color(0xFFE4E4E4),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     Text(hint, style: EZText.hint),
                   ],
                 ),
@@ -155,8 +197,12 @@ class _InstallOptionsDialogState extends State<_InstallOptionsDialog> {
     );
   }
 
-  Widget _field(String label, String hint, String value,
-      ValueChanged<String> onChanged) {
+  Widget _field(
+    String label,
+    String hint,
+    String value,
+    ValueChanged<String> onChanged,
+  ) {
     return Row(
       children: [
         Expanded(
@@ -164,11 +210,14 @@ class _InstallOptionsDialogState extends State<_InstallOptionsDialog> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label,
-                  style: const TextStyle(
-                      color: Color(0xFFE4E4E4),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600)),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Color(0xFFE4E4E4),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               Text(hint, style: EZText.hint),
             ],
           ),
@@ -182,10 +231,13 @@ class _InstallOptionsDialogState extends State<_InstallOptionsDialog> {
               filled: true,
               fillColor: EZColors.consoleBg,
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: Color(0xFF2C2C2C))),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: Color(0xFF2C2C2C)),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 8,
+              ),
             ),
             onChanged: onChanged,
           ),
@@ -194,8 +246,12 @@ class _InstallOptionsDialogState extends State<_InstallOptionsDialog> {
     );
   }
 
-  Widget _check(String label, String hint, bool value,
-      ValueChanged<bool> onChanged) {
+  Widget _check(
+    String label,
+    String hint,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: InkWell(
@@ -209,11 +265,14 @@ class _InstallOptionsDialogState extends State<_InstallOptionsDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label,
-                      style: const TextStyle(
-                          color: Color(0xFFE4E4E4),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600)),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      color: Color(0xFFE4E4E4),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   Text(hint, style: EZText.hint),
                 ],
               ),
@@ -241,7 +300,8 @@ class _EZCheckbox extends StatelessWidget {
         decoration: BoxDecoration(
           color: value ? const Color(0xFF677EA1) : const Color(0xFF1D1D1D),
           border: Border.all(
-              color: value ? const Color(0xFF677EA1) : const Color(0xFF3C3C3C)),
+            color: value ? const Color(0xFF677EA1) : const Color(0xFF3C3C3C),
+          ),
           borderRadius: BorderRadius.circular(5),
         ),
         child: value

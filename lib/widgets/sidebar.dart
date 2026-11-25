@@ -64,7 +64,7 @@ class Sidebar extends StatelessWidget {
                 for (var i = 0; i < items.length; i++)
                   _SidebarButton(
                     icon: items[i].icon,
-                    label: tr(items[i].labelKey),
+                    label: _navLabel(items[i].labelKey),
                     selected: i == selected,
                     compact: compact,
                     onTap: () => onSelect(i),
@@ -168,3 +168,14 @@ class _SidebarButtonState extends State<_SidebarButton> {
         : button;
   }
 }
+
+String _navLabel(String key) => switch (key) {
+  'Device' => t.device,
+  'Install' => t.install,
+  'App Manager' => t.appManager,
+  'File Manager' => t.fileManager,
+  'Stream' => t.stream,
+  'PicoLand Games' => t.picolandGames,
+  'Settings' => t.settings,
+  _ => key,
+};

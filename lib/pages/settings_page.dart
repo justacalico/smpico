@@ -26,43 +26,31 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: const EdgeInsets.all(12),
       child: ListView(
         children: [
-          _section(tr('Interface')),
+          _section(t.interface),
+          _row(t.language, t.interfaceLanguageAppliedInstantly, _langPicker()),
           _row(
-            tr('Language'),
-            tr('Interface language, applied instantly'),
-            _langPicker(),
-          ),
-          _row(
-            tr('Accent colour'),
-            tr(
-              'Buttons, highlights and selection. Battery and status indicators keep their colours',
-            ),
+            t.accentColour,
+            t.buttonsHighlightsAndSelectionBatteryAndStatus,
             _accentPicker(),
           ),
           _switch(
-            tr('Keep the headset awake'),
-            tr(
-              'The headset does not fall asleep while SMPico is running (installs, file transfers, stream). Normal sleep returns when SMPico is closed',
-            ),
+            t.keepTheHeadsetAwake,
+            t.theHeadsetDoesNotFallAsleepWhile,
             'keep_awake',
             true,
           ),
           _switch(
-            tr('Windows notifications'),
-            tr(
-              'Show pop-up notifications about installs, backups and screenshots',
-            ),
+            t.windowsNotifications,
+            t.showPopUpNotificationsAboutInstallsBackups,
             'notifications',
             true,
           ),
-          _section(tr('Files')),
+          _section(t.files),
           _row(
-            tr('Downloads folder'),
-            tr(
-              'Archives and unpacked folders downloaded by SMPico. Only its own folders are removed',
-            ),
+            t.downloadsFolder,
+            t.archivesAndUnpackedFoldersDownloadedBySMPico,
             EZButton(
-              tr('Open folder'),
+              t.openFolder,
               height: 30,
               onPressed: () async {
                 final d = await AppPaths.downloads();
@@ -73,19 +61,19 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           _row(
-            tr('App icons cache'),
-            tr('Names and icons of headset apps. Clear it if icons look wrong'),
+            t.appIconsCache,
+            t.namesAndIconsOfHeadsetAppsClear,
             EZButton(
-              tr('Clear'),
+              t.clear,
               height: 30,
               onPressed: () => Packages.instance.clearIconCache(),
             ),
           ),
           _row(
-            tr('Tools folder'),
+            t.toolsFolder,
             '',
             EZButton(
-              tr('Open folder'),
+              t.openFolder,
               height: 30,
               onPressed: () async {
                 final d = await AppPaths.tools();
@@ -95,52 +83,46 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
           ),
-          _section(tr('PicoLand catalog')),
+          _section(t.picolandCatalog),
           _switch(
-            tr('Show games without download links'),
-            tr(
-              'Off by default — most entries can only be opened through the channel post',
-            ),
+            t.showGamesWithoutDownloadLinks,
+            t.offByDefaultMostEntriesCanOnly,
             'catalog_show_undownloadable',
             false,
           ),
           _row(
-            tr('Catalog address'),
-            tr(
-              'Folder with manifest.json, catalog.db and images/. Empty — the built-in address',
-            ),
+            t.catalogAddress,
+            t.folderWithManifestJsonCatalogDbAnd,
             _catalogAddress(),
           ),
           _row(
-            tr('Catalog version'),
+            t.catalogVersion,
             Catalog.instance.version.isEmpty
-                ? tr('Version is unknown')
+                ? t.versionIsUnknown
                 : Catalog.instance.version,
             EZButton(
-              tr('Check now'),
+              t.checkNow,
               height: 30,
               onPressed: () => Catalog.instance.checkUpdates(),
             ),
           ),
           _row(
-            tr('Downloaded games'),
-            tr(
-              'Delete downloaded archives and unpacked game folders? Games that are downloading or installing right now are kept.',
-            ),
-            EZButton(tr('Clear'), height: 30, onPressed: _clearDownloads),
+            t.downloadedGames,
+            t.deleteDownloadedArchivesAndUnpackedGameFolders,
+            EZButton(t.clear, height: 30, onPressed: _clearDownloads),
           ),
-          _section(tr('Updates')),
+          _section(t.updates),
           _switch(
-            tr('Check for updates on startup'),
-            tr('New versions are downloaded and installed without the setup'),
+            t.checkForUpdatesOnStartup,
+            t.newVersionsAreDownloadedAndInstalledWithout,
             'check_updates',
             true,
           ),
           _row(
-            tr('Version'),
+            t.version,
             Updater.appVersion,
             EZButton(
-              tr('Check now'),
+              t.checkNow,
               height: 30,
               onPressed: () async {
                 await Updater.instance.check();
@@ -149,48 +131,42 @@ class _SettingsPageState extends State<SettingsPage> {
                 toast(
                   context,
                   u.available != null
-                      ? tr('SMPico {} is available', [u.available!.version])
+                      ? t.smpicoIsAvailable(arg1: u.available!.version)
                       : u.error != null
                       ? u.error!
-                      : tr('You have the latest version'),
+                      : t.youHaveTheLatestVersion,
                 );
               },
             ),
           ),
-          _section(tr('Help and reset')),
+          _section(t.helpAndReset),
           _row(
-            tr('Welcome screen'),
-            tr(
-              'Which internet resources SMPico uses and what it stores on this PC',
-            ),
+            t.welcomeScreen,
+            t.whichInternetResourcesSMPicoUsesAndWhat,
             EZButton(
-              tr('Show'),
+              t.show,
               height: 30,
               onPressed: () => Settings.instance
                   .set('welcome_accepted', false)
-                  .then((_) => toast(context, tr('Welcome to SMPico'))),
+                  .then((_) => toast(context, t.welcomeToSMPico)),
             ),
           ),
           _row(
-            tr('Reset all settings'),
-            tr(
-              'Language, colour, toggles, folders, saved commands — everything returns to defaults and SMPico restarts. Games, saves and screenshots are not touched',
-            ),
+            t.resetAllSettings,
+            t.languageColourTogglesFoldersSavedCommandsEverything,
             EZButton(
-              tr('Reset'),
+              t.reset,
               color: EZColors.bad,
               textColor: Colors.white,
               height: 30,
               onPressed: _resetAll,
             ),
           ),
-          _section(tr('Developer')),
+          _section(t.developer),
           _row(
-            tr('Report'),
-            tr(
-              'Saves everything about this session: headset info, installed packages, install history and logs. No passwords or personal data are included',
-            ),
-            EZButton(tr('Create report'), height: 30, onPressed: _report),
+            t.report,
+            t.savesEverythingAboutThisSessionHeadsetInfo,
+            EZButton(t.createReport, height: 30, onPressed: _report),
           ),
           const SizedBox(height: 24),
         ],
@@ -267,6 +243,18 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  String _colorName(String k) => switch (k) {
+    'Green' => t.green,
+    'Blue' => t.blue,
+    'Purple' => t.purple,
+    'Pink' => t.pink,
+    'Orange' => t.orange,
+    'Teal' => t.teal,
+    'Yellow' => t.yellow,
+    'Red' => t.red,
+    _ => k,
+  };
+
   Widget _accentPicker() {
     final cur = Settings.instance.get('accent', 'Green');
     return DropdownButton<String>(
@@ -289,7 +277,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text(tr(k)),
+                  Text(_colorName(k)),
                 ],
               ),
             ),
@@ -345,7 +333,7 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     }
     if (mounted) {
-      toast(context, tr('Freed {} ({} folders)', [_fmtBytes(freed), count]));
+      toast(context, t.freedFolders(arg1: _fmtBytes(freed), arg2: count));
     }
   }
 
@@ -354,20 +342,15 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: EZColors.panel,
-        title: Text(tr('Reset all settings'), style: EZText.section),
+        title: Text(t.resetAllSettings, style: EZText.section),
         content: Text(
-          tr(
-            'All SMPico settings will return to defaults, the welcome screen will be shown again and the program will restart. Continue?',
-          ),
+          t.allSMPicoSettingsWillReturnToDefaults,
           style: EZText.label,
         ),
         actions: [
+          EZButton(t.cancel, onPressed: () => Navigator.pop(context, false)),
           EZButton(
-            tr('Cancel'),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-          EZButton(
-            tr('Reset'),
+            t.reset,
             color: EZColors.bad,
             textColor: Colors.white,
             onPressed: () => Navigator.pop(context, true),
@@ -384,7 +367,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> _report() async {
     final f = await Packages.instance.createReport();
     if (mounted) {
-      toast(context, tr('Report saved: {}', [f.path]));
+      toast(context, t.reportSaved(arg1: f.path));
     }
   }
 

@@ -145,17 +145,17 @@ class TitleBar extends StatelessWidget {
           Expanded(child: DragToMoveArea(child: const SizedBox.expand())),
           _TitleBtn(
             icon: Icons.notifications_none,
-            tooltip: tr('Notifications'),
+            tooltip: t.notifications,
             onTap: () => _showNotifications(context),
           ),
           _TitleBtn(
             icon: Icons.remove,
-            tooltip: tr('Min'),
+            tooltip: t.min,
             onTap: () => windowManager.minimize(),
           ),
           _TitleBtn(
             icon: Icons.crop_square,
-            tooltip: tr('Max'),
+            tooltip: t.max,
             onTap: () async {
               if (await windowManager.isMaximized()) {
                 windowManager.unmaximize();
@@ -166,7 +166,7 @@ class TitleBar extends StatelessWidget {
           ),
           _TitleBtn(
             icon: Icons.close,
-            tooltip: tr('Exit'),
+            tooltip: t.exit,
             hover: EZColors.exitHover,
             press: EZColors.exitPressed,
             onTap: () => windowManager.close(),
@@ -233,7 +233,7 @@ void _showNotifications(BuildContext context) {
       backgroundColor: const Color(0xFF262626),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       title: Text(
-        tr('Notifications'),
+        t.notifications,
         style: const TextStyle(
           color: EZColors.textBright,
           fontSize: 15,
@@ -274,7 +274,7 @@ void _showNotifications(BuildContext context) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18),
                 child: Center(
-                  child: Text(tr('No notifications'), style: EZText.hint),
+                  child: Text(t.noNotifications, style: EZText.hint),
                 ),
               );
             }
@@ -288,7 +288,7 @@ void _showNotifications(BuildContext context) {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(ctx).pop(),
-          child: Text(tr('Close')),
+          child: Text(t.close),
         ),
       ],
     ),
