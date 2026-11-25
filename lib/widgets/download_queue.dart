@@ -6,10 +6,57 @@ import '../i18n.dart';
 import '../theme.dart';
 import 'common.dart';
 
-/// Sidebar button that opens the download queue popup from any page.
-class DownloadQueueButton extends StatelessWidget {
+/// Sidebar button that opens the download queue flyout beside it.
+class DownloadQueueButton extends StatefulWidget {
   final bool compact;
   const DownloadQueueButton({super.key, this.compact = false});
+
+  @override
+  State<DownloadQueueButton> createState() => _DownloadQueueButtonState();
+}
+
+class _DownloadQueueButtonState extends State<DownloadQueueButton> {
+  final _link = LayerLink();
+  OverlayEntry? _overlay;
+
+  @override
+  void dispose() {
+    _close();
+    super.dispose();
+  }
+
+  void _close() {
+    _overlay?.remove();
+    _overlay = null;
+  }
+
+  void _toggle() {
+    if (_overlay != null) {
+      _close();
+      return;
+    }
+    _overlay = OverlayEntry(
+      builder: (_) => Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _close,
+              behavior: HitTestBehavior.opaque,
+              child: const SizedBox.expand(),
+            ),
+          ),
+          CompositedTransformFollower(
+            link: _link,
+            targetAnchor: Alignment.topRight,
+            followerAnchor: Alignment.bottomLeft,
+            offset: const Offset(8, 0),
+            child: const _QueueFlyout(),
+          ),
+        ],
+      ),
+    );
+    Overlay.of(context).insert(_overlay!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +104,16 @@ class DownloadQueueButton extends StatelessWidget {
               ),
           ],
         );
-        final button = _QueueButtonBody(
-          compact: compact,
-          icon: icon,
-          active: active,
-          onTap: () => showDownloadQueue(context),
+        final button = CompositedTransformTarget(
+          link: _link,
+          child: _QueueButtonBody(
+            compact: widget.compact,
+            icon: icon,
+            active: active,
+            onTap: _toggle,
+          ),
         );
-        return compact
+        return widget.compact
             ? Tooltip(message: tr('Downloads'), child: button)
             : button;
       },
@@ -138,53 +188,74 @@ class _QueueButtonBodyState extends State<_QueueButtonBody> {
   }
 }
 
-void showDownloadQueue(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (ctx) => AlertDialog(
-      backgroundColor: const Color(0xFF262626),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      title: Text(
-        tr('Downloads'),
-        style: const TextStyle(
-          color: EZColors.textBright,
-          fontSize: 15,
-          fontWeight: FontWeight.w700,
+class _QueueFlyout extends StatelessWidget {
+  const _QueueFlyout();
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        width: 380,
+        constraints: const BoxConstraints(maxHeight: 400),
+        margin: const EdgeInsets.only(bottom: 4),
+        decoration: BoxDecoration(
+          color: const Color(0xFF2B2B2B),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: const Color(0xFF3A3A3A)),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x99000000),
+              blurRadius: 24,
+              offset: Offset(0, 6),
+            ),
+          ],
         ),
-      ),
-      content: SizedBox(
-        width: 440,
         child: ListenableBuilder(
           listenable: Downloads.instance,
           builder: (ctx, _) {
             final jobs = Downloads.instance.jobs;
-            if (jobs.isEmpty) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                child: Center(
-                  child: Text(tr('No downloads'), style: EZText.hint),
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 12, 14, 8),
+                  child: Text(
+                    tr('Downloads'),
+                    style: const TextStyle(
+                      color: EZColors.textBright,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
-              );
-            }
-            return ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 360),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [for (final j in jobs) _QueueJobRow(j)],
-                ),
-              ),
+                if (jobs.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 26,
+                      horizontal: 14,
+                    ),
+                    child: Center(
+                      child: Text(tr('No downloads'), style: EZText.hint),
+                    ),
+                  )
+                else
+                  Flexible(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
+                      child: Column(
+                        children: [for (final j in jobs) _QueueJobRow(j)],
+                      ),
+                    ),
+                  ),
+              ],
             );
           },
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(ctx).pop(),
-          child: Text(tr('Close')),
-        ),
-      ],
-    ),
-  );
+    );
+  }
 }
 
 class _QueueJobRow extends StatefulWidget {
