@@ -14,13 +14,22 @@ git fetch origin main "+refs/tags/*:refs/tags/*"
 git checkout -B main origin/main
 git clean -fd
 
-if ! version=$(cog bump --dry-run --auto 2>/dev/null) || [ -z "$version" ]; then
-  echo "No version bump required, skipping release"
+LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
+NEW_COMMITS=$(git rev-list "${LATEST_TAG:+$LATEST_TAG..}HEAD" --count)
+
+if [ "$NEW_COMMITS" = "0" ]; then
+  echo "No commits since ${LATEST_TAG:-start}, skipping release"
   exit 0
 fi
-echo "Bumping to $version"
 
-cog bump --auto --hook-profile ci
+if version=$(cog bump --dry-run --auto 2>/dev/null) && [ -n "$version" ]; then
+  echo "Bumping to $version"
+  cog bump --auto --hook-profile ci
+else
+  # Commits without conventional prefixes still warrant a patch release.
+  echo "No conventional bump found, bumping patch ($NEW_COMMITS commit(s) since ${LATEST_TAG:-start})"
+  cog bump --patch --hook-profile ci
+fi
 
 TAG=$(git tag --points-at HEAD | head -n1)
 if [ -z "$TAG" ]; then
