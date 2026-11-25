@@ -252,21 +252,18 @@ class _DevicePageState extends State<DevicePage> {
                           ),
                         );
                       }
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      return Column(
                         children: [
-                          card,
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                tiles,
-                                const SizedBox(height: 10),
-                                Expanded(child: _AdbConsole()),
-                              ],
-                            ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              card,
+                              const SizedBox(width: 12),
+                              Expanded(child: tiles),
+                            ],
                           ),
+                          const SizedBox(height: 10),
+                          Expanded(child: _AdbConsole()),
                         ],
                       );
                     },
