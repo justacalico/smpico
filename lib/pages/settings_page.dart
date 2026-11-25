@@ -303,6 +303,8 @@ class _SettingsPageState extends State<SettingsPage> {
           )
           .toList(),
       onChanged: (v) {
+        if (v == null) return;
+        EZColors.applyAccent(v);
         Settings.instance.set('accent', v);
         setState(() {});
       },

@@ -223,7 +223,7 @@ class _FilesPageState extends State<FilesPage> {
                 child: !connected
                     ? EmptyPlug(Icons.usb_off, tr('No Device Connected'))
                     : fm.loading
-                    ? const Center(
+                    ? Center(
                         child: CircularProgressIndicator(
                           color: EZColors.accent,
                         ),

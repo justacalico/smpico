@@ -57,7 +57,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.headset, size: 22, color: EZColors.accent),
+                  Icon(Icons.headset, size: 22, color: EZColors.accent),
                   const SizedBox(width: 10),
                   Text(
                     tr('Welcome to SMPico'),

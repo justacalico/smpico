@@ -520,7 +520,7 @@ class _DeviceSelectorState extends State<_DeviceSelector> {
               ),
             ),
             const SizedBox(width: 8),
-            const Icon(Icons.arrow_drop_down, color: EZColors.accent, size: 18),
+            Icon(Icons.arrow_drop_down, color: EZColors.accent, size: 18),
           ],
         ),
       ),
@@ -627,8 +627,8 @@ class _AdbConsoleState extends State<_AdbConsole> {
                       ),
                     )
                     .toList(),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   child: Text(
                     '…',
                     style: TextStyle(color: EZColors.accent, fontSize: 16),
@@ -663,7 +663,7 @@ class _AdbConsoleState extends State<_AdbConsole> {
         const SizedBox(height: 6),
         Row(
           children: [
-            const Text(
+            Text(
               'adb shell',
               style: TextStyle(
                 color: EZColors.accent,
@@ -708,7 +708,7 @@ class _AdbConsoleState extends State<_AdbConsole> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: EZColors.accent),
+                      borderSide: BorderSide(color: EZColors.accent),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 10,

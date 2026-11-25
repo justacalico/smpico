@@ -131,7 +131,7 @@ class TitleBar extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 12),
-          const Icon(Icons.headset, size: 16, color: EZColors.accent),
+          Icon(Icons.headset, size: 16, color: EZColors.accent),
           const SizedBox(width: 8),
           const Text(
             'SMPico',

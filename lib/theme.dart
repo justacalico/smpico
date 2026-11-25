@@ -17,8 +17,8 @@ class EZColors {
   static const text = Color(0xFFA8A8A8);
   static const textDim = Color(0xFF7E7E7E);
   static const textBright = Color(0xFFECECEC);
-  static const accent = Color(0xFF7FBB06);
-  static const accentHover = Color(0xFF92D40A);
+  static Color accent = const Color(0xFF7FBB06);
+  static Color accentHover = const Color(0xFF92D40A);
   static const warn = Color(0xFFF59E0B);
   static const bad = Color(0xFFEF4444);
   static const ok = Color(0xFF22C55E);
@@ -39,6 +39,11 @@ class EZColors {
     'Yellow': Color(0xFFEAB308),
     'Red': Color(0xFFEF4444),
   };
+
+  static void applyAccent(String name) {
+    accent = accentChoices[name] ?? accentChoices['Green']!;
+    accentHover = Color.lerp(accent, Colors.white, .15)!;
+  }
 }
 
 class EZText {
@@ -137,12 +142,12 @@ MarkdownStyleSheet get mdStyle => MarkdownStyleSheet(
     borderRadius: BorderRadius.circular(8),
   ),
   blockquote: const TextStyle(color: EZColors.textDim, fontSize: 13),
-  blockquoteDecoration: const BoxDecoration(
+  blockquoteDecoration: BoxDecoration(
     border: Border(left: BorderSide(color: EZColors.accent, width: 3)),
   ),
   listBullet: const TextStyle(color: EZColors.textDim, fontSize: 13),
   listBulletPadding: const EdgeInsets.only(right: 6),
-  a: const TextStyle(
+  a: TextStyle(
     color: EZColors.accent,
     decoration: TextDecoration.underline,
   ),
@@ -156,7 +161,7 @@ ThemeData buildEZTheme() {
     brightness: Brightness.dark,
     scaffoldBackgroundColor: EZColors.bg,
     fontFamily: EZText.family,
-    colorScheme: const ColorScheme.dark(
+    colorScheme: ColorScheme.dark(
       surface: EZColors.bg,
       primary: EZColors.accent,
     ),

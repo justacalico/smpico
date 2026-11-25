@@ -11,6 +11,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
   await Settings.instance.init();
+  EZColors.applyAccent(Settings.instance.get('accent', 'Green'));
 
   const opts = WindowOptions(
     size: Size(1280, 800),
@@ -40,11 +41,14 @@ class SMPicoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SMPico',
-      debugShowCheckedModeBanner: false,
-      theme: buildEZTheme(),
-      home: const MainWindow(),
+    return ListenableBuilder(
+      listenable: Settings.instance,
+      builder: (_, __) => MaterialApp(
+        title: 'SMPico',
+        debugShowCheckedModeBanner: false,
+        theme: buildEZTheme(),
+        home: const MainWindow(),
+      ),
     );
   }
 }

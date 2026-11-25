@@ -229,7 +229,7 @@ class _InstallPageState extends State<InstallPage> {
                               color: const Color(0xFF26301A),
                               borderRadius: BorderRadius.circular(22),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.download,
                               color: EZColors.accent,
                               size: 26,
@@ -589,7 +589,7 @@ class _DownloadCardState extends State<_DownloadCard> {
               value: j.progress > 0 ? j.progress : null,
               minHeight: 3,
               backgroundColor: const Color(0xFF2C2C2C),
-              valueColor: const AlwaysStoppedAnimation(EZColors.accent),
+              valueColor: AlwaysStoppedAnimation(EZColors.accent),
             ),
         ],
       ),

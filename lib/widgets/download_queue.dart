@@ -200,7 +200,7 @@ class _QueueButtonBodyState extends State<_QueueButtonBody> {
                     if (widget.active > 0)
                       Text(
                         '${widget.active}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: EZColors.accent,
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -397,7 +397,7 @@ class _QueueJobRowState extends State<_QueueJobRow> {
                 value: j.progress > 0 ? j.progress : null,
                 minHeight: 3,
                 backgroundColor: const Color(0xFF2C2C2C),
-                valueColor: const AlwaysStoppedAnimation(EZColors.accent),
+                valueColor: AlwaysStoppedAnimation(EZColors.accent),
               ),
             ),
           ],
