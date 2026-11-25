@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../i18n.dart';
+import '../theme.dart';
+import 'common.dart';
+
+/// First-launch welcome dialog — shows the bundled welcome doc and
+/// an "Accept" button that stores the first-launch mark.
+class WelcomeDialog extends StatefulWidget {
+  const WelcomeDialog({super.key});
+
+  @override
+  State<WelcomeDialog> createState() => _WelcomeDialogState();
+}
+
+class _WelcomeDialogState extends State<WelcomeDialog> {
+  String _text = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+    I18n.instance.addListener(_load);
+  }
+
+  Future<void> _load() async {
+    final lang = I18n.instance.lang == AppLang.ru ? 'ru' : 'en';
+    final t = await rootBundle.loadString('assets/docs/welcome_$lang.md');
+    if (mounted) setState(() => _text = t);
+  }
+
+  @override
+  void dispose() {
+    I18n.instance.removeListener(_load);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: EZColors.panel,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 560, maxHeight: 560),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Image.asset('assets/icons/ezpico_white.png', height: 22,
+                      errorBuilder: (_, __, ___) => const SizedBox()),
+                  const SizedBox(width: 10),
+                  Text(tr('Welcome to EZPico'),
+                      style: const TextStyle(
+                          color: EZColors.textBright,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700)),
+                ],
+              ),
+              const SizedBox(height: 14),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: SelectableText(
+                    _text,
+                    style: const TextStyle(
+                        color: EZColors.text, fontSize: 13, height: 1.45),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () => launchUrl(
+                        Uri.parse('https://t.me/Cka3kaTG')),
+                    child: const Text('@Cka3kaTG',
+                        style: TextStyle(color: EZColors.accent, fontSize: 12)),
+                  ),
+                  const Spacer(),
+                  EZButton(
+                    tr('Accept'),
+                    color: EZColors.accent,
+                    textColor: const Color(0xFF111111),
+                    onPressed: () => Navigator.of(context).pop(true),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

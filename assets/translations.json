@@ -1,0 +1,3267 @@
+[
+ {
+  "context": "EZPico",
+  "source": "(+{} in queue)",
+  "translation": "(+{} в очереди)"
+ },
+ {
+  "context": "EZPico",
+  "source": "1–5 GB",
+  "translation": "1–5 ГБ"
+ },
+ {
+  "context": "EZPico",
+  "source": "3D model",
+  "translation": "3D-модель"
+ },
+ {
+  "context": "EZPico",
+  "source": "5+ GB",
+  "translation": "5+ ГБ"
+ },
+ {
+  "context": "EZPico",
+  "source": "< 1 GB",
+  "translation": "< 1 ГБ"
+ },
+ {
+  "context": "EZPico",
+  "source": "A folder with the game: APK and cache next to it",
+  "translation": "Папка с игрой: APK и кэш рядом с ним"
+ },
+ {
+  "context": "EZPico",
+  "source": "A fresh key for every install",
+  "translation": "Каждая установка получает свой ключ"
+ },
+ {
+  "context": "EZPico",
+  "source": "ADB Command",
+  "translation": "ADB команды"
+ },
+ {
+  "context": "EZPico",
+  "source": "APK is already on the PC",
+  "translation": "APK уже есть на ПК"
+ },
+ {
+  "context": "EZPico",
+  "source": "APK or archive (zip, rar, 7z, multi-volume too)",
+  "translation": "APK или архив (zip, rar, 7z, в том числе многотомный)"
+ },
+ {
+  "context": "EZPico",
+  "source": "APK saved",
+  "translation": "APK сохранён"
+ },
+ {
+  "context": "EZPico",
+  "source": "APK, ZIP, 7z, RAR, multi-part .001 or a folder with them",
+  "translation": "APK, ZIP, 7z, RAR, многотомный .001 или папка с ними"
+ },
+ {
+  "context": "EZPico",
+  "source": "APKs from the headset",
+  "translation": "APK со шлема"
+ },
+ {
+  "context": "EZPico",
+  "source": "About",
+  "translation": "О программе"
+ },
+ {
+  "context": "EZPico",
+  "source": "Accent color",
+  "translation": "Акцентный цвет"
+ },
+ {
+  "context": "EZPico",
+  "source": "Accept",
+  "translation": "Принять"
+ },
+ {
+  "context": "EZPico",
+  "source": "Access to all files",
+  "translation": "Доступ ко всем файлам"
+ },
+ {
+  "context": "EZPico",
+  "source": "Account",
+  "translation": "Аккаунт"
+ },
+ {
+  "context": "EZPico",
+  "source": "All",
+  "translation": "Все"
+ },
+ {
+  "context": "EZPico",
+  "source": "All EZPico settings will return to defaults, the welcome screen will be shown again and the program will restart. Continue?",
+  "translation": "Все настройки EZPico вернутся к значениям по умолчанию, приветствие покажется снова, программа перезапустится. Продолжить?"
+ },
+ {
+  "context": "EZPico",
+  "source": "All games",
+  "translation": "Все игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Already downloading",
+  "translation": "Уже скачивается"
+ },
+ {
+  "context": "EZPico",
+  "source": "Already in the queue: {}",
+  "translation": "Уже в очереди: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Analysis",
+  "translation": "Анализ"
+ },
+ {
+  "context": "EZPico",
+  "source": "Analyzing APK",
+  "translation": "Анализ APK"
+ },
+ {
+  "context": "EZPico",
+  "source": "Android",
+  "translation": "Android"
+ },
+ {
+  "context": "EZPico",
+  "source": "Android app",
+  "translation": "Приложение Android"
+ },
+ {
+  "context": "EZPico",
+  "source": "Android/data",
+  "translation": "Android/data"
+ },
+ {
+  "context": "EZPico",
+  "source": "Android/obb",
+  "translation": "Android/obb"
+ },
+ {
+  "context": "EZPico",
+  "source": "App Manager",
+  "translation": "Пакетный менеджер"
+ },
+ {
+  "context": "EZPico",
+  "source": "App icons cache",
+  "translation": "Кэш иконок приложений"
+ },
+ {
+  "context": "EZPico",
+  "source": "App size",
+  "translation": "Приложение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Applications",
+  "translation": "Приложения"
+ },
+ {
+  "context": "EZPico",
+  "source": "Applies to the next files you add, then resets",
+  "translation": "Действует на следующие добавленные файлы, затем сбрасывается"
+ },
+ {
+  "context": "EZPico",
+  "source": "Apply",
+  "translation": "Применить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Applying…",
+  "translation": "Применяю…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Approximate location",
+  "translation": "Примерное местоположение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Apps installed through EZPico will appear here",
+  "translation": "Здесь появятся приложения, установленные через EZPico"
+ },
+ {
+  "context": "EZPico",
+  "source": "Archive",
+  "translation": "Архив"
+ },
+ {
+  "context": "EZPico",
+  "source": "Archives and unpacked folders downloaded by EZPico. Only its own folders are removed",
+  "translation": "Архивы и распакованные папки, скачанные EZPico. Удаляются только его папки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Ask whether to open the picture right after it is saved",
+  "translation": "Спрашивать, открыть ли картинку сразу после сохранения"
+ },
+ {
+  "context": "EZPico",
+  "source": "At startup EZPico reminds you if downloaded games take up space",
+  "translation": "При запуске EZPico напоминает, если скачанные игры занимают место"
+ },
+ {
+  "context": "EZPico",
+  "source": "Audio",
+  "translation": "Аудио"
+ },
+ {
+  "context": "EZPico",
+  "source": "Auto",
+  "translation": "Авто"
+ },
+ {
+  "context": "EZPico",
+  "source": "Auto — EZPico picks the method from the package, the cache and the headset model.\nManual — you choose everything below",
+  "translation": "Авто — EZPico сам выбирает метод по пакету, кэшу и модели шлема.\nРучной — всё ниже выбираете вы"
+ },
+ {
+  "context": "EZPico",
+  "source": "Availability was not checked",
+  "translation": "Доступность не проверялась"
+ },
+ {
+  "context": "EZPico",
+  "source": "A–Z",
+  "translation": "А–Я"
+ },
+ {
+  "context": "EZPico",
+  "source": "Back (Alt+←)",
+  "translation": "Назад (Alt+←)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Back to automatic settings",
+  "translation": "Вернуть автоматические параметры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Back to folder",
+  "translation": "Вернуться в папку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Backups",
+  "translation": "Бэкапы"
+ },
+ {
+  "context": "EZPico",
+  "source": "Battery",
+  "translation": "Батарея"
+ },
+ {
+  "context": "EZPico",
+  "source": "Big game files: /sdcard/Android/obb",
+  "translation": "Большие файлы игр: /sdcard/Android/obb"
+ },
+ {
+  "context": "EZPico",
+  "source": "Bitrate, Mbit/s",
+  "translation": "Битрейт, Мбит/с"
+ },
+ {
+  "context": "EZPico",
+  "source": "Blue",
+  "translation": "Синий"
+ },
+ {
+  "context": "EZPico",
+  "source": "Bluetooth: advertise",
+  "translation": "Bluetooth: видимость"
+ },
+ {
+  "context": "EZPico",
+  "source": "Bluetooth: connect",
+  "translation": "Bluetooth: подключение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Bluetooth: scan",
+  "translation": "Bluetooth: поиск"
+ },
+ {
+  "context": "EZPico",
+  "source": "Both eyes",
+  "translation": "Оба глаза"
+ },
+ {
+  "context": "EZPico",
+  "source": "Buttons, highlights and selection. Battery and status indicators keep their colors",
+  "translation": "Кнопки, подсветка и выделение. Заряд и индикаторы состояния сохраняют свои цвета"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cache",
+  "translation": "Кэш"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cache folder",
+  "translation": "Папка кэша"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cache folder name (empty — same as the package)",
+  "translation": "Имя папки кэша (пусто — как у пакета)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cache next to the source",
+  "translation": "Кэш рядом с исходником"
+ },
+ {
+  "context": "EZPico",
+  "source": "Calculate folder size",
+  "translation": "Посчитать размер папки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Calculate size",
+  "translation": "Посчитать размер"
+ },
+ {
+  "context": "EZPico",
+  "source": "Calculating…",
+  "translation": "Считаю…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Camera",
+  "translation": "Камера"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cancel",
+  "translation": "Отмена"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cancel all transfers",
+  "translation": "Отменить все переносы"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cancelled",
+  "translation": "Отменено"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cancelled: {}",
+  "translation": "Отменено: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cannot open this folder",
+  "translation": "Не удалось открыть папку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Catalog address",
+  "translation": "Адрес каталога"
+ },
+ {
+  "context": "EZPico",
+  "source": "Catalog is unavailable",
+  "translation": "Каталог недоступен"
+ },
+ {
+  "context": "EZPico",
+  "source": "Catalog updated to version {}",
+  "translation": "Каталог обновлён до версии {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Catalog version",
+  "translation": "Версия каталога"
+ },
+ {
+  "context": "EZPico",
+  "source": "Catalog version {}",
+  "translation": "Версия каталога {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Change",
+  "translation": "Изменить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Check for updates",
+  "translation": "Проверить обновления"
+ },
+ {
+  "context": "EZPico",
+  "source": "Check for updates on startup",
+  "translation": "Проверять обновления при запуске"
+ },
+ {
+  "context": "EZPico",
+  "source": "Check now",
+  "translation": "Проверить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Checking…",
+  "translation": "Проверяю…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Choose files…",
+  "translation": "Выбрать файлы…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Choose folder",
+  "translation": "Выберите папку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Choose folder…",
+  "translation": "Выбрать папку…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Choose installer files",
+  "translation": "Выберите файлы для установки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Choose the game cache folder",
+  "translation": "Выберите папку кэша игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cleaning up",
+  "translation": "Очистка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Clear",
+  "translation": "Очистить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Clear all",
+  "translation": "Очистить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Clear finished",
+  "translation": "Очистить завершённые"
+ },
+ {
+  "context": "EZPico",
+  "source": "Clear the checked categories",
+  "translation": "Снять все галочки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Click to type a path (Ctrl+L)",
+  "translation": "Нажмите, чтобы ввести путь (Ctrl+L)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Close",
+  "translation": "Закрыть"
+ },
+ {
+  "context": "EZPico",
+  "source": "Code",
+  "translation": "Код"
+ },
+ {
+  "context": "EZPico",
+  "source": "Codec",
+  "translation": "Кодек"
+ },
+ {
+  "context": "EZPico",
+  "source": "Collapse",
+  "translation": "Свернуть"
+ },
+ {
+  "context": "EZPico",
+  "source": "Collecting…",
+  "translation": "Собираю…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Community",
+  "translation": "Комьюнити"
+ },
+ {
+  "context": "EZPico",
+  "source": "Connect a headset to install",
+  "translation": "Подключите шлем, чтобы установить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Connect the headset first",
+  "translation": "Сначала подключите шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Connect your PICO VR headset\nand PC with a USB cable.",
+  "translation": "Подключите ваш PICO VR шлем и\nкомпьютер по USB кабелю."
+ },
+ {
+  "context": "EZPico",
+  "source": "Connection",
+  "translation": "Подключение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Contacts",
+  "translation": "Контакты"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copied: {}",
+  "translation": "Скопировано: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copy",
+  "translation": "Копировать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copy files from the PC to the current folder.\nYou can also just drag them here from Explorer.",
+  "translation": "Скопировать файлы с ПК в текущую папку.\nМожно просто перетащить их сюда из проводника."
+ },
+ {
+  "context": "EZPico",
+  "source": "Copy game cache",
+  "translation": "Перенос кэша игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copy link",
+  "translation": "Скопировать ссылку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copy log",
+  "translation": "Копировать журнал"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copy package name",
+  "translation": "Скопировать имя пакета"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copy path",
+  "translation": "Копировать путь"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copying game cache",
+  "translation": "Копирование кэша игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copying to Explorer",
+  "translation": "Копирование в проводник"
+ },
+ {
+  "context": "EZPico",
+  "source": "Copying…",
+  "translation": "Копирую…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Could not check for catalog updates: {}",
+  "translation": "Не удалось проверить обновление каталога: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Could not launch the app",
+  "translation": "Не удалось запустить приложение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Could not open the catalog",
+  "translation": "Не удалось открыть каталог"
+ },
+ {
+  "context": "EZPico",
+  "source": "Create",
+  "translation": "Создать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Create a folder (Ctrl+Shift+N)",
+  "translation": "Создать папку (Ctrl+Shift+N)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Create report",
+  "translation": "Создать отчёт"
+ },
+ {
+  "context": "EZPico",
+  "source": "Crop the eye image to this aspect ratio",
+  "translation": "Обрезать картинку глаза до этих пропорций"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cut",
+  "translation": "Вырезать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cut off the dark lens edges",
+  "translation": "Срезать тёмные края линз"
+ },
+ {
+  "context": "EZPico",
+  "source": "Cut: {}",
+  "translation": "Вырезано: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Data",
+  "translation": "Данные"
+ },
+ {
+  "context": "EZPico",
+  "source": "Debug console",
+  "translation": "Консоль отладки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Decompiled, patched and built again",
+  "translation": "Разбирается, правится и собирается заново"
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete",
+  "translation": "Удалить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete backup",
+  "translation": "Удалить бэкап"
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete downloaded archives and unpacked game folders? Games that are downloading or installing right now are kept.",
+  "translation": "Удалить скачанные архивы и распакованные папки игр? Игры, которые сейчас скачиваются или устанавливаются, останутся."
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete files",
+  "translation": "Удалить файлы"
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete installation files",
+  "translation": "Удалить файлы установки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete this backup from the PC?",
+  "translation": "Удалить этот бэкап с компьютера?"
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete {} from the PC? The installed app on the headset is not affected.",
+  "translation": "Удалить {} с компьютера? Установленное на шлеме приложение не затронется."
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete {} items from the headset?",
+  "translation": "Удалить со шлема элементов: {}?"
+ },
+ {
+  "context": "EZPico",
+  "source": "Delete «{}» from the headset?",
+  "translation": "Удалить «{}» со шлема?"
+ },
+ {
+  "context": "EZPico",
+  "source": "Deleted: {}",
+  "translation": "Удалено: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Deleting…",
+  "translation": "Удаляю…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Description",
+  "translation": "Описание"
+ },
+ {
+  "context": "EZPico",
+  "source": "Details",
+  "translation": "Подробнее"
+ },
+ {
+  "context": "EZPico",
+  "source": "Developer",
+  "translation": "Для разработчиков"
+ },
+ {
+  "context": "EZPico",
+  "source": "Device",
+  "translation": "Устройство"
+ },
+ {
+  "context": "EZPico",
+  "source": "Device Information",
+  "translation": "Об устройстве"
+ },
+ {
+  "context": "EZPico",
+  "source": "Device Manager",
+  "translation": "Устройства"
+ },
+ {
+  "context": "EZPico",
+  "source": "Direct",
+  "translation": "Прямая"
+ },
+ {
+  "context": "EZPico",
+  "source": "Direct — the APK is installed unchanged.\nOverport — re-signed with a new key, for OVRport games.\nRepack — decompiled, renamed, rebuilt and signed: the main method for cracked games from the PICO store",
+  "translation": "Напрямую — APK ставится без изменений.\nOverport — переподпись новым ключом, для игр OVRport.\nПерепаковка — разбор, переименование, сборка и подпись: основной способ для взломанных игр с магазина PICO"
+ },
+ {
+  "context": "EZPico",
+  "source": "Dismiss",
+  "translation": "Скрыть"
+ },
+ {
+  "context": "EZPico",
+  "source": "Display over other apps",
+  "translation": "Поверх других приложений"
+ },
+ {
+  "context": "EZPico",
+  "source": "Document",
+  "translation": "Документ"
+ },
+ {
+  "context": "EZPico",
+  "source": "Don't remind about downloaded games",
+  "translation": "Не напоминать о скачанных играх"
+ },
+ {
+  "context": "EZPico",
+  "source": "Don't remind again",
+  "translation": "Больше не напоминать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Download",
+  "translation": "Скачать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Download and install",
+  "translation": "Скачать и установить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Download and unpack",
+  "translation": "Скачать и распаковать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Download complete",
+  "translation": "Скачивание завершено"
+ },
+ {
+  "context": "EZPico",
+  "source": "Download failed",
+  "translation": "Не удалось скачать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Download to PC…",
+  "translation": "Скачать на ПК…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Download with install settings… (method, cache, signing, or download only)",
+  "translation": "Скачать с параметрами установки… (метод, кэш, подпись или только скачать)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloadable",
+  "translation": "Можно скачать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloaded",
+  "translation": "Скачано"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloaded games",
+  "translation": "Скачанные игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloaded games take {} ({} folders). After installation they are no longer needed — clear them to free up space?\nYou can always do it in Settings → PicoLand catalog.",
+  "translation": "Скачанные игры занимают {} (папок: {}). После установки они не нужны — очистить, чтобы освободить место?\nЭто всегда можно сделать в Настройки → Каталог PicoLand."
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloaded: {}",
+  "translation": "Скачано: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloading APK…",
+  "translation": "Скачиваю APK…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloading to PC",
+  "translation": "Скачивание на ПК"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloading…",
+  "translation": "Загрузка…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloading… {} of {}",
+  "translation": "Загрузка… {} из {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloads",
+  "translation": "Загрузки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Downloads folder",
+  "translation": "Папка загрузок"
+ },
+ {
+  "context": "EZPico",
+  "source": "Drop an APK, archive or folder here",
+  "translation": "Перетащите сюда APK, архив или папку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Drop files anywhere on this page",
+  "translation": "Перетащите файлы в любое место страницы"
+ },
+ {
+  "context": "EZPico",
+  "source": "Drop to copy to the headset: «{}»",
+  "translation": "Отпустите, чтобы скопировать на шлем: «{}»"
+ },
+ {
+  "context": "EZPico",
+  "source": "EN",
+  "translation": "EN"
+ },
+ {
+  "context": "EZPico",
+  "source": "EZPico does not know how to install this game: it will only download and unpack it. Read the instructions, then set the settings (⚙) and press «Install» in the downloads list.",
+  "translation": "EZPico не знает, как ставить эту игру: она будет только скачана и распакована. Прочитайте инструкцию, задайте параметры (⚙) и нажмите «Установить» в списке загрузок."
+ },
+ {
+  "context": "EZPico",
+  "source": "EZPico downloads the file to the downloads folder and installs it automatically (auto mode + post hints)",
+  "translation": "EZPico скачает файл в папку загрузок и сам установит его (авто-режим + подсказки из поста)"
+ },
+ {
+  "context": "EZPico",
+  "source": "EZPico guide",
+  "translation": "Руководство EZPico"
+ },
+ {
+  "context": "EZPico",
+  "source": "EZPico only reads posts and downloads game files. The session lives in memory and ends when EZPico is closed — nothing is saved to disk.",
+  "translation": "EZPico только читает посты и скачивает файлы игр."
+ },
+ {
+  "context": "EZPico",
+  "source": "EZPico only reads posts and downloads game files. Without \"Remember\", the session ends when EZPico is closed.",
+  "translation": "EZPico только читает посты и скачивает файлы игр. Без «Запомнить» сессия завершается при закрытии EZPico."
+ },
+ {
+  "context": "EZPico",
+  "source": "EZPico picks the method itself (Matrix 9.9.9 — clean install, OVRport — direct, otherwise repack)",
+  "translation": "EZPico выберет метод сам (Matrix 9.9.9 — чистая установка, OVRport — напрямую, иначе перепаковка)"
+ },
+ {
+  "context": "EZPico",
+  "source": "EZPico updated",
+  "translation": "EZPico обновлена"
+ },
+ {
+  "context": "EZPico",
+  "source": "EZPico {} is available",
+  "translation": "Доступна EZPico {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Each option is chosen by hand",
+  "translation": "Все параметры задаются вручную"
+ },
+ {
+  "context": "EZPico",
+  "source": "Empty Installation Queue",
+  "translation": "Очередь на установку пустая"
+ },
+ {
+  "context": "EZPico",
+  "source": "Empty folder",
+  "translation": "Пустая папка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Enter the password",
+  "translation": "Введите пароль"
+ },
+ {
+  "context": "EZPico",
+  "source": "Error",
+  "translation": "Ошибка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Error: {}",
+  "translation": "Ошибка: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Exit",
+  "translation": "Выйти"
+ },
+ {
+  "context": "EZPico",
+  "source": "Expand",
+  "translation": "Развернуть"
+ },
+ {
+  "context": "EZPico",
+  "source": "Extracting archive",
+  "translation": "Распаковка архива"
+ },
+ {
+  "context": "EZPico",
+  "source": "Failed to load packages",
+  "translation": "Не удалось получить список пакетов"
+ },
+ {
+  "context": "EZPico",
+  "source": "File",
+  "translation": "Файл"
+ },
+ {
+  "context": "EZPico",
+  "source": "File Manager",
+  "translation": "Диспетчер файлов"
+ },
+ {
+  "context": "EZPico",
+  "source": "File not found: {}",
+  "translation": "Файл не найден: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Files",
+  "translation": "Файлы"
+ },
+ {
+  "context": "EZPico",
+  "source": "Files already exist",
+  "translation": "Файлы уже существуют"
+ },
+ {
+  "context": "EZPico",
+  "source": "Files can be added once the headset is connected",
+  "translation": "Файлы можно добавить после подключения шлема"
+ },
+ {
+  "context": "EZPico",
+  "source": "Files deleted",
+  "translation": "Файлы удалены"
+ },
+ {
+  "context": "EZPico",
+  "source": "Files downloaded in the headset browser",
+  "translation": "Файлы, скачанные в браузере шлема"
+ },
+ {
+  "context": "EZPico",
+  "source": "Files…",
+  "translation": "Файлы…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Filter… (Enter — deep search)",
+  "translation": "Фильтр… (Enter — поиск везде)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Find a category…",
+  "translation": "Найти категорию…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Find automatically",
+  "translation": "Искать автоматически"
+ },
+ {
+  "context": "EZPico",
+  "source": "Finished",
+  "translation": "Готово"
+ },
+ {
+  "context": "EZPico",
+  "source": "Firmware",
+  "translation": "Прошивка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Folder",
+  "translation": "Папка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Folder \"{}\" goes to {} — EZPico does it automatically.",
+  "translation": "Папка «{}» копируется в {} — EZPico сделает это сам."
+ },
+ {
+  "context": "EZPico",
+  "source": "Folder found next to the source",
+  "translation": "Папка, найденная рядом с исходником"
+ },
+ {
+  "context": "EZPico",
+  "source": "Folder is empty.\nDrag files here from the PC to upload them to the headset.",
+  "translation": "Папка пуста.\nПеретащите сюда файлы с ПК, чтобы загрузить их на шлем."
+ },
+ {
+  "context": "EZPico",
+  "source": "Folder next to the APK (automatically)",
+  "translation": "Папка рядом с APK (авто)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Folder with manifest.json, catalog.db and images/. Empty — the built-in address",
+  "translation": "Папка с manifest.json, catalog.db и images/. Пусто — встроенный адрес"
+ },
+ {
+  "context": "EZPico",
+  "source": "Folders: {}  ·  Files: {}  ·  {}",
+  "translation": "Папок: {}  ·  Файлов: {}  ·  {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Folders: {}, files: {}",
+  "translation": "Папок: {}, файлов: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Folder…",
+  "translation": "Папка…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Forward (Alt+→)",
+  "translation": "Вперёд (Alt+→)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Frame rate",
+  "translation": "Частота кадров"
+ },
+ {
+  "context": "EZPico",
+  "source": "Frames per second. 72–90 matches the headset",
+  "translation": "Кадров в секунду. 72–90 — как в шлеме"
+ },
+ {
+  "context": "EZPico",
+  "source": "Freed {} ({} folders)",
+  "translation": "Освобождено {} (папок: {})"
+ },
+ {
+  "context": "EZPico",
+  "source": "From the post (as written by its author):",
+  "translation": "Из поста (как написал автор):"
+ },
+ {
+  "context": "EZPico",
+  "source": "Fullscreen",
+  "translation": "Во весь экран"
+ },
+ {
+  "context": "EZPico",
+  "source": "Game cache",
+  "translation": "Кэш игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Game cache (OBB)",
+  "translation": "Кэш игр (OBB)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Game data",
+  "translation": "Данные игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Game data (data) and caches (obb)",
+  "translation": "Данные игр (data) и кэш (obb)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Game data restored",
+  "translation": "Прогресс восстановлен"
+ },
+ {
+  "context": "EZPico",
+  "source": "Game data saved ({})",
+  "translation": "Прогресс сохранён ({})"
+ },
+ {
+  "context": "EZPico",
+  "source": "Game saves",
+  "translation": "Сохранения игр"
+ },
+ {
+  "context": "EZPico",
+  "source": "Game size (the full archive). Games with an unknown size are hidden when a range is selected",
+  "translation": "Размер игры (весь архив). Игры с неизвестным размером скрываются, если выбран диапазон"
+ },
+ {
+  "context": "EZPico",
+  "source": "Grant all",
+  "translation": "Выдать все"
+ },
+ {
+  "context": "EZPico",
+  "source": "Grant all permissions on install",
+  "translation": "Выдавать все права при установке"
+ },
+ {
+  "context": "EZPico",
+  "source": "Granted {} of {}",
+  "translation": "Выдано {} из {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Granting…",
+  "translation": "Выдаю…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Green",
+  "translation": "Зелёный"
+ },
+ {
+  "context": "EZPico",
+  "source": "Guide",
+  "translation": "Руководство"
+ },
+ {
+  "context": "EZPico",
+  "source": "H.265 is sharper at the same bitrate, H.264 works everywhere",
+  "translation": "H.265 чётче при том же битрейте, H.264 работает везде"
+ },
+ {
+  "context": "EZPico",
+  "source": "Headset is asleep — put it on and try again",
+  "translation": "Шлем спит — наденьте его и попробуйте снова"
+ },
+ {
+  "context": "EZPico",
+  "source": "Headset is asleep — the picture will be black until you put it on.",
+  "translation": "Шлем спит — картинка будет чёрной, пока его не наденут."
+ },
+ {
+  "context": "EZPico",
+  "source": "Headset screen on the PC",
+  "translation": "Экран шлема на ПК"
+ },
+ {
+  "context": "EZPico",
+  "source": "Headset storage",
+  "translation": "Память шлема"
+ },
+ {
+  "context": "EZPico",
+  "source": "Heaviest files",
+  "translation": "Самые тяжёлые"
+ },
+ {
+  "context": "EZPico",
+  "source": "Heaviest files — scanning…",
+  "translation": "Самые тяжёлые файлы — сканирую…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Heaviest files: {} (total {}) · scanned at {}",
+  "translation": "Самые тяжёлые файлы: {} (всего {}) · скан в {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Help and reset",
+  "translation": "Справка и сброс"
+ },
+ {
+  "context": "EZPico",
+  "source": "Hidden files",
+  "translation": "Скрытые файлы"
+ },
+ {
+  "context": "EZPico",
+  "source": "Horizontal shift, %",
+  "translation": "Сдвиг по горизонтали, %"
+ },
+ {
+  "context": "EZPico",
+  "source": "How it works",
+  "translation": "Как это работает"
+ },
+ {
+  "context": "EZPico",
+  "source": "How to connect the headset and what every tab, button and option does",
+  "translation": "Как подключить шлем и что делает каждая вкладка, кнопка и настройка"
+ },
+ {
+  "context": "EZPico",
+  "source": "If Telegram works for you only through a proxy. Empty — auto: running tg-ws-proxy (settings are read from it) or the system proxy. Also an MTProto link tg://proxy?…, socks5://host:port, http://host:port or off",
+  "translation": "Если Telegram у вас работает только через прокси. Пусто — авто: запущенный tg-ws-proxy (настройки берутся из него) или системный прокси. Также ссылка MTProto tg://proxy?…, socks5://адрес:порт, http://адрес:порт или off — напрямую"
+ },
+ {
+  "context": "EZPico",
+  "source": "Image",
+  "translation": "Изображение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Image quality. Higher — sharper, but needs a good cable or Wi-Fi",
+  "translation": "Качество картинки. Выше — чётче, но нужен хороший кабель или Wi-Fi"
+ },
+ {
+  "context": "EZPico",
+  "source": "In development",
+  "translation": "В разработке"
+ },
+ {
+  "context": "EZPico",
+  "source": "In progress: {}",
+  "translation": "В работе: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "In work",
+  "translation": "В работе"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install",
+  "translation": "Установить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install after download",
+  "translation": "Установить после скачивания"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install app",
+  "translation": "Установка приложения"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install complete",
+  "translation": "Установлено"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install error: {}",
+  "translation": "Ошибка установки: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install method",
+  "translation": "Способ установки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install on headset",
+  "translation": "Установить на шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install other apps",
+  "translation": "Установка других приложений"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install results and device events appear here",
+  "translation": "Здесь появятся итоги установок и события шлема"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install settings",
+  "translation": "Параметры установки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install settings for this game",
+  "translation": "Параметры установки этой игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install settings: auto",
+  "translation": "Параметры установки: авто"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install settings: manual",
+  "translation": "Параметры установки: вручную"
+ },
+ {
+  "context": "EZPico",
+  "source": "Install {} on the headset?",
+  "translation": "Установить {} на шлем?"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installation",
+  "translation": "Установка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installation details",
+  "translation": "Подробности установки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installation files deleted",
+  "translation": "Файлы установки удалены"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installation instructions are inside the archive.",
+  "translation": "Инструкция по установке — внутри архива."
+ },
+ {
+  "context": "EZPico",
+  "source": "Installation notes",
+  "translation": "Установка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installed",
+  "translation": "Установленные"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installed as",
+  "translation": "Установлено как"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installed games get every permission they request (storage, microphone, etc.) — no prompts in VR",
+  "translation": "Устанавливаемые игры получают все запрошенные права (память, микрофон и т. д.) — без запросов в шлеме"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installed: {}",
+  "translation": "Установлено: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installer",
+  "translation": "Установщик"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installers (*.apk *.zip *.7z *.rar *.001);;All files (*)",
+  "translation": "Установщики (*.apk *.zip *.7z *.rar *.001);;Все файлы (*)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installing",
+  "translation": "Установка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installing on headset",
+  "translation": "Установка на шлеме"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installing — EZPico will restart",
+  "translation": "Установка — EZPico перезапустится"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installing…",
+  "translation": "Устанавливаю…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Installs next to the original app",
+  "translation": "Ставится рядом с оригиналом"
+ },
+ {
+  "context": "EZPico",
+  "source": "Interface",
+  "translation": "Интерфейс"
+ },
+ {
+  "context": "EZPico",
+  "source": "Interface language, applied instantly",
+  "translation": "Язык интерфейса, применяется сразу"
+ },
+ {
+  "context": "EZPico",
+  "source": "Internal storage of the headset",
+  "translation": "Внутренняя память шлема"
+ },
+ {
+  "context": "EZPico",
+  "source": "Invalid name",
+  "translation": "Недопустимое имя"
+ },
+ {
+  "context": "EZPico",
+  "source": "Keep SDK metadata",
+  "translation": "Оставить SDK-метаданные"
+ },
+ {
+  "context": "EZPico",
+  "source": "Keep both",
+  "translation": "Оставить оба"
+ },
+ {
+  "context": "EZPico",
+  "source": "Keep the headset awake",
+  "translation": "Не давать шлему засыпать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Language",
+  "translation": "Язык"
+ },
+ {
+  "context": "EZPico",
+  "source": "Language, color, toggles, folders, saved commands — everything returns to defaults and EZPico restarts. Games, saves, screenshots and the Telegram sign-in are not touched",
+  "translation": "Язык, цвет, переключатели, папки, сохранённые команды — всё вернётся по умолчанию, EZPico перезапустится. Игры, сохранения, скриншоты и вход в Telegram не затрагиваются"
+ },
+ {
+  "context": "EZPico",
+  "source": "Later",
+  "translation": "Позже"
+ },
+ {
+  "context": "EZPico",
+  "source": "Launch",
+  "translation": "Запустить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Launching…",
+  "translation": "Запуск…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Leave pvr.sdk.version and similar in the manifest",
+  "translation": "Оставить в манифесте pvr.sdk.version и подобные"
+ },
+ {
+  "context": "EZPico",
+  "source": "Left eye",
+  "translation": "Левый глаз"
+ },
+ {
+  "context": "EZPico",
+  "source": "License check is on — use OVRport or repacked games",
+  "translation": "Проверка лицензий включена — подойдут OVRport и перепакованные игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Link",
+  "translation": "Ссылка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Loading packages…",
+  "translation": "Загрузка пакетов…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Loading the catalog…",
+  "translation": "Загружаю каталог…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Loading…",
+  "translation": "Загрузка…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Location",
+  "translation": "Расположение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Log",
+  "translation": "Журнал"
+ },
+ {
+  "context": "EZPico",
+  "source": "Manual",
+  "translation": "Вручную"
+ },
+ {
+  "context": "EZPico",
+  "source": "Max",
+  "translation": "Макс."
+ },
+ {
+  "context": "EZPico",
+  "source": "Maximum side of the picture in pixels. Lower — smoother on weak PCs and cables",
+  "translation": "Наибольшая сторона картинки в пикселях. Меньше — плавнее на слабых ПК и кабелях"
+ },
+ {
+  "context": "EZPico",
+  "source": "Memory (RAM)",
+  "translation": "Оперативная память"
+ },
+ {
+  "context": "EZPico",
+  "source": "Method",
+  "translation": "Способ"
+ },
+ {
+  "context": "EZPico",
+  "source": "Microphone",
+  "translation": "Микрофон"
+ },
+ {
+  "context": "EZPico",
+  "source": "Mode",
+  "translation": "Режим"
+ },
+ {
+  "context": "EZPico",
+  "source": "Modified",
+  "translation": "Изменён"
+ },
+ {
+  "context": "EZPico",
+  "source": "Modify system settings",
+  "translation": "Изменение системных настроек"
+ },
+ {
+  "context": "EZPico",
+  "source": "Move",
+  "translation": "Перемещение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Move the crop left or right to center the picture",
+  "translation": "Сдвинуть обрезку влево или вправо, чтобы картинка была по центру"
+ },
+ {
+  "context": "EZPico",
+  "source": "Move to «{}» (Ctrl — copy)",
+  "translation": "Переместить в «{}» (Ctrl — копировать)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Moving…",
+  "translation": "Перемещаю…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Multiplayer",
+  "translation": "Мультиплеер"
+ },
+ {
+  "context": "EZPico",
+  "source": "Music and audio",
+  "translation": "Музыка и аудио"
+ },
+ {
+  "context": "EZPico",
+  "source": "Name",
+  "translation": "Имя"
+ },
+ {
+  "context": "EZPico",
+  "source": "Names and icons of headset apps. Clear it if icons look wrong",
+  "translation": "Названия и иконки приложений шлема. Очистите, если иконки отображаются неверно"
+ },
+ {
+  "context": "EZPico",
+  "source": "Native package",
+  "translation": "Обычный пакет"
+ },
+ {
+  "context": "EZPico",
+  "source": "Nearby Wi-Fi devices",
+  "translation": "Wi-Fi устройства рядом"
+ },
+ {
+  "context": "EZPico",
+  "source": "Needed to download games stored in Telegram. Sign in with a QR code",
+  "translation": "Нужен, чтобы скачивать игры из Telegram. Вход по QR-коду"
+ },
+ {
+  "context": "EZPico",
+  "source": "New",
+  "translation": "Новые"
+ },
+ {
+  "context": "EZPico",
+  "source": "New folder",
+  "translation": "Новая папка"
+ },
+ {
+  "context": "EZPico",
+  "source": "New signing key",
+  "translation": "Новый ключ подписи"
+ },
+ {
+  "context": "EZPico",
+  "source": "New text file",
+  "translation": "Новый текстовый файл"
+ },
+ {
+  "context": "EZPico",
+  "source": "New versions are downloaded from GitHub and installed without the setup",
+  "translation": "Новые версии скачиваются с GitHub и ставятся без установщика"
+ },
+ {
+  "context": "EZPico",
+  "source": "No Device Connected",
+  "translation": "Устройство не подключено"
+ },
+ {
+  "context": "EZPico",
+  "source": "No connection to Telegram. If Telegram works for you only through a proxy (tg-ws-proxy, MTProto, VPN), set it in Settings → Telegram → Proxy",
+  "translation": "Нет связи с Telegram. Если Telegram у вас работает только через прокси (tg-ws-proxy, MTProto, VPN), укажите его в Настройки → Telegram → Прокси"
+ },
+ {
+  "context": "EZPico",
+  "source": "No description",
+  "translation": "Нет описания"
+ },
+ {
+  "context": "EZPico",
+  "source": "No download links — open the post in Telegram",
+  "translation": "Ссылок на скачивание нет — откройте пост в Telegram"
+ },
+ {
+  "context": "EZPico",
+  "source": "No files larger than 1 MB",
+  "translation": "Нет файлов больше 1 МБ"
+ },
+ {
+  "context": "EZPico",
+  "source": "No notifications",
+  "translation": "Уведомлений нет"
+ },
+ {
+  "context": "EZPico",
+  "source": "No release notes.",
+  "translation": "Описания нет."
+ },
+ {
+  "context": "EZPico",
+  "source": "No saved game data yet",
+  "translation": "Сохранений пока нет"
+ },
+ {
+  "context": "EZPico",
+  "source": "Non-standard installation — read the notes below.",
+  "translation": "Нестандартная установка — прочитайте заметки ниже."
+ },
+ {
+  "context": "EZPico",
+  "source": "Not selected",
+  "translation": "Не выбрано"
+ },
+ {
+  "context": "EZPico",
+  "source": "Nothing found",
+  "translation": "Ничего не найдено"
+ },
+ {
+  "context": "EZPico",
+  "source": "Nothing installed yet",
+  "translation": "Пока ничего не установлено"
+ },
+ {
+  "context": "EZPico",
+  "source": "Nothing matches the filter",
+  "translation": "Под фильтр ничего не подходит"
+ },
+ {
+  "context": "EZPico",
+  "source": "Nothing to clear",
+  "translation": "Очищать нечего"
+ },
+ {
+  "context": "EZPico",
+  "source": "Notifications",
+  "translation": "Уведомления"
+ },
+ {
+  "context": "EZPico",
+  "source": "OVRport package",
+  "translation": "Пакет OVRport"
+ },
+ {
+  "context": "EZPico",
+  "source": "OVRport — Quest ports; FNAL — native PICO games",
+  "translation": "OVRport — порты с Quest; FNAL — родные игры PICO"
+ },
+ {
+  "context": "EZPico",
+  "source": "Off — only download, install later with the «Install» button",
+  "translation": "Выключено — только скачать, установить потом кнопкой «Установить»"
+ },
+ {
+  "context": "EZPico",
+  "source": "Offer to open a screenshot",
+  "translation": "Предлагать открыть скриншот"
+ },
+ {
+  "context": "EZPico",
+  "source": "On this headset (Matrix 9.9.9) Auto installs the APK directly: repack and signing are not used",
+  "translation": "На этом шлеме (Matrix 9.9.9) «Авто» ставит APK напрямую: перепаковка и подпись не используются"
+ },
+ {
+  "context": "EZPico",
+  "source": "On this headset (Phoenix OVS) Auto installs the APK directly: repack and signing are not used",
+  "translation": "На этом шлеме (Phoenix OVS) «Авто» ставит APK напрямую: перепаковка и подпись не используются"
+ },
+ {
+  "context": "EZPico",
+  "source": "On your phone: Telegram → Settings → Devices → Link Desktop Device, then scan this code.",
+  "translation": "На телефоне: Telegram → Настройки → Устройства → Подключить устройство, затем отсканируйте код."
+ },
+ {
+  "context": "EZPico",
+  "source": "Only games with a working cloud link",
+  "translation": "Только игры с рабочей ссылкой на облако"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open",
+  "translation": "Открыть"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open a folder first — uploading into search results is not possible",
+  "translation": "Сначала откройте папку — загружать в результаты поиска нельзя"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open console",
+  "translation": "Открыть консоль"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open folder",
+  "translation": "Открыть папку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open game cache folder",
+  "translation": "Открыть папку кэша"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open guide",
+  "translation": "Открыть руководство"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open in Telegram",
+  "translation": "Открыть в Telegram"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open in the browser",
+  "translation": "Открыть в браузере"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open on PC",
+  "translation": "Открыть на ПК"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open recordings folder",
+  "translation": "Открыть папку с записями"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open release page",
+  "translation": "Открыть страницу релиза"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open the game cache folder in the File Manager",
+  "translation": "Открыть папку кэша игры в диспетчере файлов"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open the stream window fullscreen",
+  "translation": "Открывать окно трансляции на весь экран"
+ },
+ {
+  "context": "EZPico",
+  "source": "Open the unpacked folder",
+  "translation": "Открыть распакованную папку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Opening",
+  "translation": "Открытие"
+ },
+ {
+  "context": "EZPico",
+  "source": "Options",
+  "translation": "Параметры"
+ },
+ {
+  "context": "EZPico",
+  "source": "Orange",
+  "translation": "Оранжевый"
+ },
+ {
+  "context": "EZPico",
+  "source": "Output will appear here. Double-click a saved command to run it, ↑/↓ — history.",
+  "translation": "Здесь будет вывод. Двойной клик по сохранённой команде — запуск, ↑/↓ — история."
+ },
+ {
+  "context": "EZPico",
+  "source": "Overport",
+  "translation": "Overport"
+ },
+ {
+  "context": "EZPico",
+  "source": "PUI Matrix 9.9.9 (cracked)",
+  "translation": "PUI Matrix 9.9.9 (взломан)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Package suffix",
+  "translation": "Суффикс пакета"
+ },
+ {
+  "context": "EZPico",
+  "source": "Pass -i com.picovr.store to pm install",
+  "translation": "Передавать -i com.picovr.store в pm install"
+ },
+ {
+  "context": "EZPico",
+  "source": "Paste",
+  "translation": "Вставить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Permissions",
+  "translation": "Права"
+ },
+ {
+  "context": "EZPico",
+  "source": "Phoenix_ovs headset",
+  "translation": "Шлем на Phoenix_ovs"
+ },
+ {
+  "context": "EZPico",
+  "source": "Phone state",
+  "translation": "Состояние телефона"
+ },
+ {
+  "context": "EZPico",
+  "source": "Photos",
+  "translation": "Фото"
+ },
+ {
+  "context": "EZPico",
+  "source": "Photos and screenshots",
+  "translation": "Фото и скриншоты"
+ },
+ {
+  "context": "EZPico",
+  "source": "Picked from the package and the headset",
+  "translation": "Выбирается по пакету и шлему"
+ },
+ {
+  "context": "EZPico",
+  "source": "PicoLand Games",
+  "translation": "PicoLand игры"
+ },
+ {
+  "context": "EZPico",
+  "source": "PicoLand catalog",
+  "translation": "Каталог PicoLand"
+ },
+ {
+  "context": "EZPico",
+  "source": "Picture",
+  "translation": "Картинка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Picture format",
+  "translation": "Формат картинки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Pink",
+  "translation": "Розовый"
+ },
+ {
+  "context": "EZPico",
+  "source": "Play the headset sound on the PC",
+  "translation": "Передавать звук шлема на ПК"
+ },
+ {
+  "context": "EZPico",
+  "source": "Ported from Quest with OVRport — EZPico installs such games in a special way",
+  "translation": "Портирована с Quest через OVRport — EZPico ставит такие игры особым способом"
+ },
+ {
+  "context": "EZPico",
+  "source": "Post in Telegram",
+  "translation": "Пост в Telegram"
+ },
+ {
+  "context": "EZPico",
+  "source": "Precise location",
+  "translation": "Точное местоположение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Preparing…",
+  "translation": "Подготовка…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Protection removed — games run without license checks",
+  "translation": "Защита снята — игры запускаются без проверки лицензий"
+ },
+ {
+  "context": "EZPico",
+  "source": "Proxy",
+  "translation": "Прокси"
+ },
+ {
+  "context": "EZPico",
+  "source": "Purple",
+  "translation": "Фиолетовый"
+ },
+ {
+  "context": "EZPico",
+  "source": "Quality",
+  "translation": "Качество"
+ },
+ {
+  "context": "EZPico",
+  "source": "Queue",
+  "translation": "Очередь"
+ },
+ {
+  "context": "EZPico",
+  "source": "Quick access",
+  "translation": "Быстрый доступ"
+ },
+ {
+  "context": "EZPico",
+  "source": "RU",
+  "translation": "RU"
+ },
+ {
+  "context": "EZPico",
+  "source": "Re-signed with a new key, no repack",
+  "translation": "Переподпись новым ключом, без пересборки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Read storage",
+  "translation": "Чтение памяти"
+ },
+ {
+  "context": "EZPico",
+  "source": "Read-only log of ADB/tool commands and their output",
+  "translation": "Лог команд ADB/утилит и их вывода (только чтение)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Ready",
+  "translation": "Готово к запуску"
+ },
+ {
+  "context": "EZPico",
+  "source": "Reboot",
+  "translation": "Перезагрузка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Record to video",
+  "translation": "Записывать видео"
+ },
+ {
+  "context": "EZPico",
+  "source": "Recording saved: {}",
+  "translation": "Запись сохранена: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Recordings",
+  "translation": "Видеозаписи"
+ },
+ {
+  "context": "EZPico",
+  "source": "Red",
+  "translation": "Красный"
+ },
+ {
+  "context": "EZPico",
+  "source": "Refresh",
+  "translation": "Обновить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Refresh (F5)",
+  "translation": "Обновить (F5)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Refusing to delete a drive root",
+  "translation": "Корень диска не удаляю"
+ },
+ {
+  "context": "EZPico",
+  "source": "Reinstall with settings…",
+  "translation": "Переустановить с параметрами…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Remember sign-in on this computer",
+  "translation": "Запомнить вход на этом компьютере"
+ },
+ {
+  "context": "EZPico",
+  "source": "Remove",
+  "translation": "Убрать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Remove for user",
+  "translation": "Удалить для пользователя"
+ },
+ {
+  "context": "EZPico",
+  "source": "Rename",
+  "translation": "Переименовать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Repack",
+  "translation": "Репак"
+ },
+ {
+  "context": "EZPico",
+  "source": "Repacking",
+  "translation": "Пересборка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Replace",
+  "translation": "Заменить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Report",
+  "translation": "Отчёт"
+ },
+ {
+  "context": "EZPico",
+  "source": "Report saved: {}",
+  "translation": "Отчёт сохранён: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Reports",
+  "translation": "Отчёты"
+ },
+ {
+  "context": "EZPico",
+  "source": "Rescan",
+  "translation": "Пересканировать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Reset",
+  "translation": "Сбросить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Reset all settings",
+  "translation": "Сброс всех настроек"
+ },
+ {
+  "context": "EZPico",
+  "source": "Reset categories",
+  "translation": "Сбросить категории"
+ },
+ {
+  "context": "EZPico",
+  "source": "Resolution",
+  "translation": "Разрешение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Restart the headset",
+  "translation": "Перезагрузить шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Restore",
+  "translation": "Восстановить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Restore game data",
+  "translation": "Восстановить прогресс"
+ },
+ {
+  "context": "EZPico",
+  "source": "Restore saves",
+  "translation": "Восстановление сохранений"
+ },
+ {
+  "context": "EZPico",
+  "source": "Restoring game data…",
+  "translation": "Восстанавливаю прогресс…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Retry",
+  "translation": "Повторить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Right eye",
+  "translation": "Правый глаз"
+ },
+ {
+  "context": "EZPico",
+  "source": "Root",
+  "translation": "Корень"
+ },
+ {
+  "context": "EZPico",
+  "source": "Run",
+  "translation": "Выполнить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Save",
+  "translation": "Сохранить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Save APK to PC",
+  "translation": "Сохранить APK на ПК"
+ },
+ {
+  "context": "EZPico",
+  "source": "Save a picture of what the headset shows to the PC",
+  "translation": "Сохранить на ПК снимок того, что показывает шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Save game data",
+  "translation": "Сохранить прогресс"
+ },
+ {
+  "context": "EZPico",
+  "source": "Save the stream to an MP4 file in the recordings folder",
+  "translation": "Сохранять трансляцию в MP4 в папку записей"
+ },
+ {
+  "context": "EZPico",
+  "source": "Save to folder",
+  "translation": "Сохранить в папку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Saved commands",
+  "translation": "Сохранённые команды"
+ },
+ {
+  "context": "EZPico",
+  "source": "Saves everything about this session: headset info, installed packages, install history and logs. No passwords or Telegram data are included",
+  "translation": "Сохраняет всё о текущей сессии: данные шлема, установленные пакеты, историю установок и журналы. Пароли и данные Telegram не попадают"
+ },
+ {
+  "context": "EZPico",
+  "source": "Saves will be copied into {}. Backups of other packages can be restored too (e.g. a game reinstalled under a new name).",
+  "translation": "Сохранения будут скопированы в {}. Можно выбрать бэкап другого пакета (например, игра переустановлена под новым именем). ★ — тот же пакет, ≈ — похожий."
+ },
+ {
+  "context": "EZPico",
+  "source": "Saving game data…",
+  "translation": "Сохраняю прогресс…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Scan failed",
+  "translation": "Не удалось просканировать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Scanning the headset storage…",
+  "translation": "Сканирую память шлема…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Screenshot",
+  "translation": "Скриншот"
+ },
+ {
+  "context": "EZPico",
+  "source": "Screenshot failed",
+  "translation": "Не удалось сделать скриншот"
+ },
+ {
+  "context": "EZPico",
+  "source": "Screenshot saved",
+  "translation": "Скриншот сохранён"
+ },
+ {
+  "context": "EZPico",
+  "source": "Screenshot saved: {}",
+  "translation": "Скриншот сохранён: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Screenshots",
+  "translation": "Скриншоты"
+ },
+ {
+  "context": "EZPico",
+  "source": "Search by name or package…",
+  "translation": "Поиск по имени или пакету…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Search failed",
+  "translation": "Поиск не удался"
+ },
+ {
+  "context": "EZPico",
+  "source": "Search games…",
+  "translation": "Поиск игры…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Search results for «{}» in {}: {}",
+  "translation": "Результаты поиска «{}» в {}: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Searching «{}» in {}…",
+  "translation": "Ищу «{}» в {}…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Searching…",
+  "translation": "Поиск…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Select a file to see details.\n\nDrag files from Windows Explorer here to upload them, or drag files out of the list to save them on the PC.",
+  "translation": "Выберите файл, чтобы увидеть подробности.\n\nПеретащите файлы из проводника сюда, чтобы загрузить их на шлем, или вытащите файлы из списка, чтобы сохранить на ПК."
+ },
+ {
+  "context": "EZPico",
+  "source": "Select folder",
+  "translation": "Выберите папку"
+ },
+ {
+  "context": "EZPico",
+  "source": "Select the folder with games.",
+  "translation": "Выберите папку с играми."
+ },
+ {
+  "context": "EZPico",
+  "source": "Select the game to install\nand it will appear here.",
+  "translation": "Выберите игру для установки\nи она появится здесь"
+ },
+ {
+  "context": "EZPico",
+  "source": "Selected photos and videos",
+  "translation": "Выбранные фото и видео"
+ },
+ {
+  "context": "EZPico",
+  "source": "Selected: {} ({})",
+  "translation": "Выбрано: {} ({})"
+ },
+ {
+  "context": "EZPico",
+  "source": "Serial number: {}",
+  "translation": "Серийный номер: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Settings",
+  "translation": "Настройки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Settings are picked from the package and the headset",
+  "translation": "Параметры подбираются по пакету и шлему"
+ },
+ {
+  "context": "EZPico",
+  "source": "Settings → Help → Guide",
+  "translation": "Настройки → Справка → Руководство"
+ },
+ {
+  "context": "EZPico",
+  "source": "Show",
+  "translation": "Показать"
+ },
+ {
+  "context": "EZPico",
+  "source": "Show files and folders whose names start with a dot",
+  "translation": "Показывать файлы и папки, имена которых начинаются с точки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Show in folder",
+  "translation": "Показать в папке"
+ },
+ {
+  "context": "EZPico",
+  "source": "Show pop-up notifications about installs, backups and screenshots",
+  "translation": "Всплывающие уведомления об установках, бэкапах и скриншотах"
+ },
+ {
+  "context": "EZPico",
+  "source": "Shows the headset screen in a separate window (scrcpy)",
+  "translation": "Показывает экран шлема в отдельном окне (scrcpy)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Shutdown",
+  "translation": "Выключение"
+ },
+ {
+  "context": "EZPico",
+  "source": "Sign in",
+  "translation": "Войти"
+ },
+ {
+  "context": "EZPico",
+  "source": "Sign in to Telegram",
+  "translation": "Вход в Telegram"
+ },
+ {
+  "context": "EZPico",
+  "source": "Sign in with QR",
+  "translation": "Войти по QR"
+ },
+ {
+  "context": "EZPico",
+  "source": "Sign out",
+  "translation": "Выйти"
+ },
+ {
+  "context": "EZPico",
+  "source": "Signal: {} dBm",
+  "translation": "Сигнал: {} dBm"
+ },
+ {
+  "context": "EZPico",
+  "source": "Signed in: {}",
+  "translation": "Вход выполнен: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Signing",
+  "translation": "Подпись"
+ },
+ {
+  "context": "EZPico",
+  "source": "Signing and install",
+  "translation": "Подпись и установка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Size",
+  "translation": "Размер"
+ },
+ {
+  "context": "EZPico",
+  "source": "Skip",
+  "translation": "Пропустить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Skip this version",
+  "translation": "Пропустить версию"
+ },
+ {
+  "context": "EZPico",
+  "source": "Some files were skipped: unsupported type",
+  "translation": "Часть файлов пропущена: неподдерживаемый тип"
+ },
+ {
+  "context": "EZPico",
+  "source": "Sort by name / by total size (app + data + cache + OBB)",
+  "translation": "Сортировка по имени / по общему размеру (приложение + данные + кэш + OBB)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Sound",
+  "translation": "Звук"
+ },
+ {
+  "context": "EZPico",
+  "source": "Source",
+  "translation": "Источник"
+ },
+ {
+  "context": "EZPico",
+  "source": "Special install",
+  "translation": "Особая установка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Start stream",
+  "translation": "Запустить стрим"
+ },
+ {
+  "context": "EZPico",
+  "source": "Started",
+  "translation": "Запущено"
+ },
+ {
+  "context": "EZPico",
+  "source": "Status",
+  "translation": "Статус"
+ },
+ {
+  "context": "EZPico",
+  "source": "Stop",
+  "translation": "Остановить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Stop stream",
+  "translation": "Остановить стрим"
+ },
+ {
+  "context": "EZPico",
+  "source": "Stopping…",
+  "translation": "Остановка…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Storage",
+  "translation": "Хранилище"
+ },
+ {
+  "context": "EZPico",
+  "source": "Store installer",
+  "translation": "Установщик Pico Store"
+ },
+ {
+  "context": "EZPico",
+  "source": "Stream",
+  "translation": "Стрим"
+ },
+ {
+  "context": "EZPico",
+  "source": "Stream engine",
+  "translation": "Движок стрима"
+ },
+ {
+  "context": "EZPico",
+  "source": "Stream recordings",
+  "translation": "Записи стрима"
+ },
+ {
+  "context": "EZPico",
+  "source": "Stream stopped with an error ({})",
+  "translation": "Стрим завершился с ошибкой ({})"
+ },
+ {
+  "context": "EZPico",
+  "source": "Streaming — window is open",
+  "translation": "Идёт стрим — окно открыто"
+ },
+ {
+  "context": "EZPico",
+  "source": "Successful",
+  "translation": "Успешно"
+ },
+ {
+  "context": "EZPico",
+  "source": "Suffix in package name",
+  "translation": "Суффикс в имени пакета"
+ },
+ {
+  "context": "EZPico",
+  "source": "Support",
+  "translation": "Поддержка"
+ },
+ {
+  "context": "EZPico",
+  "source": "Support the developer\nto give him more motivation))",
+  "translation": "Поддержите разработчика,\nэто даст ему больше мотивации))"
+ },
+ {
+  "context": "EZPico",
+  "source": "Switch to Wi-Fi: then the cable can be unplugged. The PC and the headset must be on the same network",
+  "translation": "Перейти на Wi-Fi: после этого кабель можно отключить. ПК и шлем должны быть в одной сети"
+ },
+ {
+  "context": "EZPico",
+  "source": "System",
+  "translation": "Системные"
+ },
+ {
+  "context": "EZPico",
+  "source": "Teal",
+  "translation": "Бирюзовый"
+ },
+ {
+  "context": "EZPico",
+  "source": "Telegram",
+  "translation": "Telegram"
+ },
+ {
+  "context": "EZPico",
+  "source": "Telegram did not respond. If Telegram works for you only through a proxy, set it in Settings → Telegram → Proxy",
+  "translation": "Telegram не ответил. Если Telegram у вас работает только через прокси, укажите его в Настройки → Telegram → Прокси"
+ },
+ {
+  "context": "EZPico",
+  "source": "Telegram login is not available in this build",
+  "translation": "Вход в Telegram недоступен в этой сборке"
+ },
+ {
+  "context": "EZPico",
+  "source": "Text",
+  "translation": "Текст"
+ },
+ {
+  "context": "EZPico",
+  "source": "The APK is installed as is",
+  "translation": "APK ставится как есть"
+ },
+ {
+  "context": "EZPico",
+  "source": "The app does not request permissions that can be changed",
+  "translation": "Приложение не запрашивает прав, которые можно изменить"
+ },
+ {
+  "context": "EZPico",
+  "source": "The backup was made for {}. Copy it into {}?",
+  "translation": "Бэкап сделан для {}. Скопировать его в {}?"
+ },
+ {
+  "context": "EZPico",
+  "source": "The biggest files on the headset, from largest to smallest",
+  "translation": "Самые большие файлы на шлеме — от тяжёлых к лёгким"
+ },
+ {
+  "context": "EZPico",
+  "source": "The catalog is up to date ({})",
+  "translation": "Каталог актуален ({})"
+ },
+ {
+  "context": "EZPico",
+  "source": "The code has been refreshed",
+  "translation": "Код обновлён"
+ },
+ {
+  "context": "EZPico",
+  "source": "The file is in the cloud and can be downloaded",
+  "translation": "Файл в облаке, его можно скачать"
+ },
+ {
+  "context": "EZPico",
+  "source": "The file was removed from the cloud",
+  "translation": "Файл удалён из облака"
+ },
+ {
+  "context": "EZPico",
+  "source": "The game installs in a special way that EZPico does not know. It downloads and unpacks the archive; read the instructions inside, set the install settings and press «Install»",
+  "translation": "Игра ставится особым способом, который EZPico не знает. Архив будет скачан и распакован: прочитайте инструкцию внутри, задайте параметры установки и нажмите «Установить»"
+ },
+ {
+  "context": "EZPico",
+  "source": "The game needs extra steps — read the warnings and notes below",
+  "translation": "Игре нужны дополнительные шаги — прочитайте предупреждения и заметки ниже"
+ },
+ {
+  "context": "EZPico",
+  "source": "The headset does not fall asleep while EZPico is running (installs, file transfers, stream). Normal sleep returns when EZPico is closed",
+  "translation": "Шлем не засыпает, пока работает EZPico (установка, перенос файлов, стрим). После закрытия EZPico сон снова обычный"
+ },
+ {
+  "context": "EZPico",
+  "source": "The headset is not connected. Installation will start as soon as it is connected",
+  "translation": "Шлем не подключён. Установка начнётся, как только он подключится"
+ },
+ {
+  "context": "EZPico",
+  "source": "The name cannot contain «/»",
+  "translation": "Имя не может содержать «/»"
+ },
+ {
+  "context": "EZPico",
+  "source": "The post recommends installing this game without EZPico. Download and install it anyway? EZPico will apply the instructions it found ({}).",
+  "translation": "В посте советуют ставить эту игру без EZPico. Всё равно скачать и установить? EZPico применит найденные указания ({})."
+ },
+ {
+  "context": "EZPico",
+  "source": "The post says: do not install this game through EZPico. EZPico will try to follow the post instructions, but read them first.",
+  "translation": "В посте сказано: не ставить через EZPico. EZPico постарается выполнить инструкцию из поста, но сначала прочитайте её."
+ },
+ {
+  "context": "EZPico",
+  "source": "The queue is empty",
+  "translation": "Очередь пуста"
+ },
+ {
+  "context": "EZPico",
+  "source": "The session is saved encrypted (Windows DPAPI) — only your Windows account on this PC can read it. \"Sign out\" in Settings deletes it.",
+  "translation": "Сессия сохраняется зашифрованной (Windows DPAPI) — прочитать её может только ваша учётная запись Windows на этом ПК. «Выйти» в настройках удаляет её."
+ },
+ {
+  "context": "EZPico",
+  "source": "This cannot be undone.",
+  "translation": "Это действие нельзя отменить."
+ },
+ {
+  "context": "EZPico",
+  "source": "This folder does not exist on the headset yet — opening the parent folder",
+  "translation": "Этой папки на шлеме пока нет — открываю родительскую"
+ },
+ {
+  "context": "EZPico",
+  "source": "Time since the headset was turned on or rebooted",
+  "translation": "Время с включения или перезагрузки шлема"
+ },
+ {
+  "context": "EZPico",
+  "source": "Tip: drag files between Explorer and this list",
+  "translation": "Совет: перетаскивайте файлы между проводником и этим списком"
+ },
+ {
+  "context": "EZPico",
+  "source": "To go wireless, press «Wi-Fi mode»",
+  "translation": "Чтобы отключить кабель, нажмите «Wi-Fi режим»"
+ },
+ {
+  "context": "EZPico",
+  "source": "Tools folder",
+  "translation": "Папка утилит"
+ },
+ {
+  "context": "EZPico",
+  "source": "Total",
+  "translation": "Всего"
+ },
+ {
+  "context": "EZPico",
+  "source": "Trailer",
+  "translation": "Трейлер"
+ },
+ {
+  "context": "EZPico",
+  "source": "Trim edges, %",
+  "translation": "Обрезка краёв, %"
+ },
+ {
+  "context": "EZPico",
+  "source": "Turn the headset off",
+  "translation": "Выключить шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Two-step verification is on. Enter your Telegram cloud password.",
+  "translation": "Включена двухэтапная проверка. Введите облачный пароль Telegram."
+ },
+ {
+  "context": "EZPico",
+  "source": "Two-step verification password",
+  "translation": "Пароль двухэтапной проверки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Type",
+  "translation": "Тип"
+ },
+ {
+  "context": "EZPico",
+  "source": "Typing filters the current folder.\nPress Enter to search in all subfolders.",
+  "translation": "Ввод фильтрует текущую папку.\nEnter — поиск во всех вложенных папках."
+ },
+ {
+  "context": "EZPico",
+  "source": "USB cable",
+  "translation": "USB-кабель"
+ },
+ {
+  "context": "EZPico",
+  "source": "Uninstall",
+  "translation": "Удалить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Uninstall {}? Game data on the headset will be deleted. Save it first if you want to keep your progress.",
+  "translation": "Удалить {}? Данные игры на шлеме будут удалены. Если нужен прогресс — сначала сохраните его."
+ },
+ {
+  "context": "EZPico",
+  "source": "Uninstalled",
+  "translation": "Удалено"
+ },
+ {
+  "context": "EZPico",
+  "source": "Uninstalling…",
+  "translation": "Удаление…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Unknown headset",
+  "translation": "Неизвестный шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Unpack error",
+  "translation": "Ошибка распаковки"
+ },
+ {
+  "context": "EZPico",
+  "source": "Unpack error: {}",
+  "translation": "Ошибка распаковки: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Unpacked — read the instructions",
+  "translation": "Распаковано — прочитайте инструкцию"
+ },
+ {
+  "context": "EZPico",
+  "source": "Unpacked. Read the install instructions, set the settings (⚙) and press «Install»",
+  "translation": "Распаковано. Прочитайте инструкцию, задайте параметры (⚙) и нажмите «Установить»"
+ },
+ {
+  "context": "EZPico",
+  "source": "Unpacking…",
+  "translation": "Распаковка…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Unpacking… {}%",
+  "translation": "Распаковка… {}%"
+ },
+ {
+  "context": "EZPico",
+  "source": "Up one level (Backspace)",
+  "translation": "На уровень выше (Backspace)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Update and restart",
+  "translation": "Обновить и перезапустить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Update cancelled",
+  "translation": "Обновление отменено"
+ },
+ {
+  "context": "EZPico",
+  "source": "Update failed: {}",
+  "translation": "Не удалось обновить: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Updated",
+  "translation": "Обновлённые"
+ },
+ {
+  "context": "EZPico",
+  "source": "Updates",
+  "translation": "Обновления"
+ },
+ {
+  "context": "EZPico",
+  "source": "Upload complete",
+  "translation": "Загрузка завершена"
+ },
+ {
+  "context": "EZPico",
+  "source": "Upload failed",
+  "translation": "Не удалось загрузить"
+ },
+ {
+  "context": "EZPico",
+  "source": "Upload files…",
+  "translation": "Загрузить файлы…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Upload folder…",
+  "translation": "Загрузить папку…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Upload to headset",
+  "translation": "Загрузить на шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Uploading to headset",
+  "translation": "Отправка на шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Version",
+  "translation": "Версия"
+ },
+ {
+  "context": "EZPico",
+  "source": "Version is unknown",
+  "translation": "Версия неизвестна"
+ },
+ {
+  "context": "EZPico",
+  "source": "Version {} installed",
+  "translation": "Установлена версия {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Video",
+  "translation": "Видео"
+ },
+ {
+  "context": "EZPico",
+  "source": "Video recordings of the screen",
+  "translation": "Записи экрана"
+ },
+ {
+  "context": "EZPico",
+  "source": "Videos",
+  "translation": "Видео"
+ },
+ {
+  "context": "EZPico",
+  "source": "Waiting",
+  "translation": "Ожидание"
+ },
+ {
+  "context": "EZPico",
+  "source": "Waiting for administrator permission…",
+  "translation": "Ожидание разрешения администратора…"
+ },
+ {
+  "context": "EZPico",
+  "source": "Waiting for the headset",
+  "translation": "Ждёт шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "Website",
+  "translation": "Сайт"
+ },
+ {
+  "context": "EZPico",
+  "source": "Welcome screen",
+  "translation": "Окно приветствия"
+ },
+ {
+  "context": "EZPico",
+  "source": "Welcome to EZPico",
+  "translation": "Добро пожаловать в EZPico"
+ },
+ {
+  "context": "EZPico",
+  "source": "Where the cache folder goes on the headset. Most games use Android/obb; read the post if unsure",
+  "translation": "Куда класть папку кэша на шлеме. Большинству игр нужен Android/obb; если не уверены — читайте пост"
+ },
+ {
+  "context": "EZPico",
+  "source": "Which eye image to show. One eye is lighter and looks like a normal video",
+  "translation": "Картинку какого глаза показывать. Один глаз легче и выглядит как обычное видео"
+ },
+ {
+  "context": "EZPico",
+  "source": "Which internet resources EZPico uses, what it stores, Telegram sign-in and the author",
+  "translation": "В какие интернет-ресурсы ходит EZPico, что хранит, вход в Telegram и автор"
+ },
+ {
+  "context": "EZPico",
+  "source": "Whole eye",
+  "translation": "Весь глаз"
+ },
+ {
+  "context": "EZPico",
+  "source": "Whole file system (most folders are read-only)",
+  "translation": "Вся файловая система (большинство папок только для чтения)"
+ },
+ {
+  "context": "EZPico",
+  "source": "Wi-Fi mode",
+  "translation": "Wi-Fi режим"
+ },
+ {
+  "context": "EZPico",
+  "source": "Wi-Fi mode failed: {}",
+  "translation": "Не удалось включить Wi-Fi режим: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Wi-Fi mode: connected to {}",
+  "translation": "Wi-Fi режим: подключено к {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "Windows notifications",
+  "translation": "Уведомления Windows"
+ },
+ {
+  "context": "EZPico",
+  "source": "Working",
+  "translation": "Работа"
+ },
+ {
+  "context": "EZPico",
+  "source": "Write storage",
+  "translation": "Запись в память"
+ },
+ {
+  "context": "EZPico",
+  "source": "Wrong password",
+  "translation": "Неверный пароль"
+ },
+ {
+  "context": "EZPico",
+  "source": "Yellow",
+  "translation": "Жёлтый"
+ },
+ {
+  "context": "EZPico",
+  "source": "You have the latest version",
+  "translation": "У вас последняя версия"
+ },
+ {
+  "context": "EZPico",
+  "source": "You have {}. Download size: {}",
+  "translation": "Сейчас у вас {}. Размер загрузки: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "active: {}",
+  "translation": "качается: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "auto (tg-ws-proxy, system proxy)",
+  "translation": "авто (tg-ws-proxy, системный прокси)"
+ },
+ {
+  "context": "EZPico",
+  "source": "available",
+  "translation": "доступно"
+ },
+ {
+  "context": "EZPico",
+  "source": "built {}",
+  "translation": "сборка {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "charging",
+  "translation": "заряжается"
+ },
+ {
+  "context": "EZPico",
+  "source": "clean install, nothing renamed or stripped",
+  "translation": "чистая установка, без переименования и вырезания"
+ },
+ {
+  "context": "EZPico",
+  "source": "copied to the headset",
+  "translation": "копируется на шлем"
+ },
+ {
+  "context": "EZPico",
+  "source": "deleted",
+  "translation": "удалены"
+ },
+ {
+  "context": "EZPico",
+  "source": "direct install",
+  "translation": "прямая установка"
+ },
+ {
+  "context": "EZPico",
+  "source": "download only",
+  "translation": "только скачать"
+ },
+ {
+  "context": "EZPico",
+  "source": "downloaded: {}",
+  "translation": "скачано: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "excellent signal",
+  "translation": "отличный сигнал"
+ },
+ {
+  "context": "EZPico",
+  "source": "fair signal",
+  "translation": "средний сигнал"
+ },
+ {
+  "context": "EZPico",
+  "source": "folder {} -> {}",
+  "translation": "папка {} -> {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "folders",
+  "translation": "папки"
+ },
+ {
+  "context": "EZPico",
+  "source": "free",
+  "translation": "свободно"
+ },
+ {
+  "context": "EZPico",
+  "source": "free of {}",
+  "translation": "свободно из {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "free of {} · {}% used",
+  "translation": "свободно из {} · занято {}%"
+ },
+ {
+  "context": "EZPico",
+  "source": "good signal",
+  "translation": "хороший сигнал"
+ },
+ {
+  "context": "EZPico",
+  "source": "just now",
+  "translation": "только что"
+ },
+ {
+  "context": "EZPico",
+  "source": "manual options",
+  "translation": "ручные настройки"
+ },
+ {
+  "context": "EZPico",
+  "source": "no",
+  "translation": "нет"
+ },
+ {
+  "context": "EZPico",
+  "source": "none",
+  "translation": "нет"
+ },
+ {
+  "context": "EZPico",
+  "source": "not checked",
+  "translation": "не проверено"
+ },
+ {
+  "context": "EZPico",
+  "source": "not installed",
+  "translation": "не установлен"
+ },
+ {
+  "context": "EZPico",
+  "source": "on battery",
+  "translation": "от батареи"
+ },
+ {
+  "context": "EZPico",
+  "source": "on for {}",
+  "translation": "работает {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "overport re-sign",
+  "translation": "overport, переподпись"
+ },
+ {
+  "context": "EZPico",
+  "source": "remembered on this PC",
+  "translation": "запомнен на этом ПК"
+ },
+ {
+  "context": "EZPico",
+  "source": "removed",
+  "translation": "удалено"
+ },
+ {
+  "context": "EZPico",
+  "source": "repack",
+  "translation": "репак"
+ },
+ {
+  "context": "EZPico",
+  "source": "repack with suffix and new key",
+  "translation": "пересборка с суффиксом и новым ключом"
+ },
+ {
+  "context": "EZPico",
+  "source": "scrcpy not found: {}",
+  "translation": "scrcpy не найден: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "special access",
+  "translation": "особый доступ"
+ },
+ {
+  "context": "EZPico",
+  "source": "the root of the headset storage",
+  "translation": "корень памяти шлема"
+ },
+ {
+  "context": "EZPico",
+  "source": "weak signal",
+  "translation": "слабый сигнал"
+ },
+ {
+  "context": "EZPico",
+  "source": "yes",
+  "translation": "да"
+ },
+ {
+  "context": "EZPico",
+  "source": "{}\n\nOpen it now?",
+  "translation": "{}\n\nОткрыть сейчас?"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} Mbit/s",
+  "translation": "{} Мбит/с"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} already contains:",
+  "translation": "В «{}» уже есть:"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} d {} h",
+  "translation": "{} д {} ч"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} files",
+  "translation": "файлов: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} free of {}",
+  "translation": "Свободно {} из {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} h {} min",
+  "translation": "{} ч {} мин"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} in {} folders",
+  "translation": "{} (папок: {})"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} is a system package. It will be removed for the current user only (can be restored with \"cmd package install-existing {}\"). Removing system packages may break the headset.",
+  "translation": "{} — системный пакет. Он будет удалён только для текущего пользователя (вернуть: \"cmd package install-existing {}\"). Удаление системных пакетов может сломать шлем."
+ },
+ {
+  "context": "EZPico",
+  "source": "{} item(s)",
+  "translation": "Элементов: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} items",
+  "translation": "Элементов: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} items selected",
+  "translation": "Выбрано: {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} left",
+  "translation": "осталось {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} min",
+  "translation": "{} мин"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} min ago",
+  "translation": "{} мин назад"
+ },
+ {
+  "context": "EZPico",
+  "source": "{} → {}",
+  "translation": "{} → {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "…and {} more",
+  "translation": "…и ещё {}"
+ },
+ {
+  "context": "EZPico",
+  "source": "← Back to catalog",
+  "translation": "← К каталогу"
+ }
+]
