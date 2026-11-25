@@ -207,7 +207,7 @@ class Installer extends ChangeNotifier {
       if (_checkCancelled(job)) return;
 
       // ---- analyze ----
-      job.setStage('Analyzing APK', .15);
+      job.setStage('Analysing APK', .15);
       job.apkInfo = parseApk(File(src));
       job.addLog(
         'package: ${job.apkInfo!.package} '

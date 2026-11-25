@@ -17,7 +17,7 @@ const Map<String, String> kRuStrings = {
       'APK, ZIP, 7z, RAR, многотомный .001 или папка с ними',
   'APKs from the headset': 'APK со шлема',
   'About': 'О программе',
-  'Accent color': 'Акцентный цвет',
+  'Accent colour': 'Акцентный цвет',
   'Accept': 'Принять',
   'Access to all files': 'Доступ ко всем файлам',
   'Account': 'Аккаунт',
@@ -27,7 +27,7 @@ const Map<String, String> kRuStrings = {
   'Already downloading': 'Уже скачивается',
   'Already in the queue: {}': 'Уже в очереди: {}',
   'Analysis': 'Анализ',
-  'Analyzing APK': 'Анализ APK',
+  'Analysing APK': 'Анализ APK',
   'Android': 'Android',
   'Android app': 'Приложение Android',
   'Android/data': 'Android/data',
@@ -67,7 +67,7 @@ const Map<String, String> kRuStrings = {
   'Bluetooth: connect': 'Bluetooth: подключение',
   'Bluetooth: scan': 'Bluetooth: поиск',
   'Both eyes': 'Оба глаза',
-  'Buttons, highlights and selection. Battery and status indicators keep their colors': 'Кнопки, подсветка и выделение. Заряд и индикаторы состояния сохраняют свои цвета',
+  'Buttons, highlights and selection. Battery and status indicators keep their colours': 'Кнопки, подсветка и выделение. Заряд и индикаторы состояния сохраняют свои цвета',
   'Cache': 'Кэш',
   'Cache folder': 'Папка кэша',
   'Cache folder name (empty — same as the package)':
@@ -330,14 +330,14 @@ const Map<String, String> kRuStrings = {
   'Keep both': 'Оставить оба',
   'Keep the headset awake': 'Не давать шлему засыпать',
   'Language': 'Язык',
-  'Language, color, toggles, folders, saved commands — everything returns to defaults and SMPico restarts. Games, saves, screenshots and the Telegram sign-in are not touched': 'Язык, цвет, переключатели, папки, сохранённые команды — всё вернётся по умолчанию, SMPico перезапустится. Игры, сохранения, скриншоты и вход в Telegram не затрагиваются',
+  'Language, colour, toggles, folders, saved commands — everything returns to defaults and SMPico restarts. Games, saves, screenshots and the Telegram sign-in are not touched': 'Язык, цвет, переключатели, папки, сохранённые команды — всё вернётся по умолчанию, SMPico перезапустится. Игры, сохранения, скриншоты и вход в Telegram не затрагиваются',
   'Later': 'Позже',
   'Launch': 'Запустить',
   'Launching…': 'Запуск…',
   'Leave pvr.sdk.version and similar in the manifest':
       'Оставить в манифесте pvr.sdk.version и подобные',
   'Left eye': 'Левый глаз',
-  'License check is on — use OVRport or repacked games':
+  'Licence check is on — use OVRport or repacked games':
       'Проверка лицензий включена — подойдут OVRport и перепакованные игры',
   'Link': 'Ссылка',
   'Loading packages…': 'Загрузка пакетов…',
@@ -355,7 +355,7 @@ const Map<String, String> kRuStrings = {
   'Modified': 'Изменён',
   'Modify system settings': 'Изменение системных настроек',
   'Move': 'Перемещение',
-  'Move the crop left or right to center the picture':
+  'Move the crop left or right to centre the picture':
       'Сдвинуть обрезку влево или вправо, чтобы картинка была по центру',
   'Move to «{}» (Ctrl — copy)': 'Переместить в «{}» (Ctrl — копировать)',
   'Moving…': 'Перемещаю…',
@@ -445,7 +445,7 @@ const Map<String, String> kRuStrings = {
   'Post in Telegram': 'Пост в Telegram',
   'Precise location': 'Точное местоположение',
   'Preparing…': 'Подготовка…',
-  'Protection removed — games run without license checks':
+  'Protection removed — games run without licence checks':
       'Защита снята — игры запускаются без проверки лицензий',
   'Proxy': 'Прокси',
   'Purple': 'Фиолетовый',

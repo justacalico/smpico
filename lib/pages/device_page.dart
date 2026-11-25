@@ -216,10 +216,10 @@ class _DevicePageState extends State<DevicePage> {
                                 d.matrixText,
                                 sub: d.matrixCracked
                                     ? tr(
-                                        'Protection removed — games run without license checks',
+                                        'Protection removed — games run without licence checks',
                                       )
                                     : tr(
-                                        'License check is on — use OVRport or repacked games',
+                                        'Licence check is on — use OVRport or repacked games',
                                       ),
                                 state: d.matrixCracked ? 'ok' : 'warn',
                                 width: tw,

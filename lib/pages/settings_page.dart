@@ -33,9 +33,9 @@ class _SettingsPageState extends State<SettingsPage> {
             _langPicker(),
           ),
           _row(
-            tr('Accent color'),
+            tr('Accent colour'),
             tr(
-              'Buttons, highlights and selection. Battery and status indicators keep their colors',
+              'Buttons, highlights and selection. Battery and status indicators keep their colours',
             ),
             _accentPicker(),
           ),
@@ -174,7 +174,7 @@ class _SettingsPageState extends State<SettingsPage> {
           _row(
             tr('Reset all settings'),
             tr(
-              'Language, color, toggles, folders, saved commands — everything returns to defaults and SMPico restarts. Games, saves and screenshots are not touched',
+              'Language, colour, toggles, folders, saved commands — everything returns to defaults and SMPico restarts. Games, saves and screenshots are not touched',
             ),
             EZButton(
               tr('Reset'),
