@@ -93,8 +93,7 @@ class Game {
     }
   }
 
-  String get coverUrl =>
-      'https://raw.githubusercontent.com/Cka3ka1337/EZPico/main/images/$cover';
+  String get coverUrl => '${Catalog.instance.base}/images/$cover';
 
   int get bestSize {
     var s = 0;
