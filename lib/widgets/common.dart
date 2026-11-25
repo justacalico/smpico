@@ -79,6 +79,7 @@ class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
                   color: Color(0xFFECECEC),
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.none,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
