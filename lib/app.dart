@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:window_manager/legacy.dart';
+
 import 'i18n.dart';
 import 'settings.dart';
 import 'theme.dart';
@@ -96,7 +97,8 @@ class _MainWindowState extends State<MainWindow> {
                   Expanded(
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(10)),
+                        bottomRight: Radius.circular(10),
+                      ),
                       child: IndexedStack(
                         index: _page,
                         children: navItems.map((n) => n.page).toList(),
@@ -129,12 +131,15 @@ class TitleBar extends StatelessWidget {
           const SizedBox(width: 12),
           const Icon(Icons.headset, size: 16, color: EZColors.accent),
           const SizedBox(width: 8),
-          const Text('SMPico',
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: EZColors.textBright,
-                  letterSpacing: 0.6)),
+          const Text(
+            'SMPico',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: EZColors.textBright,
+              letterSpacing: 0.6,
+            ),
+          ),
           Expanded(child: DragToMoveArea(child: const SizedBox.expand())),
           _TitleBtn(
             icon: Icons.notifications_none,
@@ -176,12 +181,13 @@ class _TitleBtn extends StatefulWidget {
   final VoidCallback onTap;
   final Color? hover;
   final Color? press;
-  const _TitleBtn(
-      {required this.icon,
-      required this.tooltip,
-      required this.onTap,
-      this.hover,
-      this.press});
+  const _TitleBtn({
+    required this.icon,
+    required this.tooltip,
+    required this.onTap,
+    this.hover,
+    this.press,
+  });
 
   @override
   State<_TitleBtn> createState() => _TitleBtnState();
@@ -194,8 +200,8 @@ class _TitleBtnState extends State<_TitleBtn> {
     final bg = _p
         ? (widget.press ?? const Color(0xFF4C4C4C))
         : _h
-            ? (widget.hover ?? const Color(0xFF363636))
-            : Colors.transparent;
+        ? (widget.hover ?? const Color(0xFF363636))
+        : Colors.transparent;
     return Tooltip(
       message: widget.tooltip,
       child: MouseRegion(

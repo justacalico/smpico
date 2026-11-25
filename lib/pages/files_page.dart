@@ -1,8 +1,10 @@
 import 'dart:io';
+
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../core/devices.dart';
 import '../core/remote_files.dart';
 import '../i18n.dart';
@@ -56,10 +58,12 @@ class _FilesPageState extends State<FilesPage> {
     final shown = _heaviest
         ? _heavy
         : fm.entries
-            .where((e) =>
-                _filter.isEmpty ||
-                e.name.toLowerCase().contains(_filter.toLowerCase()))
-            .toList();
+              .where(
+                (e) =>
+                    _filter.isEmpty ||
+                    e.name.toLowerCase().contains(_filter.toLowerCase()),
+              )
+              .toList();
 
     return Container(
       color: EZColors.page,
@@ -69,21 +73,28 @@ class _FilesPageState extends State<FilesPage> {
           // toolbar
           Row(
             children: [
-              EZIconButton(Icons.arrow_back,
-                  tooltip: tr('Back (Alt+←)'),
-                  onPressed: fm.historyPos > 0 ? () => fm.back() : null),
-              EZIconButton(Icons.arrow_forward,
-                  tooltip: tr('Forward (Alt+→)'),
-                  onPressed: fm.historyPos < fm.history.length - 1
-                      ? () => fm.forward()
-                      : null),
-              EZIconButton(Icons.arrow_upward,
-                  tooltip: tr('Up one level (Backspace)'),
-                  onPressed:
-                      fm.currentPath != '/' ? () => fm.up() : null),
-              EZIconButton(Icons.refresh,
-                  tooltip: tr('Refresh (F5)'),
-                  onPressed: () => fm.refresh()),
+              EZIconButton(
+                Icons.arrow_back,
+                tooltip: tr('Back (Alt+←)'),
+                onPressed: fm.historyPos > 0 ? () => fm.back() : null,
+              ),
+              EZIconButton(
+                Icons.arrow_forward,
+                tooltip: tr('Forward (Alt+→)'),
+                onPressed: fm.historyPos < fm.history.length - 1
+                    ? () => fm.forward()
+                    : null,
+              ),
+              EZIconButton(
+                Icons.arrow_upward,
+                tooltip: tr('Up one level (Backspace)'),
+                onPressed: fm.currentPath != '/' ? () => fm.up() : null,
+              ),
+              EZIconButton(
+                Icons.refresh,
+                tooltip: tr('Refresh (F5)'),
+                onPressed: () => fm.refresh(),
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: GestureDetector(
@@ -99,28 +110,37 @@ class _FilesPageState extends State<FilesPage> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       _heaviest ? tr('Heaviest files') : fm.currentPath,
-                      style: EZText.console
-                          .copyWith(color: const Color(0xFFE6E6E6)),
+                      style: EZText.console.copyWith(
+                        color: const Color(0xFFE6E6E6),
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
               ),
               const SizedBox(width: 8),
-              EZButton(tr('Heaviest files'),
-                  height: 32,
-                  fontSize: 11,
-                  onPressed: connected ? _scanHeaviest : null),
+              EZButton(
+                tr('Heaviest files'),
+                height: 32,
+                fontSize: 11,
+                onPressed: connected ? _scanHeaviest : null,
+              ),
               const SizedBox(width: 6),
-              EZIconButton(Icons.create_new_folder,
-                  tooltip: tr('Create a folder (Ctrl+Shift+N)'),
-                  onPressed: connected ? () => _newFolder(fm) : null),
-              EZIconButton(Icons.upload_file,
-                  tooltip: tr('Upload files…'),
-                  onPressed: connected ? _uploadFiles : null),
-              EZIconButton(Icons.drive_folder_upload,
-                  tooltip: tr('Upload folder…'),
-                  onPressed: connected ? _uploadFolder : null),
+              EZIconButton(
+                Icons.create_new_folder,
+                tooltip: tr('Create a folder (Ctrl+Shift+N)'),
+                onPressed: connected ? () => _newFolder(fm) : null,
+              ),
+              EZIconButton(
+                Icons.upload_file,
+                tooltip: tr('Upload files…'),
+                onPressed: connected ? _uploadFiles : null,
+              ),
+              EZIconButton(
+                Icons.drive_folder_upload,
+                tooltip: tr('Upload folder…'),
+                onPressed: connected ? _uploadFolder : null,
+              ),
             ],
           ),
           const SizedBox(height: 6),
@@ -130,13 +150,16 @@ class _FilesPageState extends State<FilesPage> {
             runSpacing: 6,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              ...RemoteFiles.quickPaths.map((qp) => _QuickPath(
-                  qp, fm.currentPath == qp, () => fm.open(qp))),
+              ...RemoteFiles.quickPaths.map(
+                (qp) => _QuickPath(qp, fm.currentPath == qp, () => fm.open(qp)),
+              ),
               ConstrainedBox(
-                constraints:
-                    const BoxConstraints(minWidth: 140, maxWidth: 220),
+                constraints: const BoxConstraints(minWidth: 140, maxWidth: 220),
                 child: TextField(
-                  style: const TextStyle(fontSize: 12, color: EZColors.textBright),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: EZColors.textBright,
+                  ),
                   decoration: InputDecoration(
                     isDense: true,
                     hintText: tr('Filter… (Enter — deep search)'),
@@ -144,28 +167,32 @@ class _FilesPageState extends State<FilesPage> {
                     filled: true,
                     fillColor: EZColors.consoleBg,
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide:
-                            const BorderSide(color: Color(0xFF2C2C2C))),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(color: Color(0xFF2C2C2C)),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 7,
+                    ),
                   ),
                   onChanged: (v) => setState(() => _filter = v),
                 ),
               ),
               const SizedBox(width: 8),
-              Row(children: [
-                Checkbox(
-                  value: fm.showHidden,
-                  onChanged: (v) {
-                    fm.showHidden = v ?? false;
-                    fm.refresh();
-                  },
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: VisualDensity.compact,
-                ),
-                Text(tr('Hidden files'), style: EZText.hint),
-              ]),
+              Row(
+                children: [
+                  Checkbox(
+                    value: fm.showHidden,
+                    onChanged: (v) {
+                      fm.showHidden = v ?? false;
+                      fm.refresh();
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    visualDensity: VisualDensity.compact,
+                  ),
+                  Text(tr('Hidden files'), style: EZText.hint),
+                ],
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -178,44 +205,51 @@ class _FilesPageState extends State<FilesPage> {
                 setState(() => _dragging = false);
                 if (connected) {
                   Transfers.instance.upload(
-                      d.files.map((f) => f.path).toList(), fm.currentPath);
+                    d.files.map((f) => f.path).toList(),
+                    fm.currentPath,
+                  );
                 }
               },
               child: Container(
                 decoration: BoxDecoration(
                   color: EZColors.consoleBg,
                   border: Border.all(
-                      color: _dragging
-                          ? EZColors.accent
-                          : const Color(0xFF2C2C2C)),
+                    color: _dragging
+                        ? EZColors.accent
+                        : const Color(0xFF2C2C2C),
+                  ),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: !connected
                     ? EmptyPlug(Icons.usb_off, tr('No Device Connected'))
                     : fm.loading
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                                color: EZColors.accent))
-                        : fm.error != null
-                            ? EmptyPlug(Icons.error_outline,
-                                fm.error!)
-                            : shown.isEmpty
-                                ? EmptyPlug(Icons.folder_open,
-                                    tr('Folder is empty.'),
-                                    subtitle: tr('Drag files here from the PC to upload them to the headset.'))
-                                : Column(
-                                    children: [
-                                      _headerRow(),
-                                      const HSeparator(),
-                                      Expanded(
-                                        child: ListView.builder(
-                                          itemCount: shown.length,
-                                          itemBuilder: (_, i) =>
-                                              _fileRow(shown[i], fm),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: EZColors.accent,
+                        ),
+                      )
+                    : fm.error != null
+                    ? EmptyPlug(Icons.error_outline, fm.error!)
+                    : shown.isEmpty
+                    ? EmptyPlug(
+                        Icons.folder_open,
+                        tr('Folder is empty.'),
+                        subtitle: tr(
+                          'Drag files here from the PC to upload them to the headset.',
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          _headerRow(),
+                          const HSeparator(),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: shown.length,
+                              itemBuilder: (_, i) => _fileRow(shown[i], fm),
+                            ),
+                          ),
+                        ],
+                      ),
               ),
             ),
           ),
@@ -225,26 +259,39 @@ class _FilesPageState extends State<FilesPage> {
             children: [
               Text(
                 _heaviest
-                    ? tr('Heaviest files: {} (total {}) · scanned at {}',
-                        [_heavy.length, '', ''])
-                    : tr('Folders: {}  ·  Files: {}',
-                        [
-                          shown.where((e) => e.isDir).length,
-                          shown.where((e) => !e.isDir).length
-                        ]),
+                    ? tr('Heaviest files: {} (total {}) · scanned at {}', [
+                        _heavy.length,
+                        '',
+                        '',
+                      ])
+                    : tr('Folders: {}  ·  Files: {}', [
+                        shown.where((e) => e.isDir).length,
+                        shown.where((e) => !e.isDir).length,
+                      ]),
                 style: EZText.hint,
               ),
               const Spacer(),
               if (_selected.isNotEmpty) ...[
-                Text(tr('Selected: {}', [_selected.length]),
-                    style: EZText.hint),
+                Text(
+                  tr('Selected: {}', [_selected.length]),
+                  style: EZText.hint,
+                ),
                 const SizedBox(width: 8),
-                EZButton(tr('Download'), height: 28, fontSize: 11,
-                    onPressed: _downloadSelected),
+                EZButton(
+                  tr('Download'),
+                  height: 28,
+                  fontSize: 11,
+                  onPressed: _downloadSelected,
+                ),
                 const SizedBox(width: 4),
-                EZButton(tr('Delete'), height: 28, fontSize: 11,
-                    color: EZColors.bad, textColor: Colors.white,
-                    onPressed: _deleteSelected),
+                EZButton(
+                  tr('Delete'),
+                  height: 28,
+                  fontSize: 11,
+                  color: EZColors.bad,
+                  textColor: Colors.white,
+                  onPressed: _deleteSelected,
+                ),
               ],
               if (Transfers.instance.items.isNotEmpty) ...[
                 const SizedBox(width: 8),
@@ -252,10 +299,12 @@ class _FilesPageState extends State<FilesPage> {
                   '${Transfers.instance.items.where((t) => !t.done).length} ${tr('active:')}',
                   style: EZText.hint,
                 ),
-                EZIconButton(Icons.clear_all,
-                    tooltip: tr('Clear finished'),
-                    size: 24,
-                    onPressed: () => Transfers.instance.clearFinished()),
+                EZIconButton(
+                  Icons.clear_all,
+                  tooltip: tr('Clear finished'),
+                  size: 24,
+                  onPressed: () => Transfers.instance.clearFinished(),
+                ),
               ],
             ],
           ),
@@ -299,17 +348,22 @@ class _FilesPageState extends State<FilesPage> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
         child: Row(
           children: [
-            Icon(e.isDir ? Icons.folder : Icons.insert_drive_file,
-                size: 16,
-                color: e.isDir ? EZColors.accent : EZColors.textDim),
+            Icon(
+              e.isDir ? Icons.folder : Icons.insert_drive_file,
+              size: 16,
+              color: e.isDir ? EZColors.accent : EZColors.textDim,
+            ),
             const SizedBox(width: 10),
             Expanded(
               flex: 4,
-              child: Text(e.name,
-                  style: TextStyle(
-                      color: sel ? const Color(0xFFB5E651) : EZColors.textBright,
-                      fontSize: 12),
-                  overflow: TextOverflow.ellipsis),
+              child: Text(
+                e.name,
+                style: TextStyle(
+                  color: sel ? const Color(0xFFB5E651) : EZColors.textBright,
+                  fontSize: 12,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             Expanded(
               child: Text(e.isDir ? '' : fmtBytes(e.size), style: EZText.hint),
@@ -320,19 +374,25 @@ class _FilesPageState extends State<FilesPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  EZIconButton(Icons.save_alt,
-                      tooltip: tr('Download to PC…'),
-                      size: 24,
-                      onPressed: () => _download([e])),
+                  EZIconButton(
+                    Icons.save_alt,
+                    tooltip: tr('Download to PC…'),
+                    size: 24,
+                    onPressed: () => _download([e]),
+                  ),
                   if (!e.isDir)
-                    EZIconButton(Icons.calculate,
-                        tooltip: tr('Calculate size'),
-                        size: 24,
-                        onPressed: null),
-                  EZIconButton(Icons.delete_outline,
-                      tooltip: tr('Delete'),
+                    EZIconButton(
+                      Icons.calculate,
+                      tooltip: tr('Calculate size'),
                       size: 24,
-                      onPressed: () => _delete([e])),
+                      onPressed: null,
+                    ),
+                  EZIconButton(
+                    Icons.delete_outline,
+                    tooltip: tr('Delete'),
+                    size: 24,
+                    onPressed: () => _delete([e]),
+                  ),
                 ],
               ),
             ),
@@ -361,13 +421,16 @@ class _FilesPageState extends State<FilesPage> {
           backgroundColor: EZColors.panel,
           title: Text(tr('Rename'), style: EZText.section),
           content: TextField(
-              controller: ctrl,
-              autofocus: true,
-              style: const TextStyle(fontSize: 13)),
+            controller: ctrl,
+            autofocus: true,
+            style: const TextStyle(fontSize: 13),
+          ),
           actions: [
             EZButton(tr('Cancel'), onPressed: () => Navigator.pop(context)),
-            EZButton(tr('Save'),
-                onPressed: () => Navigator.pop(context, ctrl.text)),
+            EZButton(
+              tr('Save'),
+              onPressed: () => Navigator.pop(context, ctrl.text),
+            ),
           ],
         ),
       );
@@ -395,14 +458,19 @@ class _FilesPageState extends State<FilesPage> {
       builder: (_) => AlertDialog(
         backgroundColor: EZColors.panel,
         content: TextField(
-            controller: ctrl,
-            autofocus: true,
-            style: EZText.console,
-            decoration: InputDecoration(
-                hintText: tr('Click to type a path (Ctrl+L)'))),
+          controller: ctrl,
+          autofocus: true,
+          style: EZText.console,
+          decoration: InputDecoration(
+            hintText: tr('Click to type a path (Ctrl+L)'),
+          ),
+        ),
         actions: [
           EZButton(tr('Cancel'), onPressed: () => Navigator.pop(context)),
-          EZButton(tr('Open'), onPressed: () => Navigator.pop(context, ctrl.text)),
+          EZButton(
+            tr('Open'),
+            onPressed: () => Navigator.pop(context, ctrl.text),
+          ),
         ],
       ),
     );
@@ -422,7 +490,10 @@ class _FilesPageState extends State<FilesPage> {
         content: TextField(controller: ctrl, autofocus: true),
         actions: [
           EZButton(tr('Cancel'), onPressed: () => Navigator.pop(context)),
-          EZButton(tr('Create'), onPressed: () => Navigator.pop(context, ctrl.text)),
+          EZButton(
+            tr('Create'),
+            onPressed: () => Navigator.pop(context, ctrl.text),
+          ),
         ],
       ),
     );
@@ -442,15 +513,16 @@ class _FilesPageState extends State<FilesPage> {
     final files = await openFiles();
     if (files.isNotEmpty) {
       Transfers.instance.upload(
-          files.map((f) => f.path).toList(), RemoteFiles.instance.currentPath);
+        files.map((f) => f.path).toList(),
+        RemoteFiles.instance.currentPath,
+      );
     }
   }
 
   Future<void> _uploadFolder() async {
     final dir = await getDirectoryPath();
     if (dir != null) {
-      Transfers.instance
-          .upload([dir], RemoteFiles.instance.currentPath);
+      Transfers.instance.upload([dir], RemoteFiles.instance.currentPath);
     }
   }
 
@@ -474,14 +546,20 @@ class _FilesPageState extends State<FilesPage> {
         backgroundColor: EZColors.panel,
         title: Text(tr('Delete files'), style: EZText.section),
         content: Text(
-            tr('Delete {} items from the headset?', [items.length]),
-            style: EZText.label),
+          tr('Delete {} items from the headset?', [items.length]),
+          style: EZText.label,
+        ),
         actions: [
-          EZButton(tr('Cancel'), onPressed: () => Navigator.pop(context, false)),
-          EZButton(tr('Delete'),
-              color: EZColors.bad,
-              textColor: Colors.white,
-              onPressed: () => Navigator.pop(context, true)),
+          EZButton(
+            tr('Cancel'),
+            onPressed: () => Navigator.pop(context, false),
+          ),
+          EZButton(
+            tr('Delete'),
+            color: EZColors.bad,
+            textColor: Colors.white,
+            onPressed: () => Navigator.pop(context, true),
+          ),
         ],
       ),
     );
@@ -514,13 +592,17 @@ class _QuickPath extends StatelessWidget {
           color: active ? const Color(0xFF2F3A1C) : const Color(0xFF242424),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-              color: active ? EZColors.accent : const Color(0xFF2E2E2E)),
+            color: active ? EZColors.accent : const Color(0xFF2E2E2E),
+          ),
         ),
-        child: Text(name,
-            style: TextStyle(
-                color: active ? const Color(0xFFB5E651) : EZColors.textDim,
-                fontSize: 11,
-                fontWeight: FontWeight.w600)),
+        child: Text(
+          name,
+          style: TextStyle(
+            color: active ? const Color(0xFFB5E651) : EZColors.textDim,
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }

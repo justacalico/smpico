@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../i18n.dart';
 import '../theme.dart';
 import 'common.dart';
@@ -57,14 +58,16 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.headset,
-                      size: 22, color: EZColors.accent),
+                  const Icon(Icons.headset, size: 22, color: EZColors.accent),
                   const SizedBox(width: 10),
-                  Text(tr('Welcome to SMPico'),
-                      style: const TextStyle(
-                          color: EZColors.textBright,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700)),
+                  Text(
+                    tr('Welcome to SMPico'),
+                    style: const TextStyle(
+                      color: EZColors.textBright,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 14),

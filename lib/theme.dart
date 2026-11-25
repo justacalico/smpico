@@ -47,80 +47,109 @@ class EZText {
   static const family = 'Segoe UI';
 
   static const label = TextStyle(
-      color: EZColors.text,
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      fontFamily: family);
+    color: EZColors.text,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    fontFamily: family,
+  );
 
   static const containerLabel = TextStyle(
-      color: EZColors.textDim,
-      fontSize: 17,
-      fontWeight: FontWeight.w600,
-      fontFamily: family);
+    color: EZColors.textDim,
+    fontSize: 17,
+    fontWeight: FontWeight.w600,
+    fontFamily: family,
+  );
 
   static const section = TextStyle(
-      color: Color(0xFFD8D8D8), fontSize: 13, fontWeight: FontWeight.w700);
+    color: Color(0xFFD8D8D8),
+    fontSize: 13,
+    fontWeight: FontWeight.w700,
+  );
 
-  static const hint =
-      TextStyle(color: EZColors.textDim, fontSize: 11, fontWeight: FontWeight.w400);
+  static const hint = TextStyle(
+    color: EZColors.textDim,
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+  );
 
   static const title = TextStyle(
-      color: EZColors.textBright, fontSize: 13, fontWeight: FontWeight.w700);
+    color: EZColors.textBright,
+    fontSize: 13,
+    fontWeight: FontWeight.w700,
+  );
 
   static const group = TextStyle(
-      color: Color(0xFF6A6A6A),
-      fontSize: 10,
-      fontWeight: FontWeight.w800,
-      letterSpacing: 1.0);
+    color: Color(0xFF6A6A6A),
+    fontSize: 10,
+    fontWeight: FontWeight.w800,
+    letterSpacing: 1.0,
+  );
 
   static const console = TextStyle(
-      color: Color(0xFFD0D0D0),
-      fontSize: 12,
-      fontFamily: 'Consolas',
-      fontFamilyFallback: ['Courier New', 'monospace']);
+    color: Color(0xFFD0D0D0),
+    fontSize: 12,
+    fontFamily: 'Consolas',
+    fontFamilyFallback: ['Courier New', 'monospace'],
+  );
 }
 
 BoxDecoration cardDecoration({double radius = 12}) => BoxDecoration(
-      color: EZColors.card,
-      border: Border.all(color: EZColors.cardBorder),
-      borderRadius: BorderRadius.circular(radius),
-    );
+  color: EZColors.card,
+  border: Border.all(color: EZColors.cardBorder),
+  borderRadius: BorderRadius.circular(radius),
+);
 
 MarkdownStyleSheet get mdStyle => MarkdownStyleSheet(
-      p: const TextStyle(color: EZColors.text, fontSize: 13, height: 1.45),
-      h1: const TextStyle(
-          color: EZColors.textBright, fontSize: 19, fontWeight: FontWeight.w700),
-      h2: const TextStyle(
-          color: EZColors.textBright, fontSize: 16, fontWeight: FontWeight.w700),
-      h3: const TextStyle(
-          color: EZColors.textBright, fontSize: 14, fontWeight: FontWeight.w700),
-      h4: const TextStyle(
-          color: Color(0xFFD8D8D8), fontSize: 13, fontWeight: FontWeight.w700),
-      strong: const TextStyle(
-          color: EZColors.textBright, fontWeight: FontWeight.w700),
-      em: const TextStyle(color: EZColors.text, fontStyle: FontStyle.italic),
-      code: const TextStyle(
-          color: Color(0xFFD8D8D8),
-          backgroundColor: EZColors.consoleBg,
-          fontFamily: 'Consolas',
-          fontSize: 12),
-      codeblockDecoration: BoxDecoration(
-        color: EZColors.consoleBg,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      blockquote: const TextStyle(color: EZColors.textDim, fontSize: 13),
-      blockquoteDecoration: const BoxDecoration(
-        border: Border(
-            left: BorderSide(color: EZColors.accent, width: 3)),
-      ),
-      listBullet: const TextStyle(color: EZColors.textDim, fontSize: 13),
-      listBulletPadding: const EdgeInsets.only(right: 6),
-      a: const TextStyle(
-          color: EZColors.accent, decoration: TextDecoration.underline),
-      horizontalRuleDecoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: EZColors.separator)),
-      ),
-    );
+  p: const TextStyle(color: EZColors.text, fontSize: 13, height: 1.45),
+  h1: const TextStyle(
+    color: EZColors.textBright,
+    fontSize: 19,
+    fontWeight: FontWeight.w700,
+  ),
+  h2: const TextStyle(
+    color: EZColors.textBright,
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+  ),
+  h3: const TextStyle(
+    color: EZColors.textBright,
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+  ),
+  h4: const TextStyle(
+    color: Color(0xFFD8D8D8),
+    fontSize: 13,
+    fontWeight: FontWeight.w700,
+  ),
+  strong: const TextStyle(
+    color: EZColors.textBright,
+    fontWeight: FontWeight.w700,
+  ),
+  em: const TextStyle(color: EZColors.text, fontStyle: FontStyle.italic),
+  code: const TextStyle(
+    color: Color(0xFFD8D8D8),
+    backgroundColor: EZColors.consoleBg,
+    fontFamily: 'Consolas',
+    fontSize: 12,
+  ),
+  codeblockDecoration: BoxDecoration(
+    color: EZColors.consoleBg,
+    borderRadius: BorderRadius.circular(8),
+  ),
+  blockquote: const TextStyle(color: EZColors.textDim, fontSize: 13),
+  blockquoteDecoration: const BoxDecoration(
+    border: Border(left: BorderSide(color: EZColors.accent, width: 3)),
+  ),
+  listBullet: const TextStyle(color: EZColors.textDim, fontSize: 13),
+  listBulletPadding: const EdgeInsets.only(right: 6),
+  a: const TextStyle(
+    color: EZColors.accent,
+    decoration: TextDecoration.underline,
+  ),
+  horizontalRuleDecoration: const BoxDecoration(
+    border: Border(top: BorderSide(color: EZColors.separator)),
+  ),
+);
 
 ThemeData buildEZTheme() {
   return ThemeData(

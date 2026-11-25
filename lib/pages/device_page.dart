@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
+
 import '../core/adb.dart';
 import '../core/devices.dart';
 import '../core/paths.dart';
@@ -53,7 +55,8 @@ class _DevicePageState extends State<DevicePage> {
     await Adb.instance.rm('/sdcard/$name');
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(tr('Screenshot saved: {}', [name]))));
+        SnackBar(content: Text(tr('Screenshot saved: {}', [name]))),
+      );
       if (await File(p.join(dir.path, name)).exists()) {}
     }
   }
@@ -82,9 +85,13 @@ class _DevicePageState extends State<DevicePage> {
           const SizedBox(height: 10),
           Expanded(
             child: d == null
-                ? EmptyPlug(Icons.usb_off, tr('No Device Connected'),
-                    subtitle:
-                        tr('Connect your PICO VR headset\nand PC with a USB cable.'))
+                ? EmptyPlug(
+                    Icons.usb_off,
+                    tr('No Device Connected'),
+                    subtitle: tr(
+                      'Connect your PICO VR headset\nand PC with a USB cable.',
+                    ),
+                  )
                 : LayoutBuilder(
                     builder: (_, c) {
                       final card = SizedBox(
@@ -96,30 +103,37 @@ class _DevicePageState extends State<DevicePage> {
                               padding: const EdgeInsets.all(16),
                               child: Column(
                                 children: [
-                                  Image.asset(_headsetImage(d),
-                                      height: 150,
-                                      errorBuilder: (_, __, ___) =>
-                                          const Icon(Icons.headset, size: 90)),
+                                  Image.asset(
+                                    _headsetImage(d),
+                                    height: 150,
+                                    errorBuilder: (_, __, ___) =>
+                                        const Icon(Icons.headset, size: 90),
+                                  ),
                                   const SizedBox(height: 10),
                                   Text(
                                     d.model.isEmpty
                                         ? tr('Unknown headset')
                                         : d.model,
                                     style: const TextStyle(
-                                        color: Color(0xFFF0F0F0),
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700),
+                                      color: Color(0xFFF0F0F0),
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                   const SizedBox(height: 6),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      _chip(d.wifi ? 'Wi-Fi' : 'USB',
-                                          wifi: d.wifi),
+                                      _chip(
+                                        d.wifi ? 'Wi-Fi' : 'USB',
+                                        wifi: d.wifi,
+                                      ),
                                       const SizedBox(width: 6),
-                                      _chip(d.matrixCracked
-                                          ? 'Matrix ${d.matrixText}'
-                                          : 'Matrix ${d.matrixVersion}'),
+                                      _chip(
+                                        d.matrixCracked
+                                            ? 'Matrix ${d.matrixText}'
+                                            : 'Matrix ${d.matrixVersion}',
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -128,19 +142,35 @@ class _DevicePageState extends State<DevicePage> {
                             const SizedBox(height: 10),
                             Row(
                               children: [
-                                _action(Icons.camera_alt, tr('Screenshot'),
-                                    tr('Save a picture of what the headset shows to the PC'),
-                                    _screenshot),
-                                _action(Icons.wifi, tr('Wi-Fi mode'),
-                                    tr('Switch to Wi-Fi: then the cable can be unplugged. The PC and the headset must be on the same network'),
-                                    () => devs.switchToWifi()),
-                                _action(Icons.restart_alt, tr('Reboot'),
-                                    tr('Restart the headset'),
-                                    () => Adb.instance.reboot()),
-                                _action(Icons.power_settings_new, tr('Shutdown'),
-                                    tr('Turn the headset off'),
-                                    () => Adb.instance.shutdown(),
-                                    danger: true),
+                                _action(
+                                  Icons.camera_alt,
+                                  tr('Screenshot'),
+                                  tr(
+                                    'Save a picture of what the headset shows to the PC',
+                                  ),
+                                  _screenshot,
+                                ),
+                                _action(
+                                  Icons.wifi,
+                                  tr('Wi-Fi mode'),
+                                  tr(
+                                    'Switch to Wi-Fi: then the cable can be unplugged. The PC and the headset must be on the same network',
+                                  ),
+                                  () => devs.switchToWifi(),
+                                ),
+                                _action(
+                                  Icons.restart_alt,
+                                  tr('Reboot'),
+                                  tr('Restart the headset'),
+                                  () => Adb.instance.reboot(),
+                                ),
+                                _action(
+                                  Icons.power_settings_new,
+                                  tr('Shutdown'),
+                                  tr('Turn the headset off'),
+                                  () => Adb.instance.shutdown(),
+                                  danger: true,
+                                ),
                               ],
                             ),
                           ],
@@ -149,47 +179,54 @@ class _DevicePageState extends State<DevicePage> {
                       final tiles = LayoutBuilder(
                         builder: (_, tc) {
                           final cols = tc.maxWidth >= 540 ? 4 : 2;
-                          final tw =
-                              (tc.maxWidth - (cols - 1) * 8) / cols;
+                          final tw = (tc.maxWidth - (cols - 1) * 8) / cols;
                           return Wrap(
                             spacing: 8,
                             runSpacing: 8,
                             children: [
-                              _tile(tr('Firmware'),
-                                  d.firmware.isEmpty ? '—' : d.firmware,
-                                  sub: d.displayId, width: tw),
-                              _tile(tr('Battery'),
-                                  d.batteryPct < 0
-                                      ? '—'
-                                      : '${d.batteryPct}%',
-                                  sub: d.charging
-                                      ? tr('charging')
-                                      : tr('on battery'),
-                                  frac: d.batteryPct < 0
-                                      ? 0
-                                      : d.batteryPct / 100,
-                                  state: d.batteryPct < 20
-                                      ? 'warn'
-                                      : 'ok',
-                                  width: tw),
-                              _tile(tr('Storage'),
-                                  fmtBytes(d.totalBytes - d.freeBytes),
-                                  sub: tr('free of {}',
-                                      [fmtBytes(d.freeBytes)]),
-                                  frac: d.totalBytes > 0
-                                      ? 1 - d.freeBytes / d.totalBytes
-                                      : 0,
-                                  state: d.totalBytes > 0 &&
-                                          d.freeBytes / d.totalBytes < .1
-                                      ? 'bad'
-                                      : 'ok',
-                                  width: tw),
-                              _tile('PUI Matrix', d.matrixText,
-                                  sub: d.matrixCracked
-                                      ? tr('Protection removed — games run without license checks')
-                                      : tr('License check is on — use OVRport or repacked games'),
-                                  state: d.matrixCracked ? 'ok' : 'warn',
-                                  width: tw),
+                              _tile(
+                                tr('Firmware'),
+                                d.firmware.isEmpty ? '—' : d.firmware,
+                                sub: d.displayId,
+                                width: tw,
+                              ),
+                              _tile(
+                                tr('Battery'),
+                                d.batteryPct < 0 ? '—' : '${d.batteryPct}%',
+                                sub: d.charging
+                                    ? tr('charging')
+                                    : tr('on battery'),
+                                frac: d.batteryPct < 0 ? 0 : d.batteryPct / 100,
+                                state: d.batteryPct < 20 ? 'warn' : 'ok',
+                                width: tw,
+                              ),
+                              _tile(
+                                tr('Storage'),
+                                fmtBytes(d.totalBytes - d.freeBytes),
+                                sub: tr('free of {}', [fmtBytes(d.freeBytes)]),
+                                frac: d.totalBytes > 0
+                                    ? 1 - d.freeBytes / d.totalBytes
+                                    : 0,
+                                state:
+                                    d.totalBytes > 0 &&
+                                        d.freeBytes / d.totalBytes < .1
+                                    ? 'bad'
+                                    : 'ok',
+                                width: tw,
+                              ),
+                              _tile(
+                                'PUI Matrix',
+                                d.matrixText,
+                                sub: d.matrixCracked
+                                    ? tr(
+                                        'Protection removed — games run without license checks',
+                                      )
+                                    : tr(
+                                        'License check is on — use OVRport or repacked games',
+                                      ),
+                                state: d.matrixCracked ? 'ok' : 'warn',
+                                width: tw,
+                              ),
                             ],
                           );
                         },
@@ -199,17 +236,16 @@ class _DevicePageState extends State<DevicePage> {
                           child: Column(
                             children: [
                               Align(
-                                  alignment: Alignment.topCenter,
-                                  child: card),
+                                alignment: Alignment.topCenter,
+                                child: card,
+                              ),
                               const SizedBox(height: 12),
                               Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   tiles,
                                   const SizedBox(height: 10),
-                                  SizedBox(
-                                      height: 320, child: _AdbConsole()),
+                                  SizedBox(height: 320, child: _AdbConsole()),
                                 ],
                               ),
                             ],
@@ -248,16 +284,24 @@ class _DevicePageState extends State<DevicePage> {
         color: wifi ? const Color(0xFF24301A) : const Color(0xFF262626),
         borderRadius: BorderRadius.circular(9),
       ),
-      child: Text(text,
-          style: TextStyle(
-              color: wifi ? EZColors.accent : const Color(0xFFBDBDBD),
-              fontSize: 11,
-              fontWeight: FontWeight.w600)),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: wifi ? EZColors.accent : const Color(0xFFBDBDBD),
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 
-  Widget _action(IconData icon, String label, String tip, VoidCallback onTap,
-      {bool danger = false}) {
+  Widget _action(
+    IconData icon,
+    String label,
+    String tip,
+    VoidCallback onTap, {
+    bool danger = false,
+  }) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3),
@@ -269,16 +313,19 @@ class _DevicePageState extends State<DevicePage> {
     );
   }
 
-  Widget _tile(String title, String value,
-      {String? sub,
-      double? frac,
-      String state = 'ok',
-      required double width}) {
+  Widget _tile(
+    String title,
+    String value, {
+    String? sub,
+    double? frac,
+    String state = 'ok',
+    required double width,
+  }) {
     final color = state == 'ok'
         ? EZColors.accent
         : state == 'warn'
-            ? EZColors.warn
-            : EZColors.bad;
+        ? EZColors.warn
+        : EZColors.bad;
     return Container(
       width: width,
       height: 112,
@@ -287,21 +334,30 @@ class _DevicePageState extends State<DevicePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title.toUpperCase(),
-              style: EZText.group,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis),
+          Text(
+            title.toUpperCase(),
+            style: EZText.group,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 6),
-          Text(value,
-              style: TextStyle(
-                  color: color, fontSize: 20, fontWeight: FontWeight.w700),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis),
+          Text(
+            value,
+            style: TextStyle(
+              color: color,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 4),
-          Text(sub ?? '',
-              style: const TextStyle(color: Color(0xFF9A9A9A), fontSize: 12),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis),
+          Text(
+            sub ?? '',
+            style: const TextStyle(color: Color(0xFF9A9A9A), fontSize: 12),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           const Spacer(),
           ClipRRect(
             borderRadius: BorderRadius.circular(2),
@@ -310,7 +366,8 @@ class _DevicePageState extends State<DevicePage> {
               minHeight: 4,
               backgroundColor: const Color(0xFF2C2C2C),
               valueColor: AlwaysStoppedAnimation(
-                  frac != null ? color : Colors.transparent),
+                frac != null ? color : Colors.transparent,
+              ),
             ),
           ),
         ],
@@ -346,22 +403,28 @@ class _DevActionState extends State<_DevAction> {
           decoration: BoxDecoration(
             color: _h ? const Color(0xFF292929) : const Color(0xFF1F1F1F),
             border: Border.all(
-                color: _h
-                    ? (widget.danger ? EZColors.bad : EZColors.accent)
-                    : const Color(0xFF2A2A2A)),
+              color: _h
+                  ? (widget.danger ? EZColors.bad : EZColors.accent)
+                  : const Color(0xFF2A2A2A),
+            ),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
             children: [
-              Icon(widget.icon,
-                  size: 18,
-                  color: widget.danger ? EZColors.bad : EZColors.text),
+              Icon(
+                widget.icon,
+                size: 18,
+                color: widget.danger ? EZColors.bad : EZColors.text,
+              ),
               const SizedBox(height: 4),
-              Text(widget.label,
-                  style: const TextStyle(
-                      color: Color(0xFFD8D8D8),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600)),
+              Text(
+                widget.label,
+                style: const TextStyle(
+                  color: Color(0xFFD8D8D8),
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
         ),
@@ -401,8 +464,9 @@ class _DeviceSelectorState extends State<_DeviceSelector> {
       offset: const Offset(0, 46),
       color: const Color(0xFF242424),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: Color(0xFF3A3A3A))),
+        borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: Color(0xFF3A3A3A)),
+      ),
       onOpened: () => setState(() => _open = true),
       onCanceled: () => setState(() => _open = false),
       onSelected: (s) {
@@ -410,18 +474,23 @@ class _DeviceSelectorState extends State<_DeviceSelector> {
         Devices.instance.selectDevice(s);
       },
       itemBuilder: (_) => devs.serials
-          .map((s) => PopupMenuItem<String>(
-                value: s,
-                child: Text(s,
-                    style: TextStyle(
-                        color: s == Adb.instance.device
-                            ? EZColors.accent
-                            : const Color(0xFFD8D8D8),
-                        fontSize: 12,
-                        fontWeight: s == Adb.instance.device
-                            ? FontWeight.w700
-                            : FontWeight.w400)),
-              ))
+          .map(
+            (s) => PopupMenuItem<String>(
+              value: s,
+              child: Text(
+                s,
+                style: TextStyle(
+                  color: s == Adb.instance.device
+                      ? EZColors.accent
+                      : const Color(0xFFD8D8D8),
+                  fontSize: 12,
+                  fontWeight: s == Adb.instance.device
+                      ? FontWeight.w700
+                      : FontWeight.w400,
+                ),
+              ),
+            ),
+          )
           .toList(),
       child: Container(
         height: 38,
@@ -429,19 +498,26 @@ class _DeviceSelectorState extends State<_DeviceSelector> {
         decoration: BoxDecoration(
           color: _open ? const Color(0xFF2F2F2F) : const Color(0xFF262626),
           border: Border.all(
-              color: _open ? EZColors.accent : const Color(0xFF3A3A3A)),
+            color: _open ? EZColors.accent : const Color(0xFF3A3A3A),
+          ),
           borderRadius: BorderRadius.circular(19),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            StatusDot(devs.connected ? EZColors.accent : EZColors.textDim, size: 8),
+            StatusDot(
+              devs.connected ? EZColors.accent : EZColors.textDim,
+              size: 8,
+            ),
             const SizedBox(width: 8),
-            Text(current,
-                style: const TextStyle(
-                    color: Color(0xFFE6E6E6),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600)),
+            Text(
+              current,
+              style: const TextStyle(
+                color: Color(0xFFE6E6E6),
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             const SizedBox(width: 8),
             const Icon(Icons.arrow_drop_down, color: EZColors.accent, size: 18),
           ],
@@ -474,7 +550,9 @@ class _AdbConsoleState extends State<_AdbConsole> {
   Future<void> _loadSaved() async {
     final f = await AppPaths.savedCommandsFile();
     if (await f.exists()) {
-      setState(() => _saved = List<String>.from(jsonDecode(f.readAsStringSync())));
+      setState(
+        () => _saved = List<String>.from(jsonDecode(f.readAsStringSync())),
+      );
     }
   }
 
@@ -520,33 +598,40 @@ class _AdbConsoleState extends State<_AdbConsole> {
                   _run();
                 },
                 itemBuilder: (_) => _saved
-                    .map((c) => PopupMenuItem(
-                          value: c,
-                          child: SizedBox(
-                            width: 360,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Text(c,
-                                        style: const TextStyle(fontSize: 12))),
-                                GestureDetector(
-                                  onTap: () {
-                                    _saved.remove(c);
-                                    _saveCommands();
-                                    Navigator.pop(context);
-                                    setState(() {});
-                                  },
-                                  child: const Icon(Icons.close, size: 14),
+                    .map(
+                      (c) => PopupMenuItem(
+                        value: c,
+                        child: SizedBox(
+                          width: 360,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  c,
+                                  style: const TextStyle(fontSize: 12),
                                 ),
-                              ],
-                            ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  _saved.remove(c);
+                                  _saveCommands();
+                                  Navigator.pop(context);
+                                  setState(() {});
+                                },
+                                child: const Icon(Icons.close, size: 14),
+                              ),
+                            ],
                           ),
-                        ))
+                        ),
+                      ),
+                    )
                     .toList(),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Text('…',
-                      style: TextStyle(color: EZColors.accent, fontSize: 16)),
+                  child: Text(
+                    '…',
+                    style: TextStyle(color: EZColors.accent, fontSize: 16),
+                  ),
                 ),
               ),
           ],
@@ -562,25 +647,30 @@ class _AdbConsoleState extends State<_AdbConsole> {
             padding: const EdgeInsets.all(8),
             child: _out.isEmpty
                 ? Text(
-                    tr('Output will appear here. Double-click a saved command to run it, ↑/↓ — history.'),
+                    tr(
+                      'Output will appear here. Double-click a saved command to run it, ↑/↓ — history.',
+                    ),
                     style: EZText.console.copyWith(color: EZColors.textDim),
                   )
                 : ListView.builder(
                     itemCount: _out.length,
-                    itemBuilder: (_, i) => SelectableText(_out[i],
-                        style: EZText.console),
+                    itemBuilder: (_, i) =>
+                        SelectableText(_out[i], style: EZText.console),
                   ),
           ),
         ),
         const SizedBox(height: 6),
         Row(
           children: [
-            const Text('adb shell',
-                style: TextStyle(
-                    color: EZColors.accent,
-                    fontFamily: 'Consolas',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12)),
+            const Text(
+              'adb shell',
+              style: TextStyle(
+                color: EZColors.accent,
+                fontFamily: 'Consolas',
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+              ),
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: KeyboardListener(
@@ -591,8 +681,7 @@ class _AdbConsoleState extends State<_AdbConsole> {
                         _histPos > 0) {
                       _histPos--;
                       _ctrl.text = _history[_histPos];
-                    } else if (e.logicalKey ==
-                            LogicalKeyboardKey.arrowDown &&
+                    } else if (e.logicalKey == LogicalKeyboardKey.arrowDown &&
                         _histPos < _history.length - 1) {
                       _histPos++;
                       _ctrl.text = _history[_histPos];
@@ -601,43 +690,53 @@ class _AdbConsoleState extends State<_AdbConsole> {
                 },
                 child: TextField(
                   controller: _ctrl,
-                  style: EZText.console.copyWith(color: const Color(0xFFE6E6E6)),
+                  style: EZText.console.copyWith(
+                    color: const Color(0xFFE6E6E6),
+                  ),
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
                     fillColor: EZColors.consoleBg,
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            const BorderSide(color: Color(0xFF2C2C2C))),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Color(0xFF2C2C2C)),
+                    ),
                     enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            const BorderSide(color: Color(0xFF2C2C2C))),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Color(0xFF2C2C2C)),
+                    ),
                     focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: EZColors.accent)),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: EZColors.accent),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 8,
+                    ),
                   ),
                   onSubmitted: (_) => _run(),
                 ),
               ),
             ),
             const SizedBox(width: 6),
-            EZIconButton(Icons.save_outlined,
-                tooltip: tr('Save'), onPressed: () {
-              final c = _ctrl.text.trim();
-              if (c.isNotEmpty && !_saved.contains(c)) {
-                setState(() => _saved.add(c));
-                _saveCommands();
-              }
-            }),
-            EZButton(tr('Run'),
-                color: EZColors.accent,
-                textColor: const Color(0xFF111111),
-                height: 32,
-                onPressed: _running ? null : _run),
+            EZIconButton(
+              Icons.save_outlined,
+              tooltip: tr('Save'),
+              onPressed: () {
+                final c = _ctrl.text.trim();
+                if (c.isNotEmpty && !_saved.contains(c)) {
+                  setState(() => _saved.add(c));
+                  _saveCommands();
+                }
+              },
+            ),
+            EZButton(
+              tr('Run'),
+              color: EZColors.accent,
+              textColor: const Color(0xFF111111),
+              height: 32,
+              onPressed: _running ? null : _run,
+            ),
           ],
         ),
       ],

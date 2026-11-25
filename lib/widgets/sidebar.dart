@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../app.dart';
 import '../i18n.dart';
 import '../theme.dart';
@@ -11,12 +12,13 @@ class Sidebar extends StatelessWidget {
   final int selected;
   final ValueChanged<int> onSelect;
   final bool compact;
-  const Sidebar(
-      {super.key,
-      required this.items,
-      required this.selected,
-      required this.onSelect,
-      this.compact = false});
+  const Sidebar({
+    super.key,
+    required this.items,
+    required this.selected,
+    required this.onSelect,
+    this.compact = false,
+  });
 
   static const itemH = 52.0;
 
@@ -81,12 +83,13 @@ class _SidebarButton extends StatefulWidget {
   final bool selected;
   final bool compact;
   final VoidCallback onTap;
-  const _SidebarButton(
-      {required this.icon,
-      required this.label,
-      required this.selected,
-      required this.onTap,
-      this.compact = false});
+  const _SidebarButton({
+    required this.icon,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    this.compact = false,
+  });
 
   @override
   State<_SidebarButton> createState() => _SidebarButtonState();
@@ -114,19 +117,23 @@ class _SidebarButtonState extends State<_SidebarButton> {
           ),
           child: widget.compact
               ? Center(
-                  child: Icon(widget.icon,
-                      size: 20,
-                      color: widget.selected
-                          ? EZColors.textBright
-                          : const Color(0xFF5A5A5A)),
+                  child: Icon(
+                    widget.icon,
+                    size: 20,
+                    color: widget.selected
+                        ? EZColors.textBright
+                        : const Color(0xFF5A5A5A),
+                  ),
                 )
               : Row(
                   children: [
-                    Icon(widget.icon,
-                        size: 18,
-                        color: widget.selected
-                            ? EZColors.textBright
-                            : const Color(0xFF5A5A5A)),
+                    Icon(
+                      widget.icon,
+                      size: 18,
+                      color: widget.selected
+                          ? EZColors.textBright
+                          : const Color(0xFF5A5A5A),
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
