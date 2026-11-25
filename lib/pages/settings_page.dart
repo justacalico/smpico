@@ -225,19 +225,21 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _langPicker() {
-    return DropdownButton<AppLang>(
-      value: I18n.instance.lang,
+    return DropdownButton<String>(
+      value: Settings.instance.get('language', 'system'),
       dropdownColor: const Color(0xFF242424),
       underline: const SizedBox(),
       style: const TextStyle(fontSize: 12, color: EZColors.text),
-      items: const [
-        DropdownMenuItem(value: AppLang.en, child: Text('English')),
-        DropdownMenuItem(value: AppLang.ru, child: Text('Русский')),
+      items: [
+        DropdownMenuItem(value: 'system', child: Text(t.systemLanguage)),
+        const DropdownMenuItem(value: 'en', child: Text('English')),
+        const DropdownMenuItem(value: 'ru', child: Text('Русский')),
+        const DropdownMenuItem(value: 'zh-CN', child: Text('简体中文')),
       ],
       onChanged: (v) {
         if (v == null) return;
-        I18n.instance.setLang(v);
-        Settings.instance.set('language', v == AppLang.ru ? 'ru' : 'en');
+        I18n.instance.applySaved(v);
+        Settings.instance.set('language', v);
         setState(() {});
       },
     );

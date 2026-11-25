@@ -19,4 +19,14 @@ class I18n extends ChangeNotifier {
   AppLang get lang => LocaleSettings.instance.currentLocale;
 
   void setLang(AppLang l) => LocaleSettings.setLocaleSync(l);
+
+  void useSystemLang() => LocaleSettings.useDeviceLocaleSync();
+
+  /// Applies a persisted language code: 'en', 'ru', 'zh-CN' or 'system'.
+  void applySaved(String code) => switch (code) {
+    'ru' => setLang(AppLang.ru),
+    'zh-CN' => setLang(AppLang.zhCn),
+    'en' => setLang(AppLang.en),
+    _ => useSystemLang(),
+  };
 }

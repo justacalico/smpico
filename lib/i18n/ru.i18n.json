@@ -276,5 +276,6 @@
     "many": "{n} элементов",
     "other": "{n} элемента"
   },
-  "backToCatalog": "← К каталогу"
+  "backToCatalog": "← К каталогу",
+  "systemLanguage": "Как в системе"
 }

@@ -863,6 +863,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	/// en: '← Back to catalog'
 	String get backToCatalog => '← Back to catalog';
+
+	/// en: 'System'
+	String get systemLanguage => 'System';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -1146,6 +1149,7 @@ extension on Translations {
 			'scrcpyNotFound' => 'scrcpy not found',
 			'itemCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} item', other: '${n} items', ), 
 			'backToCatalog' => '← Back to catalog',
+			'systemLanguage' => 'System',
 			_ => null,
 		};
 	}

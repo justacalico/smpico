@@ -11,8 +11,8 @@ class Settings extends ChangeNotifier {
 
   Future<void> init() async {
     _p = await SharedPreferences.getInstance();
-    final l = get<String>('language', 'en');
-    I18n.instance.setLang(l == 'ru' ? AppLang.ru : AppLang.en);
+    final l = get<String>('language', 'system');
+    I18n.instance.applySaved(l);
   }
 
   T get<T>(String key, T fallback) {
