@@ -417,12 +417,16 @@ class _DevActionState extends State<_DevAction> {
                 color: widget.danger ? EZColors.bad : EZColors.text,
               ),
               const SizedBox(height: 4),
-              Text(
-                widget.label,
-                style: const TextStyle(
-                  color: Color(0xFFD8D8D8),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  widget.label,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    color: Color(0xFFD8D8D8),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
