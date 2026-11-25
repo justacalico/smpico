@@ -141,17 +141,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           _section(t.helpAndReset),
           _row(
-            t.welcomeScreen,
-            t.whichInternetResourcesSMPicoUsesAndWhat,
-            EZButton(
-              t.show,
-              height: 30,
-              onPressed: () => Settings.instance
-                  .set('welcome_accepted', false)
-                  .then((_) => toast(context, t.welcomeToSMPico)),
-            ),
-          ),
-          _row(
             t.resetAllSettings,
             t.languageColourTogglesFoldersSavedCommandsEverything,
             EZButton(
