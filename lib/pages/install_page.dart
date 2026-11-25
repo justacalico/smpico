@@ -2,7 +2,9 @@ import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
+
 import '../core/devices.dart';
+import '../core/downloads.dart';
 import '../core/installer.dart';
 import '../i18n.dart';
 import '../theme.dart';
@@ -24,6 +26,7 @@ class _InstallPageState extends State<InstallPage> {
   void initState() {
     super.initState();
     Installer.instance.addListener(_r);
+    Downloads.instance.addListener(_r);
     Devices.instance.addListener(_r);
   }
 
@@ -31,13 +34,16 @@ class _InstallPageState extends State<InstallPage> {
   @override
   void dispose() {
     Installer.instance.removeListener(_r);
+    Downloads.instance.removeListener(_r);
     Devices.instance.removeListener(_r);
     super.dispose();
   }
 
   Future<void> _pickFiles() async {
     const group = XTypeGroup(
-        label: 'Installers', extensions: ['apk', 'zip', '7z', 'rar', '001']);
+      label: 'Installers',
+      extensions: ['apk', 'zip', '7z', 'rar', '001'],
+    );
     final files = await openFiles(acceptedTypeGroups: [group]);
     for (final f in files) {
       Installer.instance.enqueue(f.path, p.basename(f.path), _options.copy());
@@ -47,8 +53,7 @@ class _InstallPageState extends State<InstallPage> {
   Future<void> _pickFolder() async {
     final dir = await getDirectoryPath();
     if (dir != null) {
-      Installer.instance
-          .enqueue(dir, p.basename(dir), _options.copy());
+      Installer.instance.enqueue(dir, p.basename(dir), _options.copy());
     }
   }
 
@@ -61,6 +66,7 @@ class _InstallPageState extends State<InstallPage> {
   Widget build(BuildContext context) {
     final connected = Devices.instance.connected;
     final jobs = Installer.instance.jobs;
+    final dlJobs = Downloads.instance.jobs;
     return Container(
       color: EZColors.page,
       padding: const EdgeInsets.all(12),
@@ -82,19 +88,27 @@ class _InstallPageState extends State<InstallPage> {
                   Text(tr('Installation'), style: EZText.section),
                   const SizedBox(height: 4),
                   Text(
-                    tr('APK, ZIP, 7z, RAR, multi-part .001 or a folder with them'),
+                    tr(
+                      'APK, ZIP, 7z, RAR, multi-part .001 or a folder with them',
+                    ),
                     style: EZText.hint,
                   ),
                   const SizedBox(height: 12),
                   Row(
                     children: [
                       Expanded(
-                          child: EZButton(tr('Choose files…'),
-                              onPressed: connected ? _pickFiles : null)),
+                        child: EZButton(
+                          tr('Choose files…'),
+                          onPressed: connected ? _pickFiles : null,
+                        ),
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
-                          child: EZButton(tr('Choose folder…'),
-                              onPressed: connected ? _pickFolder : null)),
+                        child: EZButton(
+                          tr('Choose folder…'),
+                          onPressed: connected ? _pickFolder : null,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 14),
@@ -102,13 +116,18 @@ class _InstallPageState extends State<InstallPage> {
                   const SizedBox(height: 6),
                   _ModeSegment(
                     auto: _options.method == InstallMethod.auto,
-                    onChanged: (a) => setState(() => _options.method =
-                        a ? InstallMethod.auto : InstallMethod.repack),
+                    onChanged: (a) => setState(
+                      () => _options.method = a
+                          ? InstallMethod.auto
+                          : InstallMethod.repack,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     _options.method == InstallMethod.auto
-                        ? tr('SMPico picks the method itself (Matrix 9.9.9 — clean install, OVRport — direct, otherwise repack)')
+                        ? tr(
+                            'SMPico picks the method itself (Matrix 9.9.9 — clean install, OVRport — direct, otherwise repack)',
+                          )
                         : tr('Each option is chosen by hand'),
                     style: EZText.hint,
                   ),
@@ -117,25 +136,29 @@ class _InstallPageState extends State<InstallPage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Text(
-                        tr('On this headset (Matrix 9.9.9) Auto installs the APK directly: repack and signing are not used'),
+                        tr(
+                          'On this headset (Matrix 9.9.9) Auto installs the APK directly: repack and signing are not used',
+                        ),
                         style: EZText.hint.copyWith(color: EZColors.accent),
                       ),
                     ),
                   const SizedBox(height: 14),
                   Row(
                     children: [
-                      Text(tr('Install settings'),
-                          style: EZText.section),
+                      Text(tr('Install settings'), style: EZText.section),
                       const Spacer(),
                       EZButton(
-                          _options.method == InstallMethod.auto
-                              ? tr('auto')
-                              : tr('manual options'),
-                          height: 28,
-                          fontSize: 11,
-                          icon: Icons.settings,
-                          tooltip: tr('Download with install settings… (method, cache, signing, or download only)'),
-                          onPressed: _openOptions),
+                        _options.method == InstallMethod.auto
+                            ? tr('auto')
+                            : tr('manual options'),
+                        height: 28,
+                        fontSize: 11,
+                        icon: Icons.settings,
+                        tooltip: tr(
+                          'Download with install settings… (method, cache, signing, or download only)',
+                        ),
+                        onPressed: _openOptions,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -155,19 +178,17 @@ class _InstallPageState extends State<InstallPage> {
                       child: Text(
                         tr('Files can be added once the headset is connected'),
                         style: const TextStyle(
-                            color: EZColors.warn,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600),
+                          color: EZColors.warn,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
                   const SizedBox(height: 14),
                   Text(tr('Queue').toUpperCase(), style: EZText.group),
                   const SizedBox(height: 6),
-                  Text(
-                    tr('{} item(s)', [jobs.length]),
-                    style: EZText.hint,
-                  ),
+                  Text(tr('{} item(s)', [jobs.length]), style: EZText.hint),
                 ],
               ),
             ),
@@ -183,22 +204,26 @@ class _InstallPageState extends State<InstallPage> {
                 if (!connected) return;
                 for (final f in d.files) {
                   Installer.instance.enqueue(
-                      f.path, p.basename(f.path), _options.copy());
+                    f.path,
+                    p.basename(f.path),
+                    _options.copy(),
+                  );
                 }
               },
               child: Container(
                 decoration: BoxDecoration(
                   color: const Color(0xFF1C1C1C),
                   border: Border.all(
-                      color: _dragging
-                          ? EZColors.accent
-                          : connected
-                              ? const Color(0xFF3A3A3A)
-                              : const Color(0xFF4A3D22),
-                      style: _dragging ? BorderStyle.solid : BorderStyle.solid),
+                    color: _dragging
+                        ? EZColors.accent
+                        : connected
+                        ? const Color(0xFF3A3A3A)
+                        : const Color(0xFF4A3D22),
+                    style: _dragging ? BorderStyle.solid : BorderStyle.solid,
+                  ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: jobs.isEmpty
+                child: dlJobs.isEmpty && jobs.isEmpty
                     ? Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -210,8 +235,11 @@ class _InstallPageState extends State<InstallPage> {
                                 color: const Color(0xFF26301A),
                                 borderRadius: BorderRadius.circular(22),
                               ),
-                              child: const Icon(Icons.download,
-                                  color: EZColors.accent, size: 26),
+                              child: const Icon(
+                                Icons.download,
+                                color: EZColors.accent,
+                                size: 26,
+                              ),
                             ),
                             const SizedBox(height: 12),
                             Text(
@@ -219,20 +247,25 @@ class _InstallPageState extends State<InstallPage> {
                                   ? tr('Drop an APK, archive or folder here')
                                   : tr('Connect a headset to install'),
                               style: const TextStyle(
-                                  color: Color(0xFFECECEC),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700),
+                                color: Color(0xFFECECEC),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                             const SizedBox(height: 4),
-                            Text(tr('Drop files anywhere on this page'),
-                                style: EZText.hint),
+                            Text(
+                              tr('Drop files anywhere on this page'),
+                              style: EZText.hint,
+                            ),
                           ],
                         ),
                       )
                     : ListView.builder(
                         padding: const EdgeInsets.all(10),
-                        itemCount: jobs.length,
-                        itemBuilder: (_, i) => _JobCard(jobs[i]),
+                        itemCount: dlJobs.length + jobs.length,
+                        itemBuilder: (_, i) => i < dlJobs.length
+                            ? _DownloadCard(dlJobs[i])
+                            : _JobCard(jobs[i - dlJobs.length]),
                       ),
               ),
             ),
@@ -278,11 +311,14 @@ class _ModeSegment extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           alignment: Alignment.center,
-          child: Text(t,
-              style: TextStyle(
-                  color: sel ? EZColors.textBright : EZColors.textDim,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600)),
+          child: Text(
+            t,
+            style: TextStyle(
+              color: sel ? EZColors.textBright : EZColors.textDim,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );
@@ -314,20 +350,20 @@ class _JobCardState extends State<_JobCard> {
   }
 
   Color _stateColor(JobState s) => switch (s) {
-        JobState.waiting => EZColors.textDim,
-        JobState.running => EZColors.warn,
-        JobState.done => EZColors.ok,
-        JobState.failed => EZColors.bad,
-        JobState.cancelled => const Color(0xFF8A8A8A),
-      };
+    JobState.waiting => EZColors.textDim,
+    JobState.running => EZColors.warn,
+    JobState.done => EZColors.ok,
+    JobState.failed => EZColors.bad,
+    JobState.cancelled => const Color(0xFF8A8A8A),
+  };
 
   String _stateText(JobState s) => switch (s) {
-        JobState.waiting => 'Waiting',
-        JobState.running => 'In progress',
-        JobState.done => 'Successful',
-        JobState.failed => 'Error',
-        JobState.cancelled => 'Cancelled',
-      };
+    JobState.waiting => 'Waiting',
+    JobState.running => 'In progress',
+    JobState.done => 'Successful',
+    JobState.failed => 'Error',
+    JobState.cancelled => 'Cancelled',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -348,34 +384,47 @@ class _JobCardState extends State<_JobCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(j.displayName, style: EZText.title,
-                            overflow: TextOverflow.ellipsis),
+                        Text(
+                          j.displayName,
+                          style: EZText.title,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         const SizedBox(height: 2),
                         Text(
                           j.error ?? j.stage,
                           style: EZText.hint.copyWith(
-                              color:
-                                  j.state == JobState.failed ? EZColors.bad : null),
+                            color: j.state == JobState.failed
+                                ? EZColors.bad
+                                : null,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Text(tr(_stateText(j.state)),
-                      style: TextStyle(
-                          color: _stateColor(j.state),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700)),
+                  Text(
+                    tr(_stateText(j.state)),
+                    style: TextStyle(
+                      color: _stateColor(j.state),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   const SizedBox(width: 8),
                   if (j.state == JobState.running ||
                       j.state == JobState.waiting)
-                    EZIconButton(Icons.close,
-                        tooltip: tr('Cancel'),
-                        size: 26,
-                        onPressed: () => Installer.instance.cancel(j)),
-                  Icon(_expanded ? Icons.expand_less : Icons.expand_more,
-                      color: EZColors.textDim, size: 18),
+                    EZIconButton(
+                      Icons.close,
+                      tooltip: tr('Cancel'),
+                      size: 26,
+                      onPressed: () => Installer.instance.cancel(j),
+                    ),
+                  Icon(
+                    _expanded ? Icons.expand_less : Icons.expand_more,
+                    color: EZColors.textDim,
+                    size: 18,
+                  ),
                 ],
               ),
             ),
@@ -400,9 +449,131 @@ class _JobCardState extends State<_JobCard> {
               ),
               child: ListView.builder(
                 itemCount: j.log.length,
-                itemBuilder: (_, i) => SelectableText(j.log[i],
-                    style: EZText.console.copyWith(fontSize: 11)),
+                itemBuilder: (_, i) => SelectableText(
+                  j.log[i],
+                  style: EZText.console.copyWith(fontSize: 11),
+                ),
               ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DownloadCard extends StatefulWidget {
+  final DownloadJob job;
+  const _DownloadCard(this.job);
+
+  @override
+  State<_DownloadCard> createState() => _DownloadCardState();
+}
+
+class _DownloadCardState extends State<_DownloadCard> {
+  @override
+  void initState() {
+    super.initState();
+    widget.job.addListener(_r);
+  }
+
+  void _r() => setState(() {});
+  @override
+  void dispose() {
+    widget.job.removeListener(_r);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final j = widget.job;
+    final active =
+        j.state == 'waiting' ||
+        j.state == 'downloading' ||
+        j.state == 'unpacking';
+    final stateText = switch (j.state) {
+      'downloading' => tr('Downloading… {} of {}', [
+        fmtBytes(j.received),
+        j.total > 0 ? fmtBytes(j.total) : '?',
+      ]),
+      'unpacking' => tr('Unpacking…'),
+      'done' => tr('Successful'),
+      'failed' => tr('Error'),
+      _ => tr('Waiting'),
+    };
+    final stateColor = switch (j.state) {
+      'done' => EZColors.ok,
+      'failed' => EZColors.bad,
+      'waiting' => EZColors.textDim,
+      _ => EZColors.warn,
+    };
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      decoration: cardDecoration(),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.cloud_download,
+                  size: 18,
+                  color: EZColors.textDim,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        j.title,
+                        style: EZText.title,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        j.error ?? j.outPath ?? j.url,
+                        style: EZText.hint.copyWith(
+                          color: j.state == 'failed' ? EZColors.bad : null,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  stateText,
+                  style: TextStyle(
+                    color: stateColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                if (active)
+                  EZIconButton(
+                    Icons.close,
+                    tooltip: tr('Cancel'),
+                    size: 26,
+                    onPressed: () => Downloads.instance.cancel(j),
+                  )
+                else
+                  EZIconButton(
+                    Icons.close,
+                    tooltip: tr('Remove'),
+                    size: 26,
+                    onPressed: () => Downloads.instance.remove(j),
+                  ),
+              ],
+            ),
+          ),
+          if (active)
+            LinearProgressIndicator(
+              value: j.progress > 0 ? j.progress : null,
+              minHeight: 3,
+              backgroundColor: const Color(0xFF2C2C2C),
+              valueColor: const AlwaysStoppedAnimation(EZColors.accent),
             ),
         ],
       ),

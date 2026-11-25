@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../core/catalog.dart';
 import '../core/packages.dart';
@@ -92,7 +91,9 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 30,
               onPressed: () async {
                 final d = await AppPaths.downloads();
-                launchUrl(Uri.file(d.path));
+                if (context.mounted) {
+                  openExternalUrl(context, Uri.file(d.path).toString());
+                }
               },
             ),
           ),
@@ -113,7 +114,9 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 30,
               onPressed: () async {
                 final d = await AppPaths.tools();
-                launchUrl(Uri.file(d.path));
+                if (context.mounted) {
+                  openExternalUrl(context, Uri.file(d.path).toString());
+                }
               },
             ),
           ),
@@ -241,7 +244,7 @@ class _SettingsPageState extends State<SettingsPage> {
         data: _guide,
         styleSheet: mdStyle,
         onTapLink: (_, href, __) {
-          if (href != null) launchUrl(Uri.parse(href));
+          if (href != null) openExternalUrl(context, href);
         },
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:window_manager/legacy.dart';
 
+import 'core/downloads.dart';
+import 'core/installer.dart';
 import 'i18n.dart';
 import 'settings.dart';
 import 'theme.dart';
@@ -144,7 +146,7 @@ class TitleBar extends StatelessWidget {
           _TitleBtn(
             icon: Icons.notifications_none,
             tooltip: tr('Notifications'),
-            onTap: () {},
+            onTap: () => _showNotifications(context),
           ),
           _TitleBtn(
             icon: Icons.remove,
@@ -222,4 +224,100 @@ class _TitleBtnState extends State<_TitleBtn> {
       ),
     );
   }
+}
+
+void _showNotifications(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      backgroundColor: const Color(0xFF262626),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      title: Text(
+        tr('Notifications'),
+        style: const TextStyle(
+          color: EZColors.textBright,
+          fontSize: 15,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      content: SizedBox(
+        width: 400,
+        child: ListenableBuilder(
+          listenable: Listenable.merge([
+            Downloads.instance,
+            Installer.instance,
+          ]),
+          builder: (ctx, _) {
+            final rows = <Widget>[
+              for (final j in Downloads.instance.jobs)
+                _notifRow(
+                  Icons.cloud_download,
+                  j.state == 'failed' ? EZColors.bad : EZColors.accent,
+                  j.title,
+                  j.error ?? j.state,
+                ),
+              for (final j in Installer.instance.jobs)
+                _notifRow(
+                  Icons.download,
+                  j.state == JobState.failed
+                      ? EZColors.bad
+                      : j.state == JobState.done
+                      ? EZColors.ok
+                      : EZColors.accent,
+                  j.displayName,
+                  j.error ?? j.stage,
+                ),
+            ];
+            if (rows.isEmpty) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                child: Center(
+                  child: Text(tr('No notifications'), style: EZText.hint),
+                ),
+              );
+            }
+            return ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 320),
+              child: SingleChildScrollView(child: Column(children: rows)),
+            );
+          },
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(ctx).pop(),
+          child: Text(tr('Close')),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _notifRow(IconData icon, Color color, String title, String sub) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 5),
+    child: Row(
+      children: [
+        Icon(icon, size: 16, color: color),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: EZColors.textBright,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(sub, style: EZText.hint, overflow: TextOverflow.ellipsis),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

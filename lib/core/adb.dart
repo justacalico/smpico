@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
+import 'log.dart';
 import 'tools.dart';
 
 class DeviceInfo {
@@ -41,7 +43,8 @@ class DeviceInfo {
   static const matrixPackage = 'com.bytedance.pico.matrix';
 
   bool get matrixCracked => matrixVersion.startsWith('9.9.9');
-  bool get isPhoenixOvs => model.toLowerCase().contains('phoenix') ||
+  bool get isPhoenixOvs =>
+      model.toLowerCase().contains('phoenix') ||
       product.toLowerCase().contains('phoenix');
   String get matrixText => matrixCracked ? '$matrixVersion ✓' : matrixVersion;
 }
@@ -67,22 +70,35 @@ class Adb {
     return a;
   }
 
-  Future<ProcessResult> run(List<String> args,
-      {Duration timeout = const Duration(seconds: 30)}) async {
+  Future<ProcessResult> run(
+    List<String> args, {
+    Duration timeout = const Duration(seconds: 30),
+  }) async {
     final adb = await _adb();
-    if (adb == null) throw StateError('adb not found');
-    return Process.run(adb, args).timeout(timeout);
+    if (adb == null) {
+      dlog('adb binary not found');
+      throw StateError('adb not found');
+    }
+    final r = await Process.run(adb, args).timeout(timeout);
+    if (r.exitCode != 0) {
+      final err = '${r.stderr}'.trim();
+      dlog('adb ${args.join(' ')} -> exit ${r.exitCode}: $err');
+    }
+    return r;
   }
 
-  Future<String> out(List<String> args,
-      {Duration timeout = const Duration(seconds: 30)}) async {
+  Future<String> out(
+    List<String> args, {
+    Duration timeout = const Duration(seconds: 30),
+  }) async {
     final r = await run(args, timeout: timeout);
     return '${r.stdout}'.trim();
   }
 
-  Future<String> shell(String cmd,
-      {Duration timeout = const Duration(seconds: 30)}) =>
-      out(_base() + ['shell', cmd], timeout: timeout);
+  Future<String> shell(
+    String cmd, {
+    Duration timeout = const Duration(seconds: 30),
+  }) => out(_base() + ['shell', cmd], timeout: timeout);
 
   Future<void> initServer() async {
     await run(['start-server'], timeout: const Duration(seconds: 15));
@@ -119,9 +135,10 @@ class Adb {
 
   Future<bool> charging() async {
     final s = await shell('dumpsys battery | grep -E "status|powered"');
-    return RegExp(r'status:\s*[235]|powered:\s*1|AC powered:\s*true',
-            caseSensitive: false)
-        .hasMatch(s);
+    return RegExp(
+      r'status:\s*[235]|powered:\s*1|AC powered:\s*true',
+      caseSensitive: false,
+    ).hasMatch(s);
   }
 
   /// (free, total) bytes of /sdcard via `df`.
@@ -137,8 +154,7 @@ class Adb {
   }
 
   Future<String> packageVersion(String pkg) async {
-    final s = await shell(
-        'dumpsys package $pkg | grep -m1 versionName');
+    final s = await shell('dumpsys package $pkg | grep -m1 versionName');
     final m = RegExp(r'versionName=([^\s]+)').firstMatch(s);
     return m?.group(1) ?? '';
   }
@@ -154,20 +170,26 @@ class Adb {
 
   Future<void> mkdir(String path) => shell('mkdir -p "$path"');
 
-  Future<void> move(String from, String to) =>
-      shell('mv "$from" "$to"');
+  Future<void> move(String from, String to) => shell('mv "$from" "$to"');
 
-  Future<ProcessResult> push(String local, String remote,
-          {Duration timeout = const Duration(minutes: 30)}) =>
-      run(_base() + ['push', local, remote], timeout: timeout);
+  Future<ProcessResult> push(
+    String local,
+    String remote, {
+    Duration timeout = const Duration(minutes: 30),
+  }) => run(_base() + ['push', local, remote], timeout: timeout);
 
-  Future<ProcessResult> pull(String remote, String local,
-          {Duration timeout = const Duration(minutes: 30)}) =>
-      run(_base() + ['pull', remote, local], timeout: timeout);
+  Future<ProcessResult> pull(
+    String remote,
+    String local, {
+    Duration timeout = const Duration(minutes: 30),
+  }) => run(_base() + ['pull', remote, local], timeout: timeout);
 
   /// pm install with optional extra flags (e.g. -i com.picovr.store).
-  Future<String> install(String apkPath,
-      {String? installer, bool grantAll = true}) async {
+  Future<String> install(
+    String apkPath, {
+    String? installer,
+    bool grantAll = true,
+  }) async {
     final args = _base() + ['install'];
     if (grantAll) args.add('-g');
     args.add('-r');
@@ -179,8 +201,11 @@ class Adb {
 
   /// Push an APK then `pm install` it on the device — used for paths
   /// with characters adb can't handle directly.
-  Future<String> installOnDevice(String localApk,
-      {String? installer, bool grantAll = true}) async {
+  Future<String> installOnDevice(
+    String localApk, {
+    String? installer,
+    bool grantAll = true,
+  }) async {
     const tmp = '/data/local/tmp/_smpico_install.apk';
     await push(localApk, tmp, timeout: const Duration(minutes: 10));
     var cmd = 'pm install -r';
@@ -190,20 +215,21 @@ class Adb {
     return shell(cmd, timeout: const Duration(minutes: 15));
   }
 
-  Future<String> uninstall(String pkg, {bool forUser = false}) =>
-      shell(forUser ? 'pm uninstall -k --user 0 $pkg' : 'pm uninstall $pkg',
-          timeout: const Duration(minutes: 5));
+  Future<String> uninstall(String pkg, {bool forUser = false}) => shell(
+    forUser ? 'pm uninstall -k --user 0 $pkg' : 'pm uninstall $pkg',
+    timeout: const Duration(minutes: 5),
+  );
 
-  Future<List<String>> listPackages({bool thirdPartyOnly = true}) => shell(
-          thirdPartyOnly
-              ? 'pm list packages -3'
-              : 'pm list packages')
-      .then((s) => const LineSplitter()
-          .convert(s)
-          .map((l) => l.replaceFirst('package:', '').trim())
-          .where((l) => l.isNotEmpty)
-          .toList()
-        ..sort());
+  Future<List<String>> listPackages({bool thirdPartyOnly = true}) =>
+      shell(thirdPartyOnly ? 'pm list packages -3' : 'pm list packages').then(
+        (s) =>
+            const LineSplitter()
+                .convert(s)
+                .map((l) => l.replaceFirst('package:', '').trim())
+                .where((l) => l.isNotEmpty)
+                .toList()
+              ..sort(),
+      );
 
   Future<int> remoteSize(String path) async {
     final s = await shell('du -sk "$path" 2>/dev/null | cut -f1');
@@ -261,7 +287,8 @@ class Adb {
 
   Future<void> grantAllPermissions(String pkg) async {
     final perms = await shell(
-        'dumpsys package $pkg | grep -E "requested permissions|android.permission"');
+      'dumpsys package $pkg | grep -E "requested permissions|android.permission"',
+    );
     final names = <String>{};
     for (final line in const LineSplitter().convert(perms)) {
       final m = RegExp(r'(android\.permission\.[A-Z_0-9]+)').firstMatch(line);
@@ -282,11 +309,11 @@ class Adb {
 
   Future<String> launchApp(String pkg) async {
     final act = await shell(
-        "cmd package resolve-activity --brief $pkg 2>/dev/null | tail -1");
+      "cmd package resolve-activity --brief $pkg 2>/dev/null | tail -1",
+    );
     if (act.contains('/')) {
       return shell('am start -n $act');
     }
-    return shell(
-        'monkey -p $pkg -c android.intent.category.LAUNCHER 1');
+    return shell('monkey -p $pkg -c android.intent.category.LAUNCHER 1');
   }
 }

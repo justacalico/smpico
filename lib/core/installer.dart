@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
+
 import 'adb.dart';
 import 'axml.dart';
 import 'devices.dart';
 import 'downloads.dart';
+import 'log.dart';
 import 'paths.dart';
 import 'tools.dart';
 import '../i18n.dart';
@@ -33,13 +36,14 @@ class InstallOptions {
   });
 
   InstallOptions copy() => InstallOptions(
-      method: method,
-      packageSuffix: packageSuffix,
-      newKey: newKey,
-      keepSdkMeta: keepSdkMeta,
-      storeInstaller: storeInstaller,
-      cacheFolder: cacheFolder,
-      downloadOnly: downloadOnly);
+    method: method,
+    packageSuffix: packageSuffix,
+    newKey: newKey,
+    keepSdkMeta: keepSdkMeta,
+    storeInstaller: storeInstaller,
+    cacheFolder: cacheFolder,
+    downloadOnly: downloadOnly,
+  );
 }
 
 enum JobState { waiting, running, done, failed, cancelled }
@@ -66,6 +70,7 @@ class InstallJob extends ChangeNotifier {
 
   void addLog(String s) {
     log.add(s);
+    dlog('install $displayName: $s');
     notifyListeners();
   }
 
@@ -84,6 +89,7 @@ class Installer extends ChangeNotifier {
   bool _processing = false;
 
   void enqueue(String sourcePath, String displayName, InstallOptions opts) {
+    dlog('install queued: $displayName ($sourcePath, ${opts.method.name})');
     jobs.insert(0, InstallJob(sourcePath, displayName, opts));
     notifyListeners();
     _process();
@@ -155,10 +161,15 @@ class Installer extends ChangeNotifier {
       } else if (!src.toLowerCase().endsWith('.apk')) {
         job.setStage('Extracting archive', .05);
         job.addLog('extract: $src');
-        final outDir =
-            await Downloads.instance.unpack(src, onProgress: (v) {
-          job.setStage('${tr('Extracting archive')} ${(v * 100).round()}%', .05 + v * .1);
-        });
+        final outDir = await Downloads.instance.unpack(
+          src,
+          onProgress: (v) {
+            job.setStage(
+              '${tr('Extracting archive')} ${(v * 100).round()}%',
+              .05 + v * .1,
+            );
+          },
+        );
         if (outDir == null) throw StateError('Unpack error: $src');
         job.addLog('unpacked to ${outDir.path}');
         // look for apk + obb/data inside
@@ -186,8 +197,10 @@ class Installer extends ChangeNotifier {
       // ---- analyze ----
       job.setStage('Analyzing APK', .15);
       job.apkInfo = parseApk(File(src));
-      job.addLog('package: ${job.apkInfo!.package} '
-          'v${job.apkInfo!.versionName} (${job.apkInfo!.versionCode})');
+      job.addLog(
+        'package: ${job.apkInfo!.package} '
+        'v${job.apkInfo!.versionName} (${job.apkInfo!.versionCode})',
+      );
       job.isOvrport = await _detectOvrport(File(src));
       job.addLog('ovrport: ${job.isOvrport}');
 
@@ -290,9 +303,15 @@ class Installer extends ChangeNotifier {
 
     job.setStage('Repacking', .3);
     job.addLog('apktool d $apk');
-    var r = await Process.run(java,
-        ['-jar', apktool.path, 'd', '-f', '-o', decDir.path, apk],
-        workingDirectory: work.path);
+    var r = await Process.run(java, [
+      '-jar',
+      apktool.path,
+      'd',
+      '-f',
+      '-o',
+      decDir.path,
+      apk,
+    ], workingDirectory: work.path);
     job.addLog('${r.stdout}\n${r.stderr}'.trim());
     if (r.exitCode != 0) throw StateError('apktool d failed');
 
@@ -327,9 +346,12 @@ class Installer extends ChangeNotifier {
       if (await manifest.exists()) {
         var m = await manifest.readAsString();
         m = m.replaceAll(
-            RegExp(r'\s*<meta-data[^>]*(?:sdk|pvr)[^>]*/>\s*',
-                caseSensitive: false),
-            '\n');
+          RegExp(
+            r'\s*<meta-data[^>]*(?:sdk|pvr)[^>]*/>\s*',
+            caseSensitive: false,
+          ),
+          '\n',
+        );
         await manifest.writeAsString(m);
         job.addLog('sdk metadata stripped');
       }
@@ -338,9 +360,14 @@ class Installer extends ChangeNotifier {
     job.setStage('Repacking', .5);
     final outApk = p.join(work.path, '${base}_repack.apk');
     job.addLog('apktool b');
-    r = await Process.run(java,
-        ['-jar', apktool.path, 'b', '-o', outApk, decDir.path],
-        workingDirectory: work.path);
+    r = await Process.run(java, [
+      '-jar',
+      apktool.path,
+      'b',
+      '-o',
+      outApk,
+      decDir.path,
+    ], workingDirectory: work.path);
     job.addLog('${r.stdout}\n${r.stderr}'.trim());
     if (r.exitCode != 0) throw StateError('apktool b failed');
     return _sign(job, outApk);
@@ -357,11 +384,17 @@ class Installer extends ChangeNotifier {
     job.setStage('Signing', .62);
     final signed = p.setExtension(apk, '.signed.apk');
     final r = await Process.run(java, [
-      '-jar', signer.path, 'sign',
-      '--ks', ks.path,
-      '--ks-pass', 'pass:smpico',
-      '--key-pass', 'pass:smpico',
-      '--out', signed,
+      '-jar',
+      signer.path,
+      'sign',
+      '--ks',
+      ks.path,
+      '--ks-pass',
+      'pass:smpico',
+      '--key-pass',
+      'pass:smpico',
+      '--out',
+      signed,
       apk,
     ]);
     job.addLog('sign: ${r.stdout}${r.stderr}'.trim());
@@ -374,18 +407,31 @@ class Installer extends ChangeNotifier {
     await dir.create(recursive: true);
     final ks = File(p.join(dir.path, 'smpico.keystore'));
     if (await ks.exists()) return ks;
-    final keytool = await Tools.instance.keytool() ??
-        await Tools.instance.java()
-            .then((j) => j == null ? null : p.join(p.dirname(j), 'keytool'));
+    final keytool =
+        await Tools.instance.keytool() ??
+        await Tools.instance.java().then(
+          (j) => j == null ? null : p.join(p.dirname(j), 'keytool'),
+        );
     if (keytool == null) throw StateError('keytool not found');
     await Process.run(keytool, [
-      '-genkeypair', '-v',
-      '-keystore', ks.path,
-      '-alias', 'smpico',
-      '-keyalg', 'RSA', '-keysize', '2048',
-      '-validity', '10000',
-      '-storepass', 'smpico', '-keypass', 'smpico',
-      '-dname', 'CN=SMPico',
+      '-genkeypair',
+      '-v',
+      '-keystore',
+      ks.path,
+      '-alias',
+      'smpico',
+      '-keyalg',
+      'RSA',
+      '-keysize',
+      '2048',
+      '-validity',
+      '10000',
+      '-storepass',
+      'smpico',
+      '-keypass',
+      'smpico',
+      '-dname',
+      'CN=SMPico',
     ]);
     return ks;
   }

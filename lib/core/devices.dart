@@ -1,6 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+
 import 'adb.dart';
+import 'log.dart';
 import '../settings.dart';
 
 /// Mirrors DevicesInteractor: watches `adb devices`, auto-selects a
@@ -30,7 +33,10 @@ class Devices extends ChangeNotifier {
     if (_started) return;
     _started = true;
     updateDevices();
-    _pollTimer = Timer.periodic(const Duration(seconds: 3), (_) => updateDevices());
+    _pollTimer = Timer.periodic(
+      const Duration(seconds: 3),
+      (_) => updateDevices(),
+    );
     _wakeTimer = Timer.periodic(wakeEvery, (_) => _keepAwakeTick());
   }
 
@@ -47,10 +53,12 @@ class Devices extends ChangeNotifier {
     try {
       final devs = await Adb.instance.devices();
       found = devs.where((d) => d.$2 == 'device').map((d) => d.$1).toList();
-    } catch (_) {
+    } catch (e) {
+      dlog('adb devices poll failed: $e');
       return;
     }
     final changed = !listEquals(found, serials);
+    if (changed) dlog('device list: $found');
     serials = found;
     if (found.isEmpty) {
       if (info != null) {
@@ -80,8 +88,10 @@ class Devices extends ChangeNotifier {
     try {
       info = await Adb.instance.details();
       lastError = null;
+      dlog('device details refreshed: ${info!.model} (${info!.serial})');
     } catch (e) {
       lastError = '$e';
+      dlog('device details failed: $e');
     }
     notifyListeners();
   }
@@ -103,12 +113,14 @@ class Devices extends ChangeNotifier {
       await Adb.instance.tcpip();
       await Future.delayed(const Duration(seconds: 2));
       final ip = await Adb.instance.shell(
-          "ip -f inet addr show wlan0 | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}'");
+        "ip -f inet addr show wlan0 | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}'",
+      );
       if (ip.isEmpty) {
         lastError = 'Wi-Fi mode failed';
         return false;
       }
       final res = await Adb.instance.connect(ip);
+      dlog('wifi connect $ip -> $res');
       if (res.contains('connected')) {
         await selectDevice('$ip:5555');
         return true;
@@ -130,7 +142,9 @@ class Devices extends ChangeNotifier {
       if (await Adb.instance.isAsleep()) {
         await Adb.instance.wake();
       }
-    } catch (_) {}
+    } catch (e) {
+      dlog('keep-awake tick failed: $e');
+    }
   }
 }
 

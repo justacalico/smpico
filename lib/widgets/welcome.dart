@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../i18n.dart';
 import '../theme.dart';
@@ -76,7 +75,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                   data: _text,
                   styleSheet: mdStyle,
                   onTapLink: (_, href, __) {
-                    if (href != null) launchUrl(Uri.parse(href));
+                    if (href != null) openExternalUrl(context, href);
                   },
                 ),
               ),

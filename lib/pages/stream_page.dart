@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../core/adb.dart';
 import '../core/devices.dart';
+import '../core/log.dart';
 import '../core/paths.dart';
 import '../core/tools.dart';
 import '../i18n.dart';
@@ -65,6 +65,7 @@ class _StreamPageState extends State<StreamPage> {
       Future.delayed(const Duration(seconds: 1)),
     ]).then((r) => r.first as String?);
     if (!mounted) return;
+    dlog("scrcpy check: ${s ?? 'not found'}");
     setState(() {
       _scrcpy = s;
       _checkingTool = false;
@@ -104,6 +105,7 @@ class _StreamPageState extends State<StreamPage> {
         '${dir.path}/stream_${DateTime.now().millisecondsSinceEpoch}.mp4',
       ]);
     }
+    dlog('scrcpy start: $scrcpy ${args.join(' ')}');
     try {
       _proc = await Process.start(scrcpy, args);
       setState(() {
@@ -114,6 +116,7 @@ class _StreamPageState extends State<StreamPage> {
         if (mounted) {
           setState(() {
             _running = false;
+            dlog('scrcpy exited with code $code');
             if (code != 0) {
               _error = tr('Stream stopped with an error ({})', [code]);
             }
@@ -121,6 +124,7 @@ class _StreamPageState extends State<StreamPage> {
         }
       });
     } catch (e) {
+      dlog('scrcpy start failed: $e');
       setState(() => _error = '$e');
     }
   }
@@ -400,8 +404,9 @@ class _StreamPageState extends State<StreamPage> {
                 icon: Icons.download,
                 color: EZColors.accent,
                 textColor: const Color(0xFF111111),
-                onPressed: () => launchUrl(
-                  Uri.parse('https://github.com/Genymobile/scrcpy/releases'),
+                onPressed: () => openExternalUrl(
+                  context,
+                  'https://github.com/Genymobile/scrcpy/releases',
                 ),
               ),
               const SizedBox(width: 8),

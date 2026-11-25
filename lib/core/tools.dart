@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:path/path.dart' as p;
+
 import 'paths.dart';
 
 /// Resolves external tools the way the original SMPico does: a bundled
@@ -80,7 +82,12 @@ class Tools {
 
   Future<File?> _jar(String name) async {
     final t = await _dir();
-    for (final cand in [name, 'apktool/$name', 'signer/$name', 'overport/$name']) {
+    for (final cand in [
+      name,
+      'apktool/$name',
+      'signer/$name',
+      'overport/$name',
+    ]) {
       final f = File(p.join(t.path, cand));
       if (await f.exists()) return f;
     }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:archive/archive.dart';
 
 /// Minimal binary AndroidManifest.xml reader — extracts package,
@@ -21,8 +22,18 @@ class _Reader {
   final ByteData d;
   int p = 0;
   _Reader(this.d);
-  int u16() { final v = d.getUint16(p, Endian.little); p += 2; return v; }
-  int u32() { final v = d.getUint32(p, Endian.little); p += 4; return v; }
+  int u16() {
+    final v = d.getUint16(p, Endian.little);
+    p += 2;
+    return v;
+  }
+
+  int u32() {
+    final v = d.getUint32(p, Endian.little);
+    p += 4;
+    return v;
+  }
+
   void skip(int n) => p += n;
 }
 
@@ -36,7 +47,10 @@ Uint8List _apkEntry(File apk, String name) {
     final buf = raf.readSync(tail);
     var eocd = -1;
     for (var i = tail - 22; i >= 0; i--) {
-      if (buf[i] == 0x50 && buf[i + 1] == 0x4b && buf[i + 2] == 5 && buf[i + 3] == 6) {
+      if (buf[i] == 0x50 &&
+          buf[i + 1] == 0x4b &&
+          buf[i + 2] == 5 &&
+          buf[i + 3] == 6) {
         eocd = i;
         break;
       }
@@ -67,7 +81,8 @@ Uint8List _apkEntry(File apk, String name) {
       raf.setPositionSync(localOff + 30 + lnlen + lelen);
       final data = raf.readSync(csize);
       if (method == 0) return data;
-      if (method == 8) return Uint8List.fromList(ZLibDecoder().decodeBytes(data, raw: true));
+      if (method == 8)
+        return Uint8List.fromList(ZLibDecoder().decodeBytes(data, raw: true));
       throw StateError('unsupported zip method $method');
     }
     throw StateError('$name not in apk');
@@ -119,7 +134,8 @@ void _parseManifest(Uint8List data, ApkInfo info) {
             var q = base;
             var len = data[q] | (data[q + 1] << 8);
             q += 2;
-            if (len & 0x8000 != 0) len = ((len & 0x7fff) << 16) | (data[q] | (data[q + 1] << 8));
+            if (len & 0x8000 != 0)
+              len = ((len & 0x7fff) << 16) | (data[q] | (data[q + 1] << 8));
             final u16 = Uint16List(len);
             for (var i = 0; i < len; i++) {
               u16[i] = data[q + i * 2] | (data[q + i * 2 + 1] << 8);

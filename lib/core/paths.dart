@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -15,11 +16,18 @@ class AppPaths {
     if (Platform.isWindows) {
       _root = Directory(r'C:\ProgramData\smpico');
     } else if (Platform.isMacOS) {
-      _root = Directory(p.join(
-          Platform.environment['HOME']!, 'Library', 'Application Support', 'SMPico'));
+      _root = Directory(
+        p.join(
+          Platform.environment['HOME']!,
+          'Library',
+          'Application Support',
+          'SMPico',
+        ),
+      );
     } else {
-      _root = Directory(p.join(
-          Platform.environment['HOME']!, '.local', 'share', 'smpico'));
+      _root = Directory(
+        p.join(Platform.environment['HOME']!, '.local', 'share', 'smpico'),
+      );
     }
     await _root!.create(recursive: true);
     return _root!;

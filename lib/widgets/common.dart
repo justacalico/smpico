@@ -1,5 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../core/log.dart';
+import '../i18n.dart';
 import '../theme.dart';
+
+/// Open a URL in the browser; shows a snackbar and logs when it fails.
+Future<void> openExternalUrl(BuildContext context, String url) async {
+  var ok = false;
+  try {
+    ok = await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    if (!ok) dlog('openExternalUrl: launcher refused $url');
+  } catch (e) {
+    dlog('openExternalUrl: $url -> $e');
+  }
+  if (!ok && context.mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(tr('Could not open the link')),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+}
 
 /// QPushButton equivalent: 35px high, #383838, hover #404040.
 class EZButton extends StatefulWidget {
@@ -11,15 +35,17 @@ class EZButton extends StatefulWidget {
   final Color? textColor;
   final double fontSize;
   final String? tooltip;
-  const EZButton(this.text,
-      {super.key,
-      this.onPressed,
-      this.icon,
-      this.height = 35,
-      this.color,
-      this.textColor,
-      this.fontSize = 14,
-      this.tooltip});
+  const EZButton(
+    this.text, {
+    super.key,
+    this.onPressed,
+    this.icon,
+    this.height = 35,
+    this.color,
+    this.textColor,
+    this.fontSize = 14,
+    this.tooltip,
+  });
 
   @override
   State<EZButton> createState() => _EZButtonState();
@@ -61,18 +87,23 @@ class _EZButtonState extends State<EZButton> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (widget.icon != null) ...[
-                Icon(widget.icon,
-                    size: widget.fontSize + 2,
-                    color: widget.textColor ?? EZColors.text),
+                Icon(
+                  widget.icon,
+                  size: widget.fontSize + 2,
+                  color: widget.textColor ?? EZColors.text,
+                ),
                 const SizedBox(width: 6),
               ],
-              Text(widget.text,
-                  style: TextStyle(
-                      color: enabled
-                          ? (widget.textColor ?? EZColors.text)
-                          : const Color(0xFF5A5A5A),
-                      fontWeight: FontWeight.w600,
-                      fontSize: widget.fontSize)),
+              Text(
+                widget.text,
+                style: TextStyle(
+                  color: enabled
+                      ? (widget.textColor ?? EZColors.text)
+                      : const Color(0xFF5A5A5A),
+                  fontWeight: FontWeight.w600,
+                  fontSize: widget.fontSize,
+                ),
+              ),
             ],
           ),
         ),
@@ -91,8 +122,14 @@ class EZIconButton extends StatefulWidget {
   final String? tooltip;
   final double size;
   final Color? color;
-  const EZIconButton(this.icon,
-      {super.key, this.onPressed, this.tooltip, this.size = 32, this.color});
+  const EZIconButton(
+    this.icon, {
+    super.key,
+    this.onPressed,
+    this.tooltip,
+    this.size = 32,
+    this.color,
+  });
 
   @override
   State<EZIconButton> createState() => _EZIconButtonState();
@@ -117,12 +154,15 @@ class _EZIconButtonState extends State<EZIconButton> {
             color: _h ? const Color(0xFF3B3B3B) : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(widget.icon,
-              size: widget.size * .6,
-              color: widget.color ??
-                  (widget.onPressed != null
-                      ? EZColors.text
-                      : const Color(0xFF5A5A5A))),
+          child: Icon(
+            widget.icon,
+            size: widget.size * .6,
+            color:
+                widget.color ??
+                (widget.onPressed != null
+                    ? EZColors.text
+                    : const Color(0xFF5A5A5A)),
+          ),
         ),
       ),
     );
@@ -138,7 +178,12 @@ class EZPanel extends StatelessWidget {
   final String? label;
   final Widget child;
   final EdgeInsets padding;
-  const EZPanel({super.key, this.label, required this.child, this.padding = const EdgeInsets.all(16)});
+  const EZPanel({
+    super.key,
+    this.label,
+    required this.child,
+    this.padding = const EdgeInsets.all(16),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -193,20 +238,28 @@ class EmptyPlug extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('assets/icons/sad.png', height: 72,
-              errorBuilder: (_, __, ___) =>
-                  Icon(icon, size: 56, color: EZColors.textDim)),
+          Image.asset(
+            'assets/icons/sad.png',
+            height: 72,
+            errorBuilder: (_, __, ___) =>
+                Icon(icon, size: 56, color: EZColors.textDim),
+          ),
           const SizedBox(height: 12),
-          Text(title,
-              style: const TextStyle(
-                  color: Color(0xFF8A8A8A),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700)),
+          Text(
+            title,
+            style: const TextStyle(
+              color: Color(0xFF8A8A8A),
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           if (subtitle != null) ...[
             const SizedBox(height: 6),
-            Text(subtitle!,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: EZColors.textDim, fontSize: 12)),
+            Text(
+              subtitle!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: EZColors.textDim, fontSize: 12),
+            ),
           ],
         ],
       ),
@@ -221,15 +274,17 @@ class StatusDot extends StatelessWidget {
   const StatusDot(this.color, {super.key, this.size = 8});
   @override
   Widget build(BuildContext context) => Container(
-        width: size,
-        height: size,
-        decoration:
-            BoxDecoration(color: color, borderRadius: BorderRadius.circular(size / 2)),
-      );
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      color: color,
+      borderRadius: BorderRadius.circular(size / 2),
+    ),
+  );
 }
 
 /// Green check circle for cracked matrix.
 Widget sectionHeader(String text) => Padding(
-      padding: const EdgeInsets.only(top: 14, bottom: 6),
-      child: Text(text.toUpperCase(), style: EZText.group),
-    );
+  padding: const EdgeInsets.only(top: 14, bottom: 6),
+  child: Text(text.toUpperCase(), style: EZText.group),
+);

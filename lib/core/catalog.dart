@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
+import 'log.dart';
 import 'paths.dart';
 import '../settings.dart';
 
@@ -21,16 +24,16 @@ class GameLink {
   final bool isFolder;
 
   GameLink.fromRow(Map<String, Object?> r)
-      : pos = r['pos'] as int,
-        kind = '${r['kind']}',
-        label = '${r['label']}',
-        url = '${r['url']}',
-        note = r['note'] as String?,
-        via = r['via'] as String?,
-        status = '${r['status']}',
-        fileName = r['file_name'] as String?,
-        size = (r['size'] as int?) ?? 0,
-        isFolder = (r['is_folder'] as int?) == 1;
+    : pos = r['pos'] as int,
+      kind = '${r['kind']}',
+      label = '${r['label']}',
+      url = '${r['url']}',
+      note = r['note'] as String?,
+      via = r['via'] as String?,
+      status = '${r['status']}',
+      fileName = r['file_name'] as String?,
+      size = (r['size'] as int?) ?? 0,
+      isFolder = (r['is_folder'] as int?) == 1;
 }
 
 class Game {
@@ -58,28 +61,28 @@ class Game {
   List<GameLink> links;
 
   Game.fromRow(Map<String, Object?> r)
-      : id = r['id'] as int,
-        slug = '${r['slug']}',
-        title = '${r['title']}',
-        sheetTitle = '${r['sheet_title']}',
-        ovrport = (r['ovrport'] as int?) == 1,
-        postId = r['post_id'] as int?,
-        postUrl = r['post_url'] as String?,
-        postedAt = r['posted_at'] as String?,
-        description = r['description'] as String?,
-        language = r['language'] as String?,
-        multiplayer = r['multiplayer'] as String?,
-        version = r['version'] as String?,
-        updatedAt = r['updated_at'] as String?,
-        cover = r['cover'] as String?,
-        youtube = r['youtube'] as String?,
-        trailer = r['trailer'] as String?,
-        installNotes = r['install_notes'] as String?,
-        downloadNotes = r['download_notes'] as String?,
-        hints = '${r['hints']}',
-        special = (r['special'] as int?) == 1,
-        genres = [],
-        links = [];
+    : id = r['id'] as int,
+      slug = '${r['slug']}',
+      title = '${r['title']}',
+      sheetTitle = '${r['sheet_title']}',
+      ovrport = (r['ovrport'] as int?) == 1,
+      postId = r['post_id'] as int?,
+      postUrl = r['post_url'] as String?,
+      postedAt = r['posted_at'] as String?,
+      description = r['description'] as String?,
+      language = r['language'] as String?,
+      multiplayer = r['multiplayer'] as String?,
+      version = r['version'] as String?,
+      updatedAt = r['updated_at'] as String?,
+      cover = r['cover'] as String?,
+      youtube = r['youtube'] as String?,
+      trailer = r['trailer'] as String?,
+      installNotes = r['install_notes'] as String?,
+      downloadNotes = r['download_notes'] as String?,
+      hints = '${r['hints']}',
+      special = (r['special'] as int?) == 1,
+      genres = [],
+      links = [];
 
   Map<String, dynamic> get hintsMap {
     try {
@@ -101,9 +104,11 @@ class Game {
     return s;
   }
 
-  bool get downloadable => links.any((l) =>
-      l.status == 'ok' &&
-      (l.kind == 'yandex' || l.kind == 'gdrive' || l.kind == 'sber'));
+  bool get downloadable => links.any(
+    (l) =>
+        l.status == 'ok' &&
+        (l.kind == 'yandex' || l.kind == 'gdrive' || l.kind == 'sber'),
+  );
 }
 
 class Catalog extends ChangeNotifier {
@@ -136,8 +141,10 @@ class Catalog extends ChangeNotifier {
     await dir.create(recursive: true);
     final dbFile = File(p.join(dir.path, 'catalog.db'));
     if (!await dbFile.exists()) return;
-    _db = await databaseFactoryFfi.openDatabase(dbFile.path,
-        options: OpenDatabaseOptions(readOnly: true));
+    _db = await databaseFactoryFfi.openDatabase(
+      dbFile.path,
+      options: OpenDatabaseOptions(readOnly: true),
+    );
     await _load();
   }
 
@@ -152,7 +159,9 @@ class Catalog extends ChangeNotifier {
     }
     final linkMap = <int, List<GameLink>>{};
     for (final l in linkRows) {
-      linkMap.putIfAbsent(l['game_id'] as int, () => []).add(GameLink.fromRow(l));
+      linkMap
+          .putIfAbsent(l['game_id'] as int, () => [])
+          .add(GameLink.fromRow(l));
     }
     games = rows.map((r) {
       final g = Game.fromRow(r);
@@ -162,8 +171,11 @@ class Catalog extends ChangeNotifier {
     }).toList();
     genres = genreMap.values.expand((e) => e).toSet().toList()..sort();
     try {
-      final meta = await _db!
-          .query('meta', where: 'key = ?', whereArgs: ['version']);
+      final meta = await _db!.query(
+        'meta',
+        where: 'key = ?',
+        whereArgs: ['version'],
+      );
       if (meta.isNotEmpty) version = '${meta.first['value']}';
     } catch (_) {}
     available = true;
@@ -177,14 +189,18 @@ class Catalog extends ChangeNotifier {
     error = null;
     notifyListeners();
     try {
-      final dio = Dio(BaseOptions(
+      final dio = Dio(
+        BaseOptions(
           connectTimeout: const Duration(seconds: 15),
-          receiveTimeout: const Duration(minutes: 3)));
+          receiveTimeout: const Duration(minutes: 3),
+        ),
+      );
       final maniRes = await dio.get('$base/manifest.json');
       final manifest = maniRes.data is String
           ? jsonDecode(maniRes.data as String)
           : maniRes.data as Map<String, dynamic>;
       final remoteVersion = '${manifest['version']}';
+      dlog('catalog manifest: remote $remoteVersion, local $version');
       if (remoteVersion == version && _db != null) {
         loading = false;
         notifyListeners();
@@ -198,6 +214,7 @@ class Catalog extends ChangeNotifier {
       final sum = sha256.convert(bytes).toString();
       if (sum != manifest['db_sha256']) {
         error = 'catalog checksum mismatch';
+        dlog("catalog checksum mismatch: $sum != ${manifest['db_sha256']}");
         loading = false;
         notifyListeners();
         return false;
@@ -211,6 +228,7 @@ class Catalog extends ChangeNotifier {
       return true;
     } catch (e) {
       error = '$e';
+      dlog('catalog update failed: $e');
       loading = false;
       available = _db != null;
       notifyListeners();
@@ -232,9 +250,10 @@ class Catalog extends ChangeNotifier {
       if (q.isNotEmpty &&
           !'${g.title} ${g.sheetTitle} ${g.genres.join(' ')}'
               .toLowerCase()
-              .contains(q)) return false;
-      if (genreFilter.isNotEmpty &&
-          !g.genres.any(genreFilter.contains)) return false;
+              .contains(q))
+        return false;
+      if (genreFilter.isNotEmpty && !g.genres.any(genreFilter.contains))
+        return false;
       if (language != null && g.language != language) return false;
       if (type == 'ovrport' && !g.ovrport) return false;
       if (type == 'fnal' && g.ovrport) return false;

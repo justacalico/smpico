@@ -32,12 +32,18 @@ class Updater extends ChangeNotifier {
     try {
       final dio = Dio(BaseOptions(connectTimeout: const Duration(seconds: 15)));
       final r = await dio.get(
-          'https://gitlab.com/api/v4/projects/${Uri.encodeComponent(updatesRepo)}/releases/permalink/latest');
+        'https://gitlab.com/api/v4/projects/${Uri.encodeComponent(updatesRepo)}/releases/permalink/latest',
+      );
       final d = r.data as Map<String, dynamic>;
       final tag = '${d['tag_name']}'.replaceFirst('v', '');
       if (_newer(tag, appVersion)) {
-        available = UpdateInfo(tag, 0, '',
-            '${d['_links']?['self'] ?? ''}', '${d['description'] ?? ''}');
+        available = UpdateInfo(
+          tag,
+          0,
+          '',
+          '${d['_links']?['self'] ?? ''}',
+          '${d['description'] ?? ''}',
+        );
       }
     } catch (_) {
       // no releases yet — nothing to update to

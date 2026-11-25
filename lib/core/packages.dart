@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
+
 import 'adb.dart';
 import 'paths.dart';
 
@@ -13,7 +15,12 @@ class PackageEntry {
   File? iconFile;
   int sizeBytes;
   bool system;
-  PackageEntry(this.name, {this.label = '', this.sizeBytes = 0, this.system = false});
+  PackageEntry(
+    this.name, {
+    this.label = '',
+    this.sizeBytes = 0,
+    this.system = false,
+  });
 }
 
 /// App manager: lists headset packages, launches/uninstalls, saves
@@ -34,7 +41,8 @@ class Packages extends ChangeNotifier {
     notifyListeners();
     try {
       final pkgs = await Adb.instance.listPackages(
-          thirdPartyOnly: thirdPartyOnly);
+        thirdPartyOnly: thirdPartyOnly,
+      );
       items = pkgs.map((e) => PackageEntry(e)).toList();
       _loadLabels();
       _loadIcons();
@@ -51,7 +59,8 @@ class Packages extends ChangeNotifier {
       if (e.label.isNotEmpty) continue;
       try {
         final s = await Adb.instance.shell(
-            "dumpsys package ${e.name} | grep -m1 'label='");
+          "dumpsys package ${e.name} | grep -m1 'label='",
+        );
         final m = RegExp(r"label='([^']+)'|label=([^\s]+)").firstMatch(s);
         if (m != null) {
           e.label = m.group(1) ?? m.group(2) ?? '';
@@ -105,10 +114,15 @@ class Packages extends ChangeNotifier {
         if (best == null || f.size > best.size) best = f;
       }
       // fallback: any big png under res/mipmap
-      best ??= ar.where((f) {
+      best ??= ar
+          .where((f) {
             final n = f.name.toLowerCase();
             return (n.endsWith('.png')) && n.contains('mipmap');
-          }).fold<ArchiveFile?>(null, (a, b) => a == null || b.size > a.size ? b : a);
+          })
+          .fold<ArchiveFile?>(
+            null,
+            (a, b) => a == null || b.size > a.size ? b : a,
+          );
       if (best == null) return false;
       final content = best.content as List<int>;
       if (best.name.toLowerCase().endsWith('.webp')) {
@@ -174,8 +188,9 @@ class Packages extends ChangeNotifier {
     await dest.create(recursive: true);
     for (final sub in ['Android/data/$pkg', 'Android/obb/$pkg']) {
       final remote = '/sdcard/$sub';
-      final exists = await Adb.instance
-          .shell('[ -d "$remote" ] && echo yes || echo no');
+      final exists = await Adb.instance.shell(
+        '[ -d "$remote" ] && echo yes || echo no',
+      );
       if (!exists.contains('yes')) continue;
       final local = Directory(p.join(dest.path, sub.replaceAll('/', '_')));
       await local.create(recursive: true);
@@ -194,15 +209,17 @@ class Packages extends ChangeNotifier {
       final inner = Directory(p.join(local.path, pkg));
       final src = await inner.exists() ? inner.path : local.path;
       await Adb.instance.push(src, '$tmp/$pkg');
-      await Adb.instance
-          .shell('cp -r $tmp/$pkg /sdcard/Android/$sub/ && rm -rf $tmp/$pkg');
+      await Adb.instance.shell(
+        'cp -r $tmp/$pkg /sdcard/Android/$sub/ && rm -rf $tmp/$pkg',
+      );
     }
     await Adb.instance.rm('/sdcard/smpico_restore_tmp');
   }
 
   Future<List<String>> permissions(String pkg) async {
     final s = await Adb.instance.shell(
-        'dumpsys package $pkg | grep -E "requested permissions" -A200 | grep android.permission | head -60');
+      'dumpsys package $pkg | grep -E "requested permissions" -A200 | grep android.permission | head -60',
+    );
     final names = <String>{};
     for (final line in const LineSplitter().convert(s)) {
       final m = RegExp(r'(android\.permission\.[A-Z_0-9]+)').firstMatch(line);
@@ -217,8 +234,12 @@ class Packages extends ChangeNotifier {
   Future<File> createReport() async {
     final dir = await AppPaths.reports();
     await dir.create(recursive: true);
-    final f = File(p.join(dir.path,
-        'smpico_report_${DateTime.now().millisecondsSinceEpoch}.txt'));
+    final f = File(
+      p.join(
+        dir.path,
+        'smpico_report_${DateTime.now().millisecondsSinceEpoch}.txt',
+      ),
+    );
     final b = StringBuffer();
     b.writeln('SMPico report ${DateTime.now().toIso8601String()}');
     b.writeln('--- device ---');
@@ -227,8 +248,9 @@ class Packages extends ChangeNotifier {
     } catch (_) {}
     b.writeln('--- packages ---');
     try {
-      b.writeln((await Adb.instance.listPackages(thirdPartyOnly: false))
-          .join('\n'));
+      b.writeln(
+        (await Adb.instance.listPackages(thirdPartyOnly: false)).join('\n'),
+      );
     } catch (_) {}
     b.writeln('--- history ---');
     try {

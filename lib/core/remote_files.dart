@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
+
 import 'adb.dart';
 
 class RemoteEntry {
@@ -42,8 +44,9 @@ class RemoteFiles extends ChangeNotifier {
     error = null;
     notifyListeners();
     try {
-      final out = await Adb.instance
-          .shell('ls -la "$path" 2>/dev/null || echo __NOENT__');
+      final out = await Adb.instance.shell(
+        'ls -la "$path" 2>/dev/null || echo __NOENT__',
+      );
       if (out.contains('__NOENT__')) {
         error = 'Cannot open this folder';
         loading = false;
@@ -55,8 +58,8 @@ class RemoteFiles extends ChangeNotifier {
         final l = line.trim();
         if (l.isEmpty || l.startsWith('total')) continue;
         final m = RegExp(
-                r'^([bcdlps-][rwxts-]{9})\s+\d+\s+\S+\s+\S+\s+(\d+)?\s*(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}|\w+\s+\d+\s+[\d:]+)\s+(.+)$')
-            .firstMatch(l);
+          r'^([bcdlps-][rwxts-]{9})\s+\d+\s+\S+\s+\S+\s+(\d+)?\s*(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}|\w+\s+\d+\s+[\d:]+)\s+(.+)$',
+        ).firstMatch(l);
         if (m == null) continue;
         var name = m.group(4)!;
         final isDir = m.group(1)!.startsWith('d');
@@ -64,8 +67,15 @@ class RemoteFiles extends ChangeNotifier {
         name = name.split(' -> ').first;
         if (name == '.' || name == '..') continue;
         if (!showHidden && name.startsWith('.')) continue;
-        list.add(RemoteEntry(name, p.posix.join(path, name), isDir,
-            int.tryParse(m.group(2) ?? '') ?? 0, m.group(3) ?? ''));
+        list.add(
+          RemoteEntry(
+            name,
+            p.posix.join(path, name),
+            isDir,
+            int.tryParse(m.group(2) ?? '') ?? 0,
+            m.group(3) ?? '',
+          ),
+        );
       }
       list.sort((a, b) {
         if (a.isDir != b.isDir) return a.isDir ? -1 : 1;
@@ -113,7 +123,8 @@ class RemoteFiles extends ChangeNotifier {
   }
 
   Future<void> rename(RemoteEntry e, String newName) async {
-    if (newName.contains('/')) throw ArgumentError('The name cannot contain «/»');
+    if (newName.contains('/'))
+      throw ArgumentError('The name cannot contain «/»');
     await Adb.instance.move(e.path, p.posix.join(currentPath, newName));
     await refresh();
   }
@@ -131,8 +142,9 @@ class RemoteFiles extends ChangeNotifier {
   /// Biggest files under a path: `du -ah | sort -rh`.
   Future<List<RemoteEntry>> heaviest(String path, {int limit = 100}) async {
     final out = await Adb.instance.shell(
-        'du -ak "$path" 2>/dev/null | sort -rn | head -$limit',
-        timeout: const Duration(minutes: 5));
+      'du -ak "$path" 2>/dev/null | sort -rn | head -$limit',
+      timeout: const Duration(minutes: 5),
+    );
     final list = <RemoteEntry>[];
     for (final line in const LineSplitter().convert(out)) {
       final parts = line.split(RegExp(r'\s+'));
@@ -169,8 +181,10 @@ class Transfers extends ChangeNotifier {
       items.insert(0, t);
       notifyListeners();
       try {
-        final r = await Adb.instance
-            .push(lp, p.posix.join(remoteDir, p.basename(lp)));
+        final r = await Adb.instance.push(
+          lp,
+          p.posix.join(remoteDir, p.basename(lp)),
+        );
         if (r.exitCode != 0) throw StateError('${r.stderr}');
         t.done = true;
       } catch (e) {
@@ -188,8 +202,7 @@ class Transfers extends ChangeNotifier {
       items.insert(0, t);
       notifyListeners();
       try {
-        final r =
-            await Adb.instance.pull(e.path, p.join(target.path, e.name));
+        final r = await Adb.instance.pull(e.path, p.join(target.path, e.name));
         if (r.exitCode != 0) throw StateError('${r.stderr}');
         t.done = true;
       } catch (err) {

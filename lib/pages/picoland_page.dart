@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../core/catalog.dart';
 import '../core/devices.dart';
 import '../core/downloads.dart';
+import '../core/log.dart';
 import '../core/installer.dart';
 import '../i18n.dart';
 import '../theme.dart';
@@ -466,16 +466,16 @@ class _GameDetails extends StatelessWidget {
                 EZIconButton(
                   Icons.play_circle_outline,
                   tooltip: tr('Trailer'),
-                  onPressed: () {
-                    final url = g.trailer ?? 'https://youtu.be/${g.youtube}';
-                    launchUrl(Uri.parse(url));
-                  },
+                  onPressed: () => openExternalUrl(
+                    context,
+                    g.trailer ?? 'https://youtu.be/${g.youtube}',
+                  ),
                 ),
               if (g.postUrl != null)
                 EZIconButton(
                   Icons.telegram,
                   tooltip: tr('Post in Telegram'),
-                  onPressed: () => launchUrl(Uri.parse(g.postUrl!)),
+                  onPressed: () => openExternalUrl(context, g.postUrl!),
                 ),
             ],
           ),
@@ -516,7 +516,8 @@ class _GameDetails extends StatelessWidget {
                                 textColor: const Color(0xFF111111),
                                 onPressed: g.links.isEmpty
                                     ? null
-                                    : () => _download(g, install: true),
+                                    : () =>
+                                          _download(context, g, install: true),
                               ),
                             ),
                             const SizedBox(width: 6),
@@ -530,6 +531,7 @@ class _GameDetails extends StatelessWidget {
                                 );
                                 if (o != null) {
                                   _download(
+                                    context,
                                     g,
                                     install: !o.downloadOnly,
                                     opts: o,
@@ -546,7 +548,7 @@ class _GameDetails extends StatelessWidget {
                             tr('Download to PC…'),
                             onPressed: g.links.isEmpty
                                 ? null
-                                : () => _download(g, install: false),
+                                : () => _download(context, g, install: false),
                           ),
                         ),
                         if (g.special)
@@ -727,13 +729,26 @@ class _GameDetails extends StatelessWidget {
               Icons.copy,
               tooltip: tr('Copy link'),
               size: 24,
-              onPressed: () => Clipboard.setData(ClipboardData(text: l.url)),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: l.url));
+                dlog('copied link: ${l.url}');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      tr('Copied: {}', [l.url]),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              },
             ),
             EZIconButton(
               Icons.open_in_new,
               tooltip: tr('Open in the browser'),
               size: 24,
-              onPressed: () => launchUrl(Uri.parse(l.url)),
+              onPressed: () => openExternalUrl(context, l.url),
             ),
             EZIconButton(
               Icons.download,
@@ -751,7 +766,12 @@ class _GameDetails extends StatelessWidget {
     );
   }
 
-  void _download(Game g, {required bool install, InstallOptions? opts}) {
+  void _download(
+    BuildContext context,
+    Game g, {
+    required bool install,
+    InstallOptions? opts,
+  }) {
     // prefer a working cloud link
     final link = g.links.cast<GameLink?>().firstWhere(
       (l) =>
@@ -759,12 +779,32 @@ class _GameDetails extends StatelessWidget {
           (l.kind == 'yandex' || l.kind == 'gdrive' || l.kind == 'sber'),
       orElse: () => g.links.isNotEmpty ? g.links.first : null,
     );
-    if (link == null) return;
+    if (link == null) {
+      dlog('no usable link for ${g.title}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(tr('No download links — open the post in Telegram')),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+    dlog(
+      'queueing download: ${g.title} via ${link.kind} (${link.url})'
+      ' install=$install',
+    );
     Downloads.instance.enqueue(
       title: g.title,
       url: link.url,
       kind: link.kind,
       installAfter: install ? (opts ?? InstallOptions()) : null,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(tr('Download added to queue — see the Install tab')),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 }
