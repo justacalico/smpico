@@ -540,11 +540,14 @@ class _GameDetails extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 6),
-                        EZButton(
-                          tr('Download to PC…'),
-                          onPressed: g.links.isEmpty
-                              ? null
-                              : () => _download(g, install: false),
+                        SizedBox(
+                          width: double.infinity,
+                          child: EZButton(
+                            tr('Download to PC…'),
+                            onPressed: g.links.isEmpty
+                                ? null
+                                : () => _download(g, install: false),
+                          ),
                         ),
                         if (g.special)
                           Padding(
