@@ -861,8 +861,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 		other: '${n} items',
 	);
 
-	/// en: '← Back to catalog'
-	String get backToCatalog => '← Back to catalog';
+	/// en: 'Back to catalog'
+	String get backToCatalog => 'Back to catalog';
 
 	/// en: 'System'
 	String get systemLanguage => 'System';
@@ -1148,7 +1148,7 @@ extension on Translations {
 			'onBattery' => 'on battery',
 			'scrcpyNotFound' => 'scrcpy not found',
 			'itemCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} item', other: '${n} items', ), 
-			'backToCatalog' => '← Back to catalog',
+			'backToCatalog' => 'Back to catalog',
 			'systemLanguage' => 'System',
 			_ => null,
 		};

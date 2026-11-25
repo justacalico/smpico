@@ -315,7 +315,7 @@ class TranslationsRu with BaseTranslations<AppLocale, Translations> implements T
 		many: '${n} элементов',
 		other: '${n} элемента',
 	);
-	@override String get backToCatalog => '← К каталогу';
+	@override String get backToCatalog => 'К каталогу';
 	@override String get systemLanguage => 'Как в системе';
 }
 
@@ -599,7 +599,7 @@ extension on TranslationsRu {
 			'onBattery' => 'от батареи',
 			'scrcpyNotFound' => 'scrcpy не найден',
 			'itemCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: '${n} элемент', few: '${n} элемента', many: '${n} элементов', other: '${n} элемента', ), 
-			'backToCatalog' => '← К каталогу',
+			'backToCatalog' => 'К каталогу',
 			'systemLanguage' => 'Как в системе',
 			_ => null,
 		};

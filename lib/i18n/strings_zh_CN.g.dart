@@ -313,7 +313,7 @@ class TranslationsZhCn with BaseTranslations<AppLocale, Translations> implements
 	@override String itemCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('zh'))(n,
 		other: '${n} 项',
 	);
-	@override String get backToCatalog => '← 返回目录';
+	@override String get backToCatalog => '返回目录';
 }
 
 /// The flat map containing all translations for locale <zh-CN>.
@@ -597,7 +597,7 @@ extension on TranslationsZhCn {
 			'onBattery' => '使用电池',
 			'scrcpyNotFound' => '未找到 scrcpy',
 			'itemCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('zh'))(n, other: '${n} 项', ), 
-			'backToCatalog' => '← 返回目录',
+			'backToCatalog' => '返回目录',
 			_ => null,
 		};
 	}
