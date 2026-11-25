@@ -119,13 +119,13 @@ class Catalog extends ChangeNotifier {
   Catalog._();
   static final Catalog instance = Catalog._();
 
-  /// Our mirrored feed — primary source, immune to upstream changes.
-  static const repoBase =
-      'https://gitlab.com/HttpAnimations/smpico/-/raw/main/catalog';
-
-  /// Original EZPico feed, kept as fallback.
+  /// Original EZPico feed — primary source, always freshest.
   static const upstreamBase =
       'https://raw.githubusercontent.com/Cka3ka1337/EZPico/main';
+
+  /// Our mirrored feed — fallback when upstream is unreachable or broken.
+  static const repoBase =
+      'https://gitlab.com/HttpAnimations/smpico/-/raw/main/catalog';
 
   Database? _db;
   List<Game> games = [];
@@ -141,20 +141,20 @@ class Catalog extends ChangeNotifier {
   String get customAddress => Settings.instance.get('catalog_address', '');
 
   /// Catalog sources in priority order. The custom address wins when set,
-  /// then our mirror, then upstream.
+  /// then upstream (always fresh, zero maintenance), then our mirror.
   List<String> get sources => [
         if (customAddress.isNotEmpty) customAddress,
-        repoBase,
         upstreamBase,
+        repoBase,
       ];
 
   /// Source that last served the manifest (or the first choice before any
   /// fetch happened).
   String get base =>
-      _resolvedBase ?? (customAddress.isEmpty ? repoBase : customAddress);
+      _resolvedBase ?? (customAddress.isEmpty ? upstreamBase : customAddress);
 
   /// Source for loose image files (images/<cover>). Our mirror doesn't
-  /// host them, so fall back to upstream unless a custom address is set.
+  /// host them, so use the resolved base unless it is the mirror.
   String get imagesBase =>
       _resolvedBase == null || _resolvedBase == repoBase
           ? (customAddress.isNotEmpty ? customAddress : upstreamBase)
