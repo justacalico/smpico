@@ -83,25 +83,28 @@ class _MainWindowState extends State<MainWindow> {
         children: [
           const TitleBar(),
           Expanded(
-            child: Row(
-              children: [
-                Sidebar(
-                  items: navItems,
-                  selected: _page,
-                  onSelect: (i) => setState(() => _page = i),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.only(bottomRight: Radius.circular(10)),
-                    child: IndexedStack(
-                      index: _page,
-                      children: navItems.map((n) => n.page).toList(),
+            child: LayoutBuilder(
+              builder: (_, c) => Row(
+                children: [
+                  Sidebar(
+                    items: navItems,
+                    selected: _page,
+                    compact: c.maxWidth < 900,
+                    onSelect: (i) => setState(() => _page = i),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(10)),
+                      child: IndexedStack(
+                        index: _page,
+                        children: navItems.map((n) => n.page).toList(),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

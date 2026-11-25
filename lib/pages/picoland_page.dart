@@ -86,10 +86,14 @@ class _PicoLandPageState extends State<PicoLandPage> {
       padding: const EdgeInsets.all(12),
       child: Column(
         children: [
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              SizedBox(
-                width: 280,
+              ConstrainedBox(
+                constraints:
+                    const BoxConstraints(minWidth: 140, maxWidth: 280),
                 child: TextField(
                   style: const TextStyle(
                       color: EZColors.textBright, fontSize: 13),
@@ -111,7 +115,6 @@ class _PicoLandPageState extends State<PicoLandPage> {
                   onChanged: (v) => setState(() => _query = v),
                 ),
               ),
-              const SizedBox(width: 8),
               _filterMenu(tr('Type'), {
                 null: tr('All'),
                 'ovrport': 'OVRport',
@@ -138,15 +141,13 @@ class _PicoLandPageState extends State<PicoLandPage> {
                 checkmarkColor: EZColors.accent,
                 side: const BorderSide(color: Color(0xFF2E2E2E)),
               ),
-              const SizedBox(width: 8),
               _genreMenu(cat),
-              const Spacer(),
-              Text(
-                cat.version.isEmpty
-                    ? ''
-                    : tr('Catalog version {}', [cat.version]),
-                style: EZText.hint,
-              ),
+              if (cat.version.isNotEmpty)
+                Text(
+                  tr('Catalog version {}', [cat.version]),
+                  style: EZText.hint,
+                  overflow: TextOverflow.ellipsis,
+                ),
               EZIconButton(Icons.refresh,
                   tooltip: tr('Check for updates'),
                   onPressed: cat.loading

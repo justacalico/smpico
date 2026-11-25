@@ -43,7 +43,14 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
       backgroundColor: EZColors.panel,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 560, maxHeight: 560),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.9 > 560
+              ? 560
+              : MediaQuery.of(context).size.width * 0.9,
+          maxHeight: MediaQuery.of(context).size.height * 0.85 > 560
+              ? 560
+              : MediaQuery.of(context).size.height * 0.85,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(

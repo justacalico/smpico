@@ -125,16 +125,16 @@ class _FilesPageState extends State<FilesPage> {
           ),
           const SizedBox(height: 6),
           // quick access + filter row
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              ...RemoteFiles.quickPaths.map((qp) => Padding(
-                    padding: const EdgeInsets.only(right: 4),
-                    child: _QuickPath(qp, fm.currentPath == qp,
-                        () => fm.open(qp)),
-                  )),
-              const Spacer(),
-              SizedBox(
-                width: 220,
+              ...RemoteFiles.quickPaths.map((qp) => _QuickPath(
+                  qp, fm.currentPath == qp, () => fm.open(qp))),
+              ConstrainedBox(
+                constraints:
+                    const BoxConstraints(minWidth: 140, maxWidth: 220),
                 child: TextField(
                   style: const TextStyle(fontSize: 12, color: EZColors.textBright),
                   decoration: InputDecoration(

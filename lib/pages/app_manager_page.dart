@@ -65,9 +65,10 @@ class _AppManagerPageState extends State<AppManagerPage> {
         children: [
           Row(
             children: [
-              SizedBox(
-                width: 300,
-                child: TextField(
+              Flexible(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 300),
+                  child: TextField(
                   controller: _search,
                   style: const TextStyle(color: EZColors.textBright, fontSize: 13),
                   decoration: InputDecoration(
@@ -90,6 +91,7 @@ class _AppManagerPageState extends State<AppManagerPage> {
                         const EdgeInsets.symmetric(vertical: 9),
                   ),
                   onChanged: (v) => setState(() => _query = v),
+                  ),
                 ),
               ),
               const SizedBox(width: 10),

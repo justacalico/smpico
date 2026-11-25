@@ -5,22 +5,27 @@ import '../theme.dart';
 
 /// Left sidebar: transparent buttons, sliding indicator with a bright
 /// bar on its left edge (#sidebarIndicator + #sidebarIndicatorBar).
+/// [compact] collapses it to an icon rail for narrow windows.
 class Sidebar extends StatelessWidget {
   final List<NavItem> items;
   final int selected;
   final ValueChanged<int> onSelect;
+  final bool compact;
   const Sidebar(
       {super.key,
       required this.items,
       required this.selected,
-      required this.onSelect});
+      required this.onSelect,
+      this.compact = false});
 
   static const itemH = 52.0;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 208,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 180),
+      curve: Curves.easeOut,
+      width: compact ? 60 : 208,
       child: Padding(
         padding: const EdgeInsets.only(left: 8, top: 4),
         child: Stack(
@@ -58,6 +63,7 @@ class Sidebar extends StatelessWidget {
                     icon: items[i].icon,
                     label: tr(items[i].labelKey),
                     selected: i == selected,
+                    compact: compact,
                     onTap: () => onSelect(i),
                   ),
               ],
@@ -73,12 +79,14 @@ class _SidebarButton extends StatefulWidget {
   final IconData icon;
   final String label;
   final bool selected;
+  final bool compact;
   final VoidCallback onTap;
   const _SidebarButton(
       {required this.icon,
       required this.label,
       required this.selected,
-      required this.onTap});
+      required this.onTap,
+      this.compact = false});
 
   @override
   State<_SidebarButton> createState() => _SidebarButtonState();
@@ -88,7 +96,7 @@ class _SidebarButtonState extends State<_SidebarButton> {
   bool _h = false;
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
+    final button = MouseRegion(
       onEnter: (_) => setState(() => _h = true),
       onExit: (_) => setState(() => _h = false),
       cursor: SystemMouseCursors.click,
@@ -96,7 +104,7 @@ class _SidebarButtonState extends State<_SidebarButton> {
         onTap: widget.onTap,
         child: Container(
           height: Sidebar.itemH,
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: EdgeInsets.symmetric(horizontal: widget.compact ? 0 : 15),
           decoration: BoxDecoration(
             color: _h && !widget.selected
                 ? const Color(0xFF282828)
@@ -104,28 +112,42 @@ class _SidebarButtonState extends State<_SidebarButton> {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: const Color(0x00262626)),
           ),
-          child: Row(
-            children: [
-              Icon(widget.icon,
-                  size: 18,
-                  color: widget.selected
-                      ? EZColors.textBright
-                      : const Color(0xFF5A5A5A)),
-              const SizedBox(width: 10),
-              Text(
-                widget.label,
-                style: TextStyle(
-                  color: widget.selected
-                      ? EZColors.textBright
-                      : const Color(0xFF5A5A5A),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+          child: widget.compact
+              ? Center(
+                  child: Icon(widget.icon,
+                      size: 20,
+                      color: widget.selected
+                          ? EZColors.textBright
+                          : const Color(0xFF5A5A5A)),
+                )
+              : Row(
+                  children: [
+                    Icon(widget.icon,
+                        size: 18,
+                        color: widget.selected
+                            ? EZColors.textBright
+                            : const Color(0xFF5A5A5A)),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        widget.label,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: widget.selected
+                              ? EZColors.textBright
+                              : const Color(0xFF5A5A5A),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );
+    return widget.compact
+        ? Tooltip(message: widget.label, child: button)
+        : button;
   }
 }
