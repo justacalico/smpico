@@ -30,6 +30,9 @@ class DownloadJob extends ChangeNotifier {
   /// Set when the game should be installed right after download.
   Object? installAfter;
 
+  /// The install job this download spawned, if any.
+  InstallJob? chained;
+
   CancelToken cancelToken = CancelToken();
 
   DownloadJob(this.id, this.title, this.url, this.kind, this.targetDir);
@@ -133,10 +136,11 @@ class Downloads extends ChangeNotifier {
       if (opts != null) {
         // chain into the install queue like the original does
         dlog('chaining install: ${job.title} (${job.outPath})');
-        Installer.instance.enqueue(
+        job.chained = Installer.instance.enqueue(
           out.path,
           job.title,
           opts is InstallOptions ? opts : InstallOptions(),
+          fromDownload: job,
         );
       }
     } catch (e) {

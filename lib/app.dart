@@ -249,7 +249,9 @@ void _showNotifications(BuildContext context) {
           ]),
           builder: (ctx, _) {
             final rows = <Widget>[
-              for (final j in Downloads.instance.jobs)
+              for (final j in Downloads.instance.jobs.where(
+                (d) => d.chained == null,
+              ))
                 _notifRow(
                   Icons.cloud_download,
                   j.state == 'failed' ? EZColors.bad : EZColors.accent,

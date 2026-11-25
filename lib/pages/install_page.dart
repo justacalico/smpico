@@ -66,7 +66,10 @@ class _InstallPageState extends State<InstallPage> {
   Widget build(BuildContext context) {
     final connected = Devices.instance.connected;
     final jobs = Installer.instance.jobs;
-    final dlJobs = Downloads.instance.jobs;
+    // chained downloads are folded into their install card
+    final dlJobs = Downloads.instance.jobs
+        .where((j) => j.chained == null)
+        .toList();
     return Container(
       color: EZColors.page,
       padding: const EdgeInsets.all(12),

@@ -60,6 +60,7 @@ class InstallJob extends ChangeNotifier {
   bool cancelled = false;
 
   // filled by analysis
+  DownloadJob? fromDownload;
   ApkInfo? apkInfo;
   bool isOvrport = false;
   String? resolvedApk; // final apk path to install
@@ -88,11 +89,22 @@ class Installer extends ChangeNotifier {
   final List<InstallJob> jobs = [];
   bool _processing = false;
 
-  void enqueue(String sourcePath, String displayName, InstallOptions opts) {
+  InstallJob enqueue(
+    String sourcePath,
+    String displayName,
+    InstallOptions opts, {
+    DownloadJob? fromDownload,
+  }) {
     dlog('install queued: $displayName ($sourcePath, ${opts.method.name})');
-    jobs.insert(0, InstallJob(sourcePath, displayName, opts));
+    final job = InstallJob(sourcePath, displayName, opts)
+      ..fromDownload = fromDownload;
+    if (fromDownload != null) {
+      job.addLog('downloaded: ${fromDownload.outPath ?? ''}');
+    }
+    jobs.insert(0, job);
     notifyListeners();
     _process();
+    return job;
   }
 
   void cancel(InstallJob job) {
