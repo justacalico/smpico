@@ -5,7 +5,93 @@ import '../core/log.dart';
 import '../i18n.dart';
 import '../theme.dart';
 
-/// Open a URL in the browser; shows a snackbar and logs when it fails.
+/// Small themed toast pinned to the bottom-center of the window.
+void toast(BuildContext context, String msg) {
+  final overlay = Overlay.of(context);
+  late OverlayEntry entry;
+  entry = OverlayEntry(
+    builder: (_) => _Toast(message: msg, onDone: entry.remove),
+  );
+  overlay.insert(entry);
+}
+
+class _Toast extends StatefulWidget {
+  final String message;
+  final VoidCallback onDone;
+  const _Toast({required this.message, required this.onDone});
+
+  @override
+  State<_Toast> createState() => _ToastState();
+}
+
+class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
+  late final _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 140),
+    reverseDuration: const Duration(milliseconds: 180),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _c.forward();
+    Future.delayed(const Duration(milliseconds: 2400), () async {
+      if (!mounted) return;
+      await _c.reverse();
+      widget.onDone();
+    });
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 26,
+      child: IgnorePointer(
+        child: FadeTransition(
+          opacity: _c.drive(CurveTween(curve: Curves.easeOut)),
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 420),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+              decoration: BoxDecoration(
+                color: const Color(0xFF2B2B2B),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFF3D3D3D)),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x88000000),
+                    blurRadius: 18,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Text(
+                widget.message,
+                style: const TextStyle(
+                  color: Color(0xFFECECEC),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Open a URL in the browser; shows a toast and logs when it fails.
 Future<void> openExternalUrl(BuildContext context, String url) async {
   var ok = false;
   try {
@@ -15,13 +101,7 @@ Future<void> openExternalUrl(BuildContext context, String url) async {
     dlog('openExternalUrl: $url -> $e');
   }
   if (!ok && context.mounted) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(tr('Could not open the link')),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 3),
-      ),
-    );
+    toast(context, tr('Could not open the link'));
   }
 }
 

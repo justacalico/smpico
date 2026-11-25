@@ -168,15 +168,9 @@ class _PackageRowState extends State<_PackageRow> {
     setState(() => _busy = true);
     try {
       final msg = await op();
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(okMsg ?? msg)));
-      }
+      if (mounted) toast(context, okMsg ?? msg);
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('$e')));
-      }
+      if (mounted) toast(context, '$e');
     }
     setState(() => _busy = false);
   }

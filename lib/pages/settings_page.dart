@@ -146,16 +146,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 await Updater.instance.check();
                 if (!mounted) return;
                 final u = Updater.instance;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      u.available != null
-                          ? tr('SMPico {} is available', [u.available!.version])
-                          : u.error != null
-                          ? u.error!
-                          : tr('You have the latest version'),
-                    ),
-                  ),
+                toast(
+                  context,
+                  u.available != null
+                      ? tr('SMPico {} is available', [u.available!.version])
+                      : u.error != null
+                      ? u.error!
+                      : tr('You have the latest version'),
                 );
               },
             ),
@@ -171,11 +168,7 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 30,
               onPressed: () => Settings.instance
                   .set('welcome_accepted', false)
-                  .then(
-                    (_) => ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(tr('Welcome to SMPico'))),
-                    ),
-                  ),
+                  .then((_) => toast(context, tr('Welcome to SMPico'))),
             ),
           ),
           _row(
@@ -352,11 +345,7 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     }
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(tr('Freed {} ({} folders)', [_fmtBytes(freed), count])),
-        ),
-      );
+      toast(context, tr('Freed {} ({} folders)', [_fmtBytes(freed), count]));
     }
   }
 
@@ -395,9 +384,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> _report() async {
     final f = await Packages.instance.createReport();
     if (mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(tr('Report saved: {}', [f.path]))));
+      toast(context, tr('Report saved: {}', [f.path]));
     }
   }
 

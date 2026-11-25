@@ -54,10 +54,7 @@ class _DevicePageState extends State<DevicePage> {
     await Adb.instance.pull('/sdcard/$name', p.join(dir.path, name));
     await Adb.instance.rm('/sdcard/$name');
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(tr('Screenshot saved: {}', [name]))),
-      );
-      if (await File(p.join(dir.path, name)).exists()) {}
+      toast(context, tr('Screenshot saved: {}', [name]));
     }
   }
 
@@ -627,7 +624,10 @@ class _AdbConsoleState extends State<_AdbConsole> {
                     )
                     .toList(),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   child: Text(
                     '…',
                     style: TextStyle(color: EZColors.accent, fontSize: 16),

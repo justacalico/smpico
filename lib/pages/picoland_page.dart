@@ -791,16 +791,7 @@ class _GameDetails extends StatelessWidget {
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: l.url));
                 dlog('copied link: ${l.url}');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      tr('Copied: {}', [l.url]),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
+                toast(context, tr('Copied: {}', [l.url]));
               },
             ),
             EZIconButton(
@@ -840,12 +831,7 @@ class _GameDetails extends StatelessWidget {
     );
     if (link == null) {
       dlog('no usable link for ${g.title}');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(tr('No download links — open the post in Telegram')),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      toast(context, tr('No download links — open the post in Telegram'));
       return;
     }
     dlog(
@@ -858,12 +844,6 @@ class _GameDetails extends StatelessWidget {
       kind: link.kind,
       installAfter: install ? (opts ?? InstallOptions()) : null,
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(tr('Download added to queue — see the Install tab')),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    toast(context, tr('Download added to queue — see the Install tab'));
   }
 }

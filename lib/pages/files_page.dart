@@ -438,10 +438,7 @@ class _FilesPageState extends State<FilesPage> {
         try {
           await fm.rename(e, name);
         } catch (err) {
-          if (mounted) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('$err')));
-          }
+          if (mounted) toast(context, '$err');
         }
       }
     } else if (act == 'delete') {
@@ -501,10 +498,7 @@ class _FilesPageState extends State<FilesPage> {
       try {
         await fm.mkdir(v);
       } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('$e')));
-        }
+        if (mounted) toast(context, '$e');
       }
     }
   }
