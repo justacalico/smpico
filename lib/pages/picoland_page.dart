@@ -25,6 +25,7 @@ class PicoLandPage extends StatefulWidget {
 class _PicoLandPageState extends State<PicoLandPage> {
   Game? _selected;
   String _query = '';
+  final _search = TextEditingController();
   final _kbFocus = FocusNode();
   final Set<String> _genres = {};
   String? _language;
@@ -73,6 +74,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
     Devices.instance.removeListener(_onDevice);
     Installer.instance.removeListener(_onJobs);
     _kbFocus.dispose();
+    _search.dispose();
     super.dispose();
   }
 
@@ -133,6 +135,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
                   SizedBox(
                     width: 240,
                     child: TextField(
+                      controller: _search,
                       style: const TextStyle(
                         color: EZColors.textBright,
                         fontSize: 13,
