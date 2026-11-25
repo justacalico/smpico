@@ -8,6 +8,7 @@ import 'settings.dart';
 import 'theme.dart';
 import 'core/devices.dart';
 import 'core/catalog.dart';
+import 'core/downloads.dart';
 import 'core/updater.dart';
 
 Future<void> main() async {
@@ -32,6 +33,7 @@ Future<void> main() async {
 
   Devices.instance.start();
   Catalog.instance.init();
+  Downloads.instance.init();
   if (Settings.instance.get('check_updates', true)) {
     Updater.instance.check();
   }
