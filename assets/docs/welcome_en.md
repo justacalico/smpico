@@ -17,6 +17,5 @@ Everything stays **on this PC only**: settings (`HKCU\Software\SMPico`), install
 #### Tooltips and help
 
 - Hover over a button or icon to see what it does.
-- The full guide is in **Settings → Help and reset → Guide** (book icon).
 
 By pressing "Accept" you agree to the above. A first-launch mark is saved to the settings and this window will not appear again. You can reopen it in **Settings → Help and reset**.

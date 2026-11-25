@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../core/catalog.dart';
 import '../core/packages.dart';
@@ -21,28 +19,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String _guide = '';
-  bool _showGuide = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadGuide();
-    I18n.instance.addListener(_loadGuide);
-  }
-
-  Future<void> _loadGuide() async {
-    final lang = I18n.instance.lang == AppLang.ru ? 'ru' : 'en';
-    final t = await rootBundle.loadString('assets/docs/guide_$lang.md');
-    if (mounted) setState(() => _guide = t);
-  }
-
-  @override
-  void dispose() {
-    I18n.instance.removeListener(_loadGuide);
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +26,6 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: const EdgeInsets.all(12),
       child: ListView(
         children: [
-          if (_showGuide) _guidePanel(),
           _section(tr('Interface')),
           _row(
             tr('Language'),
@@ -187,18 +162,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           _section(tr('Help and reset')),
           _row(
-            tr('Guide'),
-            tr(
-              'How to connect the headset and what every tab, button and option does',
-            ),
-            EZButton(
-              tr('Open guide'),
-              icon: Icons.book,
-              height: 30,
-              onPressed: () => setState(() => _showGuide = !_showGuide),
-            ),
-          ),
-          _row(
             tr('Welcome screen'),
             tr(
               'Which internet resources SMPico uses and what it stores on this PC',
@@ -238,22 +201,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           const SizedBox(height: 24),
         ],
-      ),
-    );
-  }
-
-  Widget _guidePanel() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      height: 320,
-      padding: const EdgeInsets.all(14),
-      decoration: cardDecoration(),
-      child: Markdown(
-        data: _guide,
-        styleSheet: mdStyle,
-        onTapLink: (_, href, __) {
-          if (href != null) openExternalUrl(context, href);
-        },
       ),
     );
   }
