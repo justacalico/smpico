@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class EZColors {
   EZColors._();
@@ -83,6 +84,42 @@ BoxDecoration cardDecoration({double radius = 12}) => BoxDecoration(
       color: EZColors.card,
       border: Border.all(color: EZColors.cardBorder),
       borderRadius: BorderRadius.circular(radius),
+    );
+
+MarkdownStyleSheet get mdStyle => MarkdownStyleSheet(
+      p: const TextStyle(color: EZColors.text, fontSize: 13, height: 1.45),
+      h1: const TextStyle(
+          color: EZColors.textBright, fontSize: 19, fontWeight: FontWeight.w700),
+      h2: const TextStyle(
+          color: EZColors.textBright, fontSize: 16, fontWeight: FontWeight.w700),
+      h3: const TextStyle(
+          color: EZColors.textBright, fontSize: 14, fontWeight: FontWeight.w700),
+      h4: const TextStyle(
+          color: Color(0xFFD8D8D8), fontSize: 13, fontWeight: FontWeight.w700),
+      strong: const TextStyle(
+          color: EZColors.textBright, fontWeight: FontWeight.w700),
+      em: const TextStyle(color: EZColors.text, fontStyle: FontStyle.italic),
+      code: const TextStyle(
+          color: Color(0xFFD8D8D8),
+          backgroundColor: EZColors.consoleBg,
+          fontFamily: 'Consolas',
+          fontSize: 12),
+      codeblockDecoration: BoxDecoration(
+        color: EZColors.consoleBg,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      blockquote: const TextStyle(color: EZColors.textDim, fontSize: 13),
+      blockquoteDecoration: const BoxDecoration(
+        border: Border(
+            left: BorderSide(color: EZColors.accent, width: 3)),
+      ),
+      listBullet: const TextStyle(color: EZColors.textDim, fontSize: 13),
+      listBulletPadding: const EdgeInsets.only(right: 6),
+      a: const TextStyle(
+          color: EZColors.accent, decoration: TextDecoration.underline),
+      horizontalRuleDecoration: const BoxDecoration(
+        border: Border(top: BorderSide(color: EZColors.separator)),
+      ),
     );
 
 ThemeData buildEZTheme() {

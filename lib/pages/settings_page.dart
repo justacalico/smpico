@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/catalog.dart';
 import '../core/packages.dart';
@@ -147,10 +148,12 @@ class _SettingsPageState extends State<SettingsPage> {
       height: 320,
       padding: const EdgeInsets.all(14),
       decoration: cardDecoration(),
-      child: SingleChildScrollView(
-        child: SelectableText(_guide,
-            style: const TextStyle(
-                color: EZColors.text, fontSize: 12, height: 1.45)),
+      child: Markdown(
+        data: _guide,
+        styleSheet: mdStyle,
+        onTapLink: (_, href, __) {
+          if (href != null) launchUrl(Uri.parse(href));
+        },
       ),
     );
   }

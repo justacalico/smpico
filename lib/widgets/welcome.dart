@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../i18n.dart';
 import '../theme.dart';
@@ -61,12 +62,12 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
               ),
               const SizedBox(height: 14),
               Expanded(
-                child: SingleChildScrollView(
-                  child: SelectableText(
-                    _text,
-                    style: const TextStyle(
-                        color: EZColors.text, fontSize: 13, height: 1.45),
-                  ),
+                child: Markdown(
+                  data: _text,
+                  styleSheet: mdStyle,
+                  onTapLink: (_, href, __) {
+                    if (href != null) launchUrl(Uri.parse(href));
+                  },
                 ),
               ),
               const SizedBox(height: 14),
