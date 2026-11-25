@@ -323,10 +323,7 @@ class _QueueJobRowState extends State<_QueueJobRow> {
     final subtitle =
         j.error ??
         (j.state == 'downloading'
-            ? tr('Downloading… {} of {}', [
-                fmtBytes(j.received),
-                j.total > 0 ? fmtBytes(j.total) : '?',
-              ])
+            ? '${fmtBytes(j.received)} / ${j.total > 0 ? fmtBytes(j.total) : '?'}'
             : (j.outPath ?? j.url));
     final stateColor = switch (j.state) {
       'done' => EZColors.ok,

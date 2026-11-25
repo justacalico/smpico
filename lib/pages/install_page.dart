@@ -506,10 +506,7 @@ class _DownloadCardState extends State<_DownloadCard> {
     final subtitle =
         j.error ??
         (j.state == 'downloading'
-            ? tr('Downloading… {} of {}', [
-                fmtBytes(j.received),
-                j.total > 0 ? fmtBytes(j.total) : '?',
-              ])
+            ? '${fmtBytes(j.received)} / ${j.total > 0 ? fmtBytes(j.total) : '?'}'
             : (j.outPath ?? j.url));
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
