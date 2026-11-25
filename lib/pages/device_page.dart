@@ -356,17 +356,16 @@ class _DevicePageState extends State<DevicePage> {
             overflow: TextOverflow.ellipsis,
           ),
           const Spacer(),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(2),
-            child: LinearProgressIndicator(
-              value: frac ?? 0,
-              minHeight: 4,
-              backgroundColor: const Color(0xFF2C2C2C),
-              valueColor: AlwaysStoppedAnimation(
-                frac != null ? color : Colors.transparent,
+          if (frac != null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(2),
+              child: LinearProgressIndicator(
+                value: frac,
+                minHeight: 4,
+                backgroundColor: const Color(0xFF2C2C2C),
+                valueColor: AlwaysStoppedAnimation(color),
               ),
             ),
-          ),
         ],
       ),
     );
