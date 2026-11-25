@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'paths.dart';
 
-/// Resolves external tools the way the original EZPico does: a bundled
+/// Resolves external tools the way the original SMPico does: a bundled
 /// tools/ directory first, then PATH. Windows builds ship adb.exe,
 /// apktool_2.12.1.jar, apksigner.jar, SignApk.jar, UnRAR.exe, scrcpy.exe,
 /// keytool.exe, openssl.exe and overportcli-1.2.2-all.jar plus a JRE in

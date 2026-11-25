@@ -359,8 +359,8 @@ class Installer extends ChangeNotifier {
     final r = await Process.run(java, [
       '-jar', signer.path, 'sign',
       '--ks', ks.path,
-      '--ks-pass', 'pass:ezpico',
-      '--key-pass', 'pass:ezpico',
+      '--ks-pass', 'pass:smpico',
+      '--key-pass', 'pass:smpico',
       '--out', signed,
       apk,
     ]);
@@ -372,7 +372,7 @@ class Installer extends ChangeNotifier {
   Future<File> _ensureKeystore() async {
     final dir = await AppPaths.keysDir();
     await dir.create(recursive: true);
-    final ks = File(p.join(dir.path, 'ezpico.keystore'));
+    final ks = File(p.join(dir.path, 'smpico.keystore'));
     if (await ks.exists()) return ks;
     final keytool = await Tools.instance.keytool() ??
         await Tools.instance.java()
@@ -381,11 +381,11 @@ class Installer extends ChangeNotifier {
     await Process.run(keytool, [
       '-genkeypair', '-v',
       '-keystore', ks.path,
-      '-alias', 'ezpico',
+      '-alias', 'smpico',
       '-keyalg', 'RSA', '-keysize', '2048',
       '-validity', '10000',
-      '-storepass', 'ezpico', '-keypass', 'ezpico',
-      '-dname', 'CN=EZPico',
+      '-storepass', 'smpico', '-keypass', 'smpico',
+      '-dname', 'CN=SMPico',
     ]);
     return ks;
   }

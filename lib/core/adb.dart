@@ -181,7 +181,7 @@ class Adb {
   /// with characters adb can't handle directly.
   Future<String> installOnDevice(String localApk,
       {String? installer, bool grantAll = true}) async {
-    const tmp = '/data/local/tmp/_ezpico_install.apk';
+    const tmp = '/data/local/tmp/_smpico_install.apk';
     await push(localApk, tmp, timeout: const Duration(minutes: 10));
     var cmd = 'pm install -r';
     if (grantAll) cmd += ' -g';

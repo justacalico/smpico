@@ -1,6 +1,6 @@
-# EZPico guide
+# SMPico guide
 
-EZPico installs games and apps on PICO headsets from a PC: it extracts archives, prepares the APK, installs it and moves the game cache. It also has an app manager, a file manager, a headset screen stream and the PicoLand game catalog.
+SMPico installs games and apps on PICO headsets from a PC: it extracts archives, prepares the APK, installs it and moves the game cache. It also has an app manager, a file manager, a headset screen stream and the PicoLand game catalog.
 
 > **Tooltips.** Hover over any button or icon for a second to see what it does.
 
@@ -10,7 +10,7 @@ EZPico installs games and apps on PICO headsets from a PC: it extracts archives,
 2. In *Developer*, enable **USB debugging**.
 3. Connect the headset with a data USB cable.
 
-The headset appears in EZPico by itself. With several headsets, pick one in the selector on the **Device** tab.
+The headset appears in SMPico by itself. With several headsets, pick one in the selector on the **Device** tab.
 
 ## 2. Device
 
@@ -20,7 +20,7 @@ Model, firmware, battery, storage and the **PUI Matrix** version. Matrix is the 
 
 Drop files onto the tab or use "Choose files…" / "Choose folder…". Supported: `.apk`, `.zip / .rar / .7z` (multi-volume too) and game folders.
 
-- **Auto** mode (recommended) — EZPico picks the method itself. With **PUI Matrix 9.9.9** on the headset (protection removed) games are installed **clean**: nothing renamed or stripped from the APK.
+- **Auto** mode (recommended) — SMPico picks the method itself. With **PUI Matrix 9.9.9** on the headset (protection removed) games are installed **clean**: nothing renamed or stripped from the APK.
 - **Manual** mode — you choose:
   - **Repack** — decompile, add a package suffix, strip metadata, rebuild and sign. Main method for cracked games from the PICO store.
   - **Direct** — the APK is installed unchanged.
@@ -48,31 +48,17 @@ Search, genres, covers, descriptions. Filters: language, type (OVRport / FNAL), 
 - **← Back to catalog** or **Esc**;
 - **▶** — trailer, **Telegram** icon — the original post;
 - link dot: green — available, red — removed, grey — not checked;
-- **Download and install** — EZPico downloads and installs the game;
+- **Download and install** — SMPico downloads and installs the game;
 - cloud / Telegram icon — open the link, chain icon — copy it.
 
 Catalog installs use **auto mode** by default; post hints (cache target and folder name) are applied automatically. The **gear** icon next to "Download and install" or on a download row opens full install settings (method, suffix, SDK, signing key, store installer, cache) — before, during or after the download, or "download only". The "From the post" block is the post author's text as is.
 
-## 8. Telegram sign-in
+## 8. Settings
 
-Some PicoLand games live in Telegram channels: *Settings → Telegram → Sign in with QR*.
+Interface, Device, Files, PicoLand catalog, **Help and reset** (this guide, welcome screen, **reset all settings**), Developer (**Create report** — headset info, packages, install history and logs; no passwords or personal data, debug console, tools folder).
 
-- QR code only, like "Link desktop device" in Telegram. No phone number.
-- A 2FA password, if any, goes straight to Telegram and is never stored.
-- By default the session is kept in memory only and is logged out when EZPico closes.
-- **Remember me** stores it encrypted with Windows DPAPI in `%LOCALAPPDATA%\EZPico\telegram.session`.
-- **Sign out** ends the session and deletes the file. Telegram data never gets into reports, logs or settings.
+**Reset all settings** returns SMPico to its first-launch state. Installed games, saves and screenshots are not touched.
 
-## 9. Settings
+## 9. Stored data
 
-Interface, Device, Files, PicoLand catalog, Telegram, **Help and reset** (this guide, welcome screen, **reset all settings**), Support (**Create report** — headset info, packages, install history and logs, no passwords or Telegram data), Developer (debug console, tools folder).
-
-**Reset all settings** returns EZPico to its first-launch state. Installed games, saves, screenshots and the Telegram sign-in are not touched.
-
-## 10. Stored data
-
-Everything stays on your PC: settings — `HKCU\Software\EZPico`; work files, history, backups, screenshots, recordings, reports — `C:\ProgramData\ezpico_workspace`; tools — `C:\ProgramData\ezpico\tools`; Telegram session (only with "Remember me") — `%LOCALAPPDATA%\EZPico\telegram.session`.
-
-## 11. Support the project
-
-EZPico is free and made by one person — **Cka3ka** ([@Cka3kaTG](https://t.me/Cka3kaTG)). See the **Support** tab. Thank you!
+Everything stays on your PC: settings — `HKCU\Software\SMPico`; work files, history, backups, screenshots, recordings, reports — `C:\ProgramData\smpico_workspace`; tools — `C:\ProgramData\smpico\tools`.

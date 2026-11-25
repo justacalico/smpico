@@ -108,7 +108,7 @@ class _InstallPageState extends State<InstallPage> {
                   const SizedBox(height: 8),
                   Text(
                     _options.method == InstallMethod.auto
-                        ? tr('EZPico picks the method itself (Matrix 9.9.9 — clean install, OVRport — direct, otherwise repack)')
+                        ? tr('SMPico picks the method itself (Matrix 9.9.9 — clean install, OVRport — direct, otherwise repack)')
                         : tr('Each option is chosen by hand'),
                     style: EZText.hint,
                   ),

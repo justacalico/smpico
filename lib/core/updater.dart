@@ -10,15 +10,14 @@ class UpdateInfo {
   UpdateInfo(this.version, this.size, this.sha256, this.url, this.notes);
 }
 
-/// Mirrors modules/updater: checks ezpico-updates.agveit.pro first,
-/// falls back to the GitHub releases API.
+/// Checks GitLab releases for a newer build. No update feed is
+/// configured yet, so check() stays quiet until one exists.
 class Updater extends ChangeNotifier {
   Updater._();
   static final Updater instance = Updater._();
 
   static const appVersion = '1.0.0';
-  static const updatesUrl = 'https://ezpico-updates.agveit.pro';
-  static const updatesRepo = 'Cka3ka1337/EZPico';
+  static const updatesRepo = 'HttpAnimations/smpico';
 
   bool checking = false;
   UpdateInfo? available;
@@ -32,28 +31,16 @@ class Updater extends ChangeNotifier {
     notifyListeners();
     try {
       final dio = Dio(BaseOptions(connectTimeout: const Duration(seconds: 15)));
-      final r = await dio.get('https://api.github.com/repos/$updatesRepo/releases/latest');
+      final r = await dio.get(
+          'https://gitlab.com/api/v4/projects/${Uri.encodeComponent(updatesRepo)}/releases/permalink/latest');
       final d = r.data as Map<String, dynamic>;
       final tag = '${d['tag_name']}'.replaceFirst('v', '');
-      final assets = d['assets'] as List<dynamic>;
-      Map<String, dynamic>? app;
-      for (final a in assets) {
-        if ('${a['name']}'.startsWith('EZPico-') &&
-            '${a['name']}'.endsWith('.zip')) {
-          app = a;
-          break;
-        }
+      if (_newer(tag, appVersion)) {
+        available = UpdateInfo(tag, 0, '',
+            '${d['_links']?['self'] ?? ''}', '${d['description'] ?? ''}');
       }
-      if (_newer(tag, appVersion) && app != null) {
-        available = UpdateInfo(
-            tag,
-            app['size'] as int? ?? 0,
-            '',
-            '${app['browser_download_url']}',
-            '${d['body'] ?? 'No release notes.'}');
-      }
-    } catch (e) {
-      error = '$e';
+    } catch (_) {
+      // no releases yet — nothing to update to
     }
     checking = false;
     notifyListeners();

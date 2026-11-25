@@ -19,7 +19,7 @@ Future<void> main() async {
     backgroundColor: Color(0xFF1F1F1F),
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
-    title: 'EZPico',
+    title: 'SMPico',
   );
   await windowManager.waitUntilReadyToShow(opts, () async {
     await windowManager.show();
@@ -32,16 +32,16 @@ Future<void> main() async {
     Updater.instance.check();
   }
 
-  runApp(const EZPicoApp());
+  runApp(const SMPicoApp());
 }
 
-class EZPicoApp extends StatelessWidget {
-  const EZPicoApp({super.key});
+class SMPicoApp extends StatelessWidget {
+  const SMPicoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'EZPico',
+      title: 'SMPico',
       debugShowCheckedModeBanner: false,
       theme: buildEZTheme(),
       home: const MainWindow(),

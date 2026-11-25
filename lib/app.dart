@@ -11,9 +11,7 @@ import 'pages/app_manager_page.dart';
 import 'pages/files_page.dart';
 import 'pages/stream_page.dart';
 import 'pages/picoland_page.dart';
-import 'pages/community_page.dart';
 import 'pages/settings_page.dart';
-import 'pages/donate_page.dart';
 
 class NavItem {
   final IconData icon;
@@ -29,9 +27,7 @@ final navItems = <NavItem>[
   NavItem(Icons.folder, 'File Manager', const FilesPage()),
   NavItem(Icons.cast, 'Stream', const StreamPage()),
   NavItem(Icons.videogame_asset, 'PicoLand Games', const PicoLandPage()),
-  NavItem(Icons.forum, 'Community', const CommunityPage()),
   NavItem(Icons.settings, 'Settings', const SettingsPage()),
-  NavItem(Icons.volunteer_activism, 'Support', const DonatePage()),
 ];
 
 class MainWindow extends StatefulWidget {
@@ -128,12 +124,14 @@ class TitleBar extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 12),
-          Image.asset('assets/icons/ezpico_white.png', height: 18,
-              errorBuilder: (_, __, ___) => const SizedBox()),
+          const Icon(Icons.headset, size: 16, color: EZColors.accent),
           const SizedBox(width: 8),
-          Image.asset('assets/icons/ezpico_word.png', height: 14,
-              errorBuilder: (_, __, ___) =>
-                  const Text('EZPico', style: TextStyle(fontSize: 12))),
+          const Text('SMPico',
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: EZColors.textBright,
+                  letterSpacing: 0.6)),
           Expanded(child: DragToMoveArea(child: const SizedBox.expand())),
           _TitleBtn(
             icon: Icons.notifications_none,

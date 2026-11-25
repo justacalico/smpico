@@ -1,4 +1,4 @@
-# EZPico
+# SMPico
 
 Desktop companion for Pico VR headsets. Installs games and apps over ADB,
 manages the headset's packages and files, streams the view through scrcpy,
@@ -33,7 +33,7 @@ flutter build linux      # or: windows / macos
 
 External tools (adb, unrar, scrcpy, apktool, apksigner, overport-cli, JRE)
 are expected under the tools folder; the app looks for them next to the
-binary and in `C:\ProgramData\ezpico\tools` / `~/.local/share/ezpico/tools`.
+binary and in `C:\ProgramData\smpico\tools` / `~/.local/share/smpico/tools`.
 
 ## License
 

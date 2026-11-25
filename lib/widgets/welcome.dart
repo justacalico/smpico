@@ -50,10 +50,10 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
             children: [
               Row(
                 children: [
-                  Image.asset('assets/icons/ezpico_white.png', height: 22,
-                      errorBuilder: (_, __, ___) => const SizedBox()),
+                  const Icon(Icons.headset,
+                      size: 22, color: EZColors.accent),
                   const SizedBox(width: 10),
-                  Text(tr('Welcome to EZPico'),
+                  Text(tr('Welcome to SMPico'),
                       style: const TextStyle(
                           color: EZColors.textBright,
                           fontSize: 17,
@@ -73,12 +73,6 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
               const SizedBox(height: 14),
               Row(
                 children: [
-                  TextButton(
-                    onPressed: () => launchUrl(
-                        Uri.parse('https://t.me/Cka3kaTG')),
-                    child: const Text('@Cka3kaTG',
-                        style: TextStyle(color: EZColors.accent, fontSize: 12)),
-                  ),
                   const Spacer(),
                   EZButton(
                     tr('Accept'),

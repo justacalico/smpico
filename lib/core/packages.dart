@@ -17,8 +17,8 @@ class PackageEntry {
 }
 
 /// App manager: lists headset packages, launches/uninstalls, saves
-/// APKs, backs up and restores game saves (/data/local/tmp/ezpico_backup,
-/// /sdcard/ezpico_restore_tmp like the original).
+/// APKs, backs up and restores game saves (/data/local/tmp/smpico_backup,
+/// /sdcard/smpico_restore_tmp like the original).
 class Packages extends ChangeNotifier {
   Packages._();
   static final Packages instance = Packages._();
@@ -188,7 +188,7 @@ class Packages extends ChangeNotifier {
     for (final sub in ['data', 'obb']) {
       final local = Directory(p.join(backup.path, 'Android_${sub}_$pkg'));
       if (!await local.exists()) continue;
-      const tmp = '/sdcard/ezpico_restore_tmp';
+      const tmp = '/sdcard/smpico_restore_tmp';
       await Adb.instance.mkdir(tmp);
       // the pulled dir contains <pkg>/ inside
       final inner = Directory(p.join(local.path, pkg));
@@ -197,7 +197,7 @@ class Packages extends ChangeNotifier {
       await Adb.instance
           .shell('cp -r $tmp/$pkg /sdcard/Android/$sub/ && rm -rf $tmp/$pkg');
     }
-    await Adb.instance.rm('/sdcard/ezpico_restore_tmp');
+    await Adb.instance.rm('/sdcard/smpico_restore_tmp');
   }
 
   Future<List<String>> permissions(String pkg) async {
@@ -218,9 +218,9 @@ class Packages extends ChangeNotifier {
     final dir = await AppPaths.reports();
     await dir.create(recursive: true);
     final f = File(p.join(dir.path,
-        'ezpico_report_${DateTime.now().millisecondsSinceEpoch}.txt'));
+        'smpico_report_${DateTime.now().millisecondsSinceEpoch}.txt'));
     final b = StringBuffer();
-    b.writeln('EZPico report ${DateTime.now().toIso8601String()}');
+    b.writeln('SMPico report ${DateTime.now().toIso8601String()}');
     b.writeln('--- device ---');
     try {
       b.writeln(await Adb.instance.details());

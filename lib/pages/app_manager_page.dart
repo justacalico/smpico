@@ -115,7 +115,7 @@ class _AppManagerPageState extends State<AppManagerPage> {
                             subtitle: pkgs.error)
                         : list.isEmpty
                             ? EmptyPlug(Icons.apps, tr('Nothing installed yet'),
-                                subtitle: tr('Apps installed through EZPico will appear here'))
+                                subtitle: tr('Apps installed through SMPico will appear here'))
                             : ListView.builder(
                                 itemCount: list.length,
                                 itemBuilder: (_, i) => _PackageRow(list[i]),

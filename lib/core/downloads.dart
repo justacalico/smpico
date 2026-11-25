@@ -96,7 +96,7 @@ class Downloads extends ChangeNotifier {
       await _dio.download(resolved, out.path,
           cancelToken: job.cancelToken,
           options: Options(followRedirects: true, headers: {
-            'User-Agent': 'Mozilla/5.0 EZPico'
+            'User-Agent': 'Mozilla/5.0 SMPico'
           }), onReceiveProgress: (rec, tot) {
         job.received = rec;
         job.total = tot;

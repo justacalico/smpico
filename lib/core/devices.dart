@@ -5,7 +5,7 @@ import '../settings.dart';
 
 /// Mirrors DevicesInteractor: watches `adb devices`, auto-selects a
 /// headset, refreshes its details periodically and keeps it awake
-/// while EZPico is running.
+/// while SMPico is running.
 class Devices extends ChangeNotifier {
   Devices._();
   static final Devices instance = Devices._();

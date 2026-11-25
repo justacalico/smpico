@@ -58,14 +58,14 @@ class _SettingsPageState extends State<SettingsPage> {
               tr('Buttons, highlights and selection. Battery and status indicators keep their colors'),
               _accentPicker()),
           _switch(tr('Keep the headset awake'),
-              tr('The headset does not fall asleep while EZPico is running (installs, file transfers, stream). Normal sleep returns when EZPico is closed'),
+              tr('The headset does not fall asleep while SMPico is running (installs, file transfers, stream). Normal sleep returns when SMPico is closed'),
               'keep_awake', true),
           _switch(tr('Windows notifications'),
               tr('Show pop-up notifications about installs, backups and screenshots'),
               'notifications', true),
           _section(tr('Files')),
           _row(tr('Downloads folder'),
-              tr('Archives and unpacked folders downloaded by EZPico. Only its own folders are removed'),
+              tr('Archives and unpacked folders downloaded by SMPico. Only its own folders are removed'),
               EZButton(tr('Open folder'), height: 30, onPressed: () async {
             final d = await AppPaths.downloads();
             launchUrl(Uri.file(d.path));
@@ -92,16 +92,9 @@ class _SettingsPageState extends State<SettingsPage> {
           _row(tr('Downloaded games'),
               tr('Delete downloaded archives and unpacked game folders? Games that are downloading or installing right now are kept.'),
               EZButton(tr('Clear'), height: 30, onPressed: _clearDownloads)),
-          _section(tr('Telegram')),
-          _row(tr('Account'),
-              tr('Needed to download games stored in Telegram. Sign in with a QR code'),
-              EZButton(tr('Sign in with QR'),
-                  icon: Icons.telegram,
-                  height: 30,
-                  onPressed: _telegramNote)),
           _section(tr('Updates')),
           _switch(tr('Check for updates on startup'),
-              tr('New versions are downloaded from GitHub and installed without the setup'),
+              tr('New versions are downloaded and installed without the setup'),
               'check_updates', true),
           _row(tr('Version'), Updater.appVersion,
               EZButton(tr('Check now'), height: 30, onPressed: () async {
@@ -110,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
             final u = Updater.instance;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(u.available != null
-                    ? tr('EZPico {} is available', [u.available!.version])
+                    ? tr('SMPico {} is available', [u.available!.version])
                     : u.error != null
                         ? u.error!
                         : tr('You have the latest version'))));
@@ -121,20 +114,20 @@ class _SettingsPageState extends State<SettingsPage> {
               EZButton(tr('Open guide'), icon: Icons.book, height: 30,
                   onPressed: () => setState(() => _showGuide = !_showGuide))),
           _row(tr('Welcome screen'),
-              tr('Which internet resources EZPico uses, what it stores, Telegram sign-in and the author'),
+              tr('Which internet resources SMPico uses and what it stores on this PC'),
               EZButton(tr('Show'), height: 30,
                   onPressed: () => Settings.instance
                       .set('welcome_accepted', false)
                       .then((_) => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(tr('Welcome to EZPico'))))))),
+                          SnackBar(content: Text(tr('Welcome to SMPico'))))))),
           _row(tr('Reset all settings'),
-              tr('Language, color, toggles, folders, saved commands — everything returns to defaults and EZPico restarts. Games, saves, screenshots and the Telegram sign-in are not touched'),
+              tr('Language, color, toggles, folders, saved commands — everything returns to defaults and SMPico restarts. Games, saves and screenshots are not touched'),
               EZButton(tr('Reset'), color: EZColors.bad,
                   textColor: Colors.white, height: 30,
                   onPressed: _resetAll)),
           _section(tr('Developer')),
           _row(tr('Report'),
-              tr('Saves everything about this session: headset info, installed packages, install history and logs. No passwords or Telegram data are included'),
+              tr('Saves everything about this session: headset info, installed packages, install history and logs. No passwords or personal data are included'),
               EZButton(tr('Create report'), height: 30, onPressed: _report)),
           const SizedBox(height: 24),
         ],
@@ -303,21 +296,6 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  void _telegramNote() {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: EZColors.panel,
-        title: Text(tr('Sign in to Telegram'), style: EZText.section),
-        content: Text(tr('Telegram login is not available in this build'),
-            style: EZText.label),
-        actions: [
-          EZButton(tr('Close'), onPressed: () => Navigator.pop(context)),
-        ],
-      ),
-    );
-  }
-
   Future<void> _resetAll() async {
     final yes = await showDialog<bool>(
       context: context,
@@ -325,7 +303,7 @@ class _SettingsPageState extends State<SettingsPage> {
         backgroundColor: EZColors.panel,
         title: Text(tr('Reset all settings'), style: EZText.section),
         content: Text(
-            tr('All EZPico settings will return to defaults, the welcome screen will be shown again and the program will restart. Continue?'),
+            tr('All SMPico settings will return to defaults, the welcome screen will be shown again and the program will restart. Continue?'),
             style: EZText.label),
         actions: [
           EZButton(tr('Cancel'), onPressed: () => Navigator.pop(context, false)),

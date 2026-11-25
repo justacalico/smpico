@@ -8,18 +8,18 @@ class AppPaths {
   static Directory? _root;
   static Directory? _workspace;
 
-  /// C:/ProgramData/ezpico on Windows, ~/.local/share/ezpico on Linux,
-  /// ~/Library/Application Support/EZPico on macOS.
+  /// C:/ProgramData/smpico on Windows, ~/.local/share/smpico on Linux,
+  /// ~/Library/Application Support/SMPico on macOS.
   static Future<Directory> root() async {
     if (_root != null) return _root!;
     if (Platform.isWindows) {
-      _root = Directory(r'C:\ProgramData\ezpico');
+      _root = Directory(r'C:\ProgramData\smpico');
     } else if (Platform.isMacOS) {
       _root = Directory(p.join(
-          Platform.environment['HOME']!, 'Library', 'Application Support', 'EZPico'));
+          Platform.environment['HOME']!, 'Library', 'Application Support', 'SMPico'));
     } else {
       _root = Directory(p.join(
-          Platform.environment['HOME']!, '.local', 'share', 'ezpico'));
+          Platform.environment['HOME']!, '.local', 'share', 'smpico'));
     }
     await _root!.create(recursive: true);
     return _root!;
@@ -28,11 +28,11 @@ class AppPaths {
   static Future<Directory> tools() async =>
       Directory(p.join((await root()).path, 'tools'));
 
-  /// C:/ProgramData/ezpico_workspace on Windows.
+  /// C:/ProgramData/smpico_workspace on Windows.
   static Future<Directory> workspace() async {
     if (_workspace != null) return _workspace!;
     if (Platform.isWindows) {
-      _workspace = Directory(r'C:\ProgramData\ezpico_workspace');
+      _workspace = Directory(r'C:\ProgramData\smpico_workspace');
     } else {
       _workspace = Directory(p.join((await root()).path, 'workspace'));
     }
