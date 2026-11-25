@@ -94,76 +94,81 @@ class _PicoLandPageState extends State<PicoLandPage> {
       padding: const EdgeInsets.all(12),
       child: Column(
         children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 240,
-                  child: TextField(
-                    style: const TextStyle(
-                      color: EZColors.textBright,
-                      fontSize: 13,
-                    ),
-                    decoration: InputDecoration(
-                      isDense: true,
-                      hintText: tr('Search games…'),
-                      hintStyle: EZText.hint,
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        size: 16,
-                        color: EZColors.textDim,
+          SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 240,
+                    child: TextField(
+                      style: const TextStyle(
+                        color: EZColors.textBright,
+                        fontSize: 13,
                       ),
-                      filled: true,
-                      fillColor: EZColors.consoleBg,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Color(0xFF2C2C2C)),
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: tr('Search games…'),
+                        hintStyle: EZText.hint,
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          size: 16,
+                          color: EZColors.textDim,
+                        ),
+                        filled: true,
+                        fillColor: EZColors.consoleBg,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF2C2C2C),
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 9),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 9),
+                      onChanged: (v) => setState(() => _query = v),
                     ),
-                    onChanged: (v) => setState(() => _query = v),
                   ),
-                ),
-                const SizedBox(width: 8),
-                _filterMenu(
-                  tr('Type'),
-                  {null: tr('All'), 'ovrport': 'OVRport', 'fnal': 'FNAL'},
-                  _type,
-                  (v) => setState(() => _type = v),
-                ),
-                _filterMenu(
-                  tr('Size'),
-                  {
-                    null: tr('All'),
-                    's': tr('< 1 GB'),
-                    'm': tr('1–5 GB'),
-                    'l': tr('5+ GB'),
-                  },
-                  _sizeKey(),
-                  _setSize,
-                ),
-                _filterMenu(
-                  tr('Sort'),
-                  {'name': tr('A–Z'), 'size': tr('Size')},
-                  _sort,
-                  (v) => setState(() => _sort = v ?? 'name'),
-                ),
-                const SizedBox(width: 8),
-                _genreMenu(cat),
-                const SizedBox(width: 12),
-                if (cat.version.isNotEmpty)
-                  Text(
-                    tr('Catalog version {}', [cat.version]),
-                    style: EZText.hint,
-                    overflow: TextOverflow.ellipsis,
+                  const SizedBox(width: 8),
+                  _filterMenu(
+                    tr('Type'),
+                    {null: tr('All'), 'ovrport': 'OVRport', 'fnal': 'FNAL'},
+                    _type,
+                    (v) => setState(() => _type = v),
                   ),
-                EZIconButton(
-                  Icons.refresh,
-                  tooltip: tr('Check for updates'),
-                  onPressed: cat.loading ? null : () => cat.checkUpdates(),
-                ),
-              ],
+                  _filterMenu(
+                    tr('Size'),
+                    {
+                      null: tr('All'),
+                      's': tr('< 1 GB'),
+                      'm': tr('1–5 GB'),
+                      'l': tr('5+ GB'),
+                    },
+                    _sizeKey(),
+                    _setSize,
+                  ),
+                  _filterMenu(
+                    tr('Sort'),
+                    {'name': tr('A–Z'), 'size': tr('Size')},
+                    _sort,
+                    (v) => setState(() => _sort = v ?? 'name'),
+                  ),
+                  const SizedBox(width: 8),
+                  _genreMenu(cat),
+                  const SizedBox(width: 12),
+                  if (cat.version.isNotEmpty)
+                    Text(
+                      tr('Catalog version {}', [cat.version]),
+                      style: EZText.hint,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  EZIconButton(
+                    Icons.refresh,
+                    tooltip: tr('Check for updates'),
+                    onPressed: cat.loading ? null : () => cat.checkUpdates(),
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 10),
