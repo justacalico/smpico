@@ -70,207 +70,220 @@ class _InstallPageState extends State<InstallPage> {
     return Container(
       color: EZColors.page,
       padding: const EdgeInsets.all(12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // left: settings panel
-          SizedBox(
-            width: 340,
-            child: Container(
-              decoration: BoxDecoration(
-                color: EZColors.panel,
-                border: Border.all(color: const Color(0xFF2C2C2C)),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(14),
-              child: ListView(
-                children: [
-                  Text(tr('Installation'), style: EZText.section),
-                  const SizedBox(height: 4),
-                  Text(
-                    tr(
-                      'APK, ZIP, 7z, RAR, multi-part .001 or a folder with them',
-                    ),
-                    style: EZText.hint,
+      child: LayoutBuilder(
+        builder: (context, c) {
+          final narrow = c.maxWidth < 720;
+          final panel = Container(
+            decoration: BoxDecoration(
+              color: EZColors.panel,
+              border: Border.all(color: const Color(0xFF2C2C2C)),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.all(14),
+            child: ListView(
+              shrinkWrap: narrow,
+              children: [
+                Text(tr('Installation'), style: EZText.section),
+                const SizedBox(height: 4),
+                Text(
+                  tr(
+                    'APK, ZIP, 7z, RAR, multi-part .001 or a folder with them',
                   ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: EZButton(
-                          tr('Choose files…'),
-                          onPressed: connected ? _pickFiles : null,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: EZButton(
-                          tr('Choose folder…'),
-                          onPressed: connected ? _pickFolder : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 14),
-                  Text(tr('Mode').toUpperCase(), style: EZText.group),
-                  const SizedBox(height: 6),
-                  _ModeSegment(
-                    auto: _options.method == InstallMethod.auto,
-                    onChanged: (a) => setState(
-                      () => _options.method = a
-                          ? InstallMethod.auto
-                          : InstallMethod.repack,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    _options.method == InstallMethod.auto
-                        ? tr(
-                            'SMPico picks the method itself (Matrix 9.9.9 — clean install, OVRport — direct, otherwise repack)',
-                          )
-                        : tr('Each option is chosen by hand'),
-                    style: EZText.hint,
-                  ),
-                  if (Devices.instance.info?.matrixCracked == true ||
-                      Devices.instance.info?.isPhoenixOvs == true)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        tr(
-                          'On this headset (Matrix 9.9.9) Auto installs the APK directly: repack and signing are not used',
-                        ),
-                        style: EZText.hint.copyWith(color: EZColors.accent),
+                  style: EZText.hint,
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: EZButton(
+                        tr('Choose files…'),
+                        onPressed: connected ? _pickFiles : null,
                       ),
                     ),
-                  const SizedBox(height: 14),
-                  Row(
-                    children: [
-                      Text(tr('Install settings'), style: EZText.section),
-                      const Spacer(),
-                      EZButton(
-                        _options.method == InstallMethod.auto
-                            ? tr('auto')
-                            : tr('manual options'),
-                        height: 28,
-                        fontSize: 11,
-                        icon: Icons.settings,
-                        tooltip: tr(
-                          'Download with install settings… (method, cache, signing, or download only)',
-                        ),
-                        onPressed: _openOptions,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    tr('Applies to the next files you add, then resets'),
-                    style: EZText.hint,
-                  ),
-                  if (!connected) ...[
-                    const SizedBox(height: 14),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: EZColors.banner,
-                        border: Border.all(color: EZColors.bannerBorder),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        tr('Files can be added once the headset is connected'),
-                        style: const TextStyle(
-                          color: EZColors.warn,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: EZButton(
+                        tr('Choose folder…'),
+                        onPressed: connected ? _pickFolder : null,
                       ),
                     ),
                   ],
-                  const SizedBox(height: 14),
-                  Text(tr('Queue').toUpperCase(), style: EZText.group),
-                  const SizedBox(height: 6),
-                  Text(tr('{} item(s)', [jobs.length]), style: EZText.hint),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          // right: drop zone + cards
-          Expanded(
-            child: DropTarget(
-              onDragEntered: (_) => setState(() => _dragging = true),
-              onDragExited: (_) => setState(() => _dragging = false),
-              onDragDone: (d) {
-                setState(() => _dragging = false);
-                if (!connected) return;
-                for (final f in d.files) {
-                  Installer.instance.enqueue(
-                    f.path,
-                    p.basename(f.path),
-                    _options.copy(),
-                  );
-                }
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1C1C1C),
-                  border: Border.all(
-                    color: _dragging
-                        ? EZColors.accent
-                        : connected
-                        ? const Color(0xFF3A3A3A)
-                        : const Color(0xFF4A3D22),
-                    style: _dragging ? BorderStyle.solid : BorderStyle.solid,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: dlJobs.isEmpty && jobs.isEmpty
-                    ? Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 56,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF26301A),
-                                borderRadius: BorderRadius.circular(22),
-                              ),
-                              child: const Icon(
-                                Icons.download,
-                                color: EZColors.accent,
-                                size: 26,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              connected
-                                  ? tr('Drop an APK, archive or folder here')
-                                  : tr('Connect a headset to install'),
-                              style: const TextStyle(
-                                color: Color(0xFFECECEC),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              tr('Drop files anywhere on this page'),
-                              style: EZText.hint,
-                            ),
-                          ],
-                        ),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(10),
-                        itemCount: dlJobs.length + jobs.length,
-                        itemBuilder: (_, i) => i < dlJobs.length
-                            ? _DownloadCard(dlJobs[i])
-                            : _JobCard(jobs[i - dlJobs.length]),
+                const SizedBox(height: 14),
+                Text(tr('Mode').toUpperCase(), style: EZText.group),
+                const SizedBox(height: 6),
+                _ModeSegment(
+                  auto: _options.method == InstallMethod.auto,
+                  onChanged: (a) => setState(
+                    () => _options.method = a
+                        ? InstallMethod.auto
+                        : InstallMethod.repack,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  _options.method == InstallMethod.auto
+                      ? tr(
+                          'SMPico picks the method itself (Matrix 9.9.9 — clean install, OVRport — direct, otherwise repack)',
+                        )
+                      : tr('Each option is chosen by hand'),
+                  style: EZText.hint,
+                ),
+                if (Devices.instance.info?.matrixCracked == true ||
+                    Devices.instance.info?.isPhoenixOvs == true)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      tr(
+                        'On this headset (Matrix 9.9.9) Auto installs the APK directly: repack and signing are not used',
                       ),
-              ),
+                      style: EZText.hint.copyWith(color: EZColors.accent),
+                    ),
+                  ),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    Text(tr('Install settings'), style: EZText.section),
+                    const Spacer(),
+                    EZButton(
+                      _options.method == InstallMethod.auto
+                          ? tr('auto')
+                          : tr('manual options'),
+                      height: 28,
+                      fontSize: 11,
+                      icon: Icons.settings,
+                      tooltip: tr(
+                        'Download with install settings… (method, cache, signing, or download only)',
+                      ),
+                      onPressed: _openOptions,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  tr('Applies to the next files you add, then resets'),
+                  style: EZText.hint,
+                ),
+                if (!connected) ...[
+                  const SizedBox(height: 14),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: EZColors.banner,
+                      border: Border.all(color: EZColors.bannerBorder),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      tr('Files can be added once the headset is connected'),
+                      style: const TextStyle(
+                        color: EZColors.warn,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 14),
+                Text(tr('Queue').toUpperCase(), style: EZText.group),
+                const SizedBox(height: 6),
+                Text(tr('{} item(s)', [jobs.length]), style: EZText.hint),
+              ],
             ),
-          ),
-        ],
+          );
+          final cards = DropTarget(
+            onDragEntered: (_) => setState(() => _dragging = true),
+            onDragExited: (_) => setState(() => _dragging = false),
+            onDragDone: (d) {
+              setState(() => _dragging = false);
+              if (!connected) return;
+              for (final f in d.files) {
+                Installer.instance.enqueue(
+                  f.path,
+                  p.basename(f.path),
+                  _options.copy(),
+                );
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF1C1C1C),
+                border: Border.all(
+                  color: _dragging
+                      ? EZColors.accent
+                      : connected
+                      ? const Color(0xFF3A3A3A)
+                      : const Color(0xFF4A3D22),
+                  style: _dragging ? BorderStyle.solid : BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: dlJobs.isEmpty && jobs.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF26301A),
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                            child: const Icon(
+                              Icons.download,
+                              color: EZColors.accent,
+                              size: 26,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            connected
+                                ? tr('Drop an APK, archive or folder here')
+                                : tr('Connect a headset to install'),
+                            style: const TextStyle(
+                              color: Color(0xFFECECEC),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            tr('Drop files anywhere on this page'),
+                            style: EZText.hint,
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.all(10),
+                      itemCount: dlJobs.length + jobs.length,
+                      itemBuilder: (_, i) => i < dlJobs.length
+                          ? _DownloadCard(dlJobs[i])
+                          : _JobCard(jobs[i - dlJobs.length]),
+                    ),
+            ),
+          );
+          if (narrow) {
+            return Column(
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: c.maxHeight * .55),
+                  child: panel,
+                ),
+                const SizedBox(height: 12),
+                Expanded(child: cards),
+              ],
+            );
+          }
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(width: 340, child: panel),
+              const SizedBox(width: 12),
+              Expanded(child: cards),
+            ],
+          );
+        },
       ),
     );
   }
