@@ -21,6 +21,7 @@ class PicoLandPage extends StatefulWidget {
 class _PicoLandPageState extends State<PicoLandPage> {
   Game? _selected;
   String _query = '';
+  final _kbFocus = FocusNode();
   final Set<String> _genres = {};
   String? _language;
   String? _type;
@@ -39,13 +40,14 @@ class _PicoLandPageState extends State<PicoLandPage> {
   @override
   void dispose() {
     Catalog.instance.removeListener(_r);
+    _kbFocus.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(
-      focusNode: FocusNode()..requestFocus(),
+      focusNode: _kbFocus,
       autofocus: true,
       onKeyEvent: (e) {
         if (e is KeyDownEvent &&
@@ -196,7 +198,10 @@ class _PicoLandPageState extends State<PicoLandPage> {
                     itemCount: games.length,
                     itemBuilder: (_, i) => _GameCard(
                       game: games[i],
-                      onTap: () => setState(() => _selected = games[i]),
+                      onTap: () {
+                        setState(() => _selected = games[i]);
+                        _kbFocus.requestFocus();
+                      },
                     ),
                   ),
           ),
