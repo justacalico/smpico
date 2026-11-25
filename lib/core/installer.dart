@@ -294,20 +294,14 @@ class Installer extends ChangeNotifier {
   }
 
   Future<bool> _detectOvrport(File apk) async {
-    // OVRPORT_HOT_WORDS = ovrport, libopenxr_loader_meta, _yvr
+    // OVRPORT_HOT_WORDS = ovrport, libopenxr_loader_meta, _yvr — they show
+    // up in zip entry names (libs, config blobs) in the central directory.
     try {
-      final raf = await apk.open();
-      try {
-        // hot words live in file names / libs; cheap check: raw scan of
-        // the first chunk for the marker strings
-        final chunk = await raf.read(4 * 1024 * 1024);
-        final s = latin1.decode(chunk, allowInvalid: true);
-        return s.contains('ovrport') ||
-            s.contains('libopenxr_loader_meta') ||
-            s.contains('_yvr');
-      } finally {
-        await raf.close();
-      }
+      final names = apkEntryNames(apk).join('\n').toLowerCase();
+      return names.contains('ovrport') ||
+          names.contains('overport') ||
+          names.contains('libopenxr_loader_meta') ||
+          names.contains('_yvr');
     } catch (_) {
       return false;
     }

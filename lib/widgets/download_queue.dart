@@ -182,31 +182,37 @@ class _QueueButtonBodyState extends State<_QueueButtonBody> {
           ),
           child: widget.compact
               ? Center(child: widget.icon)
-              : Row(
-                  children: [
-                    widget.icon,
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        tr('Downloads'),
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Color(0xFF5A5A5A),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+              : ClipRect(
+                  child: OverflowBox(
+                    alignment: Alignment.centerLeft,
+                    maxWidth: 180,
+                    child: Row(
+                      children: [
+                        widget.icon,
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            tr('Downloads'),
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Color(0xFF5A5A5A),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
-                      ),
+                        if (widget.active > 0)
+                          Text(
+                            '${widget.active}',
+                            style: TextStyle(
+                              color: EZColors.accent,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                      ],
                     ),
-                    if (widget.active > 0)
-                      Text(
-                        '${widget.active}',
-                        style: TextStyle(
-                          color: EZColors.accent,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                  ],
+                  ),
                 ),
         ),
       ),

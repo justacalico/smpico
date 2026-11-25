@@ -129,30 +129,36 @@ class _SidebarButtonState extends State<_SidebarButton> {
                         : const Color(0xFF5A5A5A),
                   ),
                 )
-              : Row(
-                  children: [
-                    Icon(
-                      widget.icon,
-                      size: 18,
-                      color: widget.selected
-                          ? EZColors.textBright
-                          : const Color(0xFF5A5A5A),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        widget.label,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+              : ClipRect(
+                  child: OverflowBox(
+                    alignment: Alignment.centerLeft,
+                    maxWidth: 180,
+                    child: Row(
+                      children: [
+                        Icon(
+                          widget.icon,
+                          size: 18,
                           color: widget.selected
                               ? EZColors.textBright
                               : const Color(0xFF5A5A5A),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
                         ),
-                      ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            widget.label,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: widget.selected
+                                  ? EZColors.textBright
+                                  : const Color(0xFF5A5A5A),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
         ),
       ),

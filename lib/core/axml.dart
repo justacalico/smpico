@@ -4,6 +4,8 @@ import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 
+import 'log.dart';
+
 /// Minimal binary AndroidManifest.xml reader — extracts package,
 /// versionCode/versionName and label without a full apktool decode.
 /// Same thing the original does via androguard.
@@ -35,6 +37,48 @@ class _Reader {
   }
 
   void skip(int n) => p += n;
+}
+
+/// All entry names in the apk's central directory — cheap, no extraction.
+List<String> apkEntryNames(File apk) {
+  final raf = apk.openSync();
+  try {
+    final size = raf.lengthSync();
+    final tail = size > 66000 ? 66000 : size;
+    raf.setPositionSync(size - tail);
+    final buf = raf.readSync(tail);
+    var eocd = -1;
+    for (var i = tail - 22; i >= 0; i--) {
+      if (buf[i] == 0x50 &&
+          buf[i + 1] == 0x4b &&
+          buf[i + 2] == 5 &&
+          buf[i + 3] == 6) {
+        eocd = i;
+        break;
+      }
+    }
+    if (eocd < 0) return const [];
+    final bd = ByteData.sublistView(buf);
+    final count = bd.getUint16(eocd + 10, Endian.little);
+    var off = bd.getUint32(eocd + 16, Endian.little);
+    final names = <String>[];
+    for (var i = 0; i < count; i++) {
+      raf.setPositionSync(off);
+      final h = raf.readSync(46);
+      final hd = ByteData.sublistView(h);
+      if (hd.getUint32(0, Endian.little) != 0x02014b50) break;
+      final nlen = hd.getUint16(28, Endian.little);
+      final elen = hd.getUint16(30, Endian.little);
+      names.add(utf8.decode(raf.readSync(nlen)));
+      off += 46 + nlen + elen;
+    }
+    return names;
+  } catch (e) {
+    dlog('apkEntryNames ${apk.path}: $e');
+    return const [];
+  } finally {
+    raf.closeSync();
+  }
 }
 
 Uint8List _apkEntry(File apk, String name) {
@@ -96,7 +140,9 @@ ApkInfo parseApk(File apk) {
   try {
     final axml = _apkEntry(apk, 'AndroidManifest.xml');
     _parseManifest(axml, info);
-  } catch (_) {}
+  } catch (e) {
+    dlog('parseApk ${apk.path}: $e');
+  }
   return info;
 }
 
