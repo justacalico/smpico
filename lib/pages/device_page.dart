@@ -85,11 +85,9 @@ class _DevicePageState extends State<DevicePage> {
                 ? EmptyPlug(Icons.usb_off, tr('No Device Connected'),
                     subtitle:
                         tr('Connect your PICO VR headset\nand PC with a USB cable.'))
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // headset card
-                      SizedBox(
+                : LayoutBuilder(
+                    builder: (_, c) {
+                      final card = SizedBox(
                         width: 300,
                         child: Column(
                           children: [
@@ -147,50 +145,95 @@ class _DevicePageState extends State<DevicePage> {
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      // info tiles + adb console
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                      );
+                      final tiles = LayoutBuilder(
+                        builder: (_, tc) {
+                          final cols = tc.maxWidth >= 540 ? 4 : 2;
+                          final tw =
+                              (tc.maxWidth - (cols - 1) * 8) / cols;
+                          return Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              _tile(tr('Firmware'),
+                                  d.firmware.isEmpty ? '—' : d.firmware,
+                                  sub: d.displayId, width: tw),
+                              _tile(tr('Battery'),
+                                  d.batteryPct < 0
+                                      ? '—'
+                                      : '${d.batteryPct}%',
+                                  sub: d.charging
+                                      ? tr('charging')
+                                      : tr('on battery'),
+                                  frac: d.batteryPct < 0
+                                      ? 0
+                                      : d.batteryPct / 100,
+                                  state: d.batteryPct < 20
+                                      ? 'warn'
+                                      : 'ok',
+                                  width: tw),
+                              _tile(tr('Storage'),
+                                  fmtBytes(d.totalBytes - d.freeBytes),
+                                  sub: tr('free of {}',
+                                      [fmtBytes(d.freeBytes)]),
+                                  frac: d.totalBytes > 0
+                                      ? 1 - d.freeBytes / d.totalBytes
+                                      : 0,
+                                  state: d.totalBytes > 0 &&
+                                          d.freeBytes / d.totalBytes < .1
+                                      ? 'bad'
+                                      : 'ok',
+                                  width: tw),
+                              _tile('PUI Matrix', d.matrixText,
+                                  sub: d.matrixCracked
+                                      ? tr('Protection removed — games run without license checks')
+                                      : tr('License check is on — use OVRport or repacked games'),
+                                  state: d.matrixCracked ? 'ok' : 'warn',
+                                  width: tw),
+                            ],
+                          );
+                        },
+                      );
+                      if (c.maxWidth < 760) {
+                        return SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Align(
+                                  alignment: Alignment.topCenter,
+                                  child: card),
+                              const SizedBox(height: 12),
+                              Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  tiles,
+                                  const SizedBox(height: 10),
+                                  SizedBox(
+                                      height: 320, child: _AdbConsole()),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          card,
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _tile(tr('Firmware'),
-                                    d.firmware.isEmpty ? '—' : d.firmware,
-                                    sub: d.displayId),
-                                _tile(tr('Battery'),
-                                    d.batteryPct < 0
-                                        ? '—'
-                                        : '${d.batteryPct}%',
-                                    sub: d.charging
-                                        ? tr('charging')
-                                        : tr('on battery'),
-                                    frac: d.batteryPct < 0 ? 0 : d.batteryPct / 100,
-                                    state: d.batteryPct < 20 ? 'warn' : 'ok'),
-                                _tile(tr('Storage'),
-                                    fmtBytes(d.totalBytes - d.freeBytes),
-                                    sub: tr('free of {}', [fmtBytes(d.freeBytes)]),
-                                    frac: d.totalBytes > 0
-                                        ? 1 - d.freeBytes / d.totalBytes
-                                        : 0,
-                                    state: d.totalBytes > 0 &&
-                                            d.freeBytes / d.totalBytes < .1
-                                        ? 'bad'
-                                        : 'ok'),
-                                _tile('PUI Matrix', d.matrixText,
-                                    sub: d.matrixCracked
-                                        ? tr('Protection removed — games run without license checks')
-                                        : tr('License check is on — use OVRport or repacked games'),
-                                    state: d.matrixCracked ? 'ok' : 'warn'),
+                                tiles,
+                                const SizedBox(height: 10),
+                                Expanded(child: _AdbConsole()),
                               ],
                             ),
-                            const SizedBox(height: 10),
-                            Expanded(child: _AdbConsole()),
-                          ],
-                        ),
-                      ),
-                    ],
+                          ),
+                        ],
+                      );
+                    },
                   ),
           ),
         ],
@@ -227,46 +270,50 @@ class _DevicePageState extends State<DevicePage> {
   }
 
   Widget _tile(String title, String value,
-      {String? sub, double? frac, String state = 'ok'}) {
+      {String? sub,
+      double? frac,
+      String state = 'ok',
+      required double width}) {
     final color = state == 'ok'
         ? EZColors.accent
         : state == 'warn'
             ? EZColors.warn
             : EZColors.bad;
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 3),
-        padding: const EdgeInsets.all(12),
-        decoration: cardDecoration(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title.toUpperCase(), style: EZText.group),
-            const SizedBox(height: 6),
-            Text(value,
-                style: TextStyle(
-                    color: color, fontSize: 20, fontWeight: FontWeight.w700)),
-            if (sub != null) ...[
-              const SizedBox(height: 4),
-              Text(sub,
-                  style: const TextStyle(color: Color(0xFF9A9A9A), fontSize: 12),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis),
-            ],
-            if (frac != null) ...[
-              const SizedBox(height: 8),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(2),
-                child: LinearProgressIndicator(
-                  value: frac,
-                  minHeight: 4,
-                  backgroundColor: const Color(0xFF2C2C2C),
-                  valueColor: AlwaysStoppedAnimation(color),
-                ),
-              ),
-            ],
-          ],
-        ),
+    return Container(
+      width: width,
+      height: 112,
+      padding: const EdgeInsets.all(12),
+      decoration: cardDecoration(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title.toUpperCase(),
+              style: EZText.group,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis),
+          const SizedBox(height: 6),
+          Text(value,
+              style: TextStyle(
+                  color: color, fontSize: 20, fontWeight: FontWeight.w700),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis),
+          const SizedBox(height: 4),
+          Text(sub ?? '',
+              style: const TextStyle(color: Color(0xFF9A9A9A), fontSize: 12),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis),
+          const Spacer(),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(2),
+            child: LinearProgressIndicator(
+              value: frac ?? 0,
+              minHeight: 4,
+              backgroundColor: const Color(0xFF2C2C2C),
+              valueColor: AlwaysStoppedAnimation(
+                  frac != null ? color : Colors.transparent),
+            ),
+          ),
+        ],
       ),
     );
   }
