@@ -218,6 +218,31 @@ class Installer extends ChangeNotifier {
         job.addLog('auto -> $method');
       }
 
+      // ---- required tools check ----
+      final missing = <String>[];
+      if (method == InstallMethod.repack) {
+        if (await Tools.instance.java() == null) missing.add('java');
+        if (await Tools.instance.apktoolJar() == null) {
+          missing.add('apktool_2.12.1.jar');
+        }
+        if (await Tools.instance.apksignerJar() == null) {
+          missing.add('apksigner.jar');
+        }
+      } else if (method == InstallMethod.overport || job.options.newKey) {
+        if (await Tools.instance.java() == null) missing.add('java');
+        if (await Tools.instance.apksignerJar() == null) {
+          missing.add('apksigner.jar');
+        }
+      }
+      if (missing.isNotEmpty) {
+        throw StateError(
+          tr(
+            'Missing tools: {} — installation cannot continue. Put them in the tools folder or add them to PATH',
+            [missing.join(', ')],
+          ),
+        );
+      }
+
       // ---- wait for device ----
       if (Devices.instance.info == null) {
         job.setStage('Waiting for the headset');

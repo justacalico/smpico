@@ -131,6 +131,8 @@ const Map<String, String> kRuStrings = {
   'Could not launch the app': 'Не удалось запустить приложение',
   'Could not open the catalog': 'Не удалось открыть каталог',
   'Choose a headset': 'Выберите шлем',
+  'Missing tools: {} — installation cannot continue. Put them in the tools folder or add them to PATH':
+      'Нет инструментов: {} — установка невозможна. Поместите их в папку tools или добавьте в PATH',
   'Could not open the link': 'Не удалось открыть ссылку',
   'Create': 'Создать',
   'Create a folder (Ctrl+Shift+N)': 'Создать папку (Ctrl+Shift+N)',
