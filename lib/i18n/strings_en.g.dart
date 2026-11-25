@@ -866,6 +866,18 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	/// en: 'System'
 	String get systemLanguage => 'System';
+
+	/// en: 'Installed'
+	String get installedBadge => 'Installed';
+
+	/// en: 'Already installed'
+	String get alreadyInstalled => 'Already installed';
+
+	/// en: '{arg1} is already installed on the headset. Reinstall it?'
+	String gameAlreadyInstalledReinstall({required Object arg1}) => '${arg1} is already installed on the headset. Reinstall it?';
+
+	/// en: 'Reinstall'
+	String get reinstall => 'Reinstall';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -1150,6 +1162,10 @@ extension on Translations {
 			'itemCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} item', other: '${n} items', ), 
 			'backToCatalog' => 'Back to catalog',
 			'systemLanguage' => 'System',
+			'installedBadge' => 'Installed',
+			'alreadyInstalled' => 'Already installed',
+			'gameAlreadyInstalledReinstall' => ({required Object arg1}) => '${arg1} is already installed on the headset. Reinstall it?',
+			'reinstall' => 'Reinstall',
 			_ => null,
 		};
 	}

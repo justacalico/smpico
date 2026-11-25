@@ -317,6 +317,10 @@ class TranslationsRu with BaseTranslations<AppLocale, Translations> implements T
 	);
 	@override String get backToCatalog => 'К каталогу';
 	@override String get systemLanguage => 'Как в системе';
+	@override String get installedBadge => 'Установлено';
+	@override String get alreadyInstalled => 'Уже установлено';
+	@override String gameAlreadyInstalledReinstall({required Object arg1}) => '${arg1} уже установлена на шлеме. Переустановить?';
+	@override String get reinstall => 'Переустановить';
 }
 
 /// The flat map containing all translations for locale <ru>.
@@ -601,6 +605,10 @@ extension on TranslationsRu {
 			'itemCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(n, one: '${n} элемент', few: '${n} элемента', many: '${n} элементов', other: '${n} элемента', ), 
 			'backToCatalog' => 'К каталогу',
 			'systemLanguage' => 'Как в системе',
+			'installedBadge' => 'Установлено',
+			'alreadyInstalled' => 'Уже установлено',
+			'gameAlreadyInstalledReinstall' => ({required Object arg1}) => '${arg1} уже установлена на шлеме. Переустановить?',
+			'reinstall' => 'Переустановить',
 			_ => null,
 		};
 	}

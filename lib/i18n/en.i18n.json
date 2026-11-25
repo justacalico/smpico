@@ -275,5 +275,9 @@
     "other": "{n} items"
   },
   "backToCatalog": "Back to catalog",
-  "systemLanguage": "System"
+  "systemLanguage": "System",
+  "installedBadge": "Installed",
+  "alreadyInstalled": "Already installed",
+  "gameAlreadyInstalledReinstall": "{arg1} is already installed on the headset. Reinstall it?",
+  "reinstall": "Reinstall"
 }

@@ -277,5 +277,9 @@
     "other": "{n} элемента"
   },
   "backToCatalog": "К каталогу",
-  "systemLanguage": "Как в системе"
+  "systemLanguage": "Как в системе",
+  "installedBadge": "Установлено",
+  "alreadyInstalled": "Уже установлено",
+  "gameAlreadyInstalledReinstall": "{arg1} уже установлена на шлеме. Переустановить?",
+  "reinstall": "Переустановить"
 }

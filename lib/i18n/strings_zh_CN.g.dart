@@ -314,6 +314,10 @@ class TranslationsZhCn with BaseTranslations<AppLocale, Translations> implements
 		other: '${n} 项',
 	);
 	@override String get backToCatalog => '返回目录';
+	@override String get installedBadge => '已安装';
+	@override String get alreadyInstalled => '已安装';
+	@override String gameAlreadyInstalledReinstall({required Object arg1}) => '${arg1} 已安装在头显上。重新安装？';
+	@override String get reinstall => '重新安装';
 }
 
 /// The flat map containing all translations for locale <zh-CN>.
@@ -598,6 +602,10 @@ extension on TranslationsZhCn {
 			'scrcpyNotFound' => '未找到 scrcpy',
 			'itemCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('zh'))(n, other: '${n} 项', ), 
 			'backToCatalog' => '返回目录',
+			'installedBadge' => '已安装',
+			'alreadyInstalled' => '已安装',
+			'gameAlreadyInstalledReinstall' => ({required Object arg1}) => '${arg1} 已安装在头显上。重新安装？',
+			'reinstall' => '重新安装',
 			_ => null,
 		};
 	}

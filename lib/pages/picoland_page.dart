@@ -8,6 +8,7 @@ import '../core/devices.dart';
 import '../core/downloads.dart';
 import '../core/installer.dart';
 import '../core/log.dart';
+import '../core/packages.dart';
 import '../settings.dart';
 import '../i18n.dart';
 import '../theme.dart';
@@ -37,13 +38,40 @@ class _PicoLandPageState extends State<PicoLandPage> {
     super.initState();
     Catalog.instance.addListener(_r);
     Settings.instance.addListener(_r);
+    Packages.instance.addListener(_r);
+    Devices.instance.addListener(_onDevice);
+    Installer.instance.addListener(_onJobs);
+    if (Devices.instance.info != null) Packages.instance.refresh();
   }
 
   void _r() => setState(() {});
+
+  void _onDevice() {
+    if (Devices.instance.info != null &&
+        Packages.instance.items.isEmpty &&
+        !Packages.instance.loading) {
+      Packages.instance.refresh();
+    }
+  }
+
+  int _lastDone = 0;
+  void _onJobs() {
+    final d = Installer.instance.jobs
+        .where((j) => j.state == JobState.done)
+        .length;
+    if (d != _lastDone) {
+      _lastDone = d;
+      if (Devices.instance.info != null) Packages.instance.refresh();
+    }
+  }
+
   @override
   void dispose() {
     Catalog.instance.removeListener(_r);
     Settings.instance.removeListener(_r);
+    Packages.instance.removeListener(_r);
+    Devices.instance.removeListener(_onDevice);
+    Installer.instance.removeListener(_onJobs);
     _kbFocus.dispose();
     super.dispose();
   }
@@ -362,6 +390,26 @@ class _GameCardState extends State<_GameCard> {
                   fit: StackFit.expand,
                   children: [
                     _coverImage(g, fit: BoxFit.cover),
+                    if (_isInstalled(g))
+                      Positioned(
+                        top: 6,
+                        right: 6,
+                        child: Tooltip(
+                          message: t.installedBadge,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                              color: EZColors.ok,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.check,
+                              size: 12,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     if (g.ovrport)
                       Positioned(
                         top: 6,
@@ -793,12 +841,35 @@ class _GameDetails extends StatelessWidget {
     );
   }
 
-  void _download(
+  Future<void> _download(
     BuildContext context,
     Game g, {
     required bool install,
     InstallOptions? opts,
-  }) {
+  }) async {
+    if (install && _isInstalled(g)) {
+      final yes = await showDialog<bool>(
+        context: context,
+        builder: (_) => AlertDialog(
+          backgroundColor: EZColors.panel,
+          title: Text(t.alreadyInstalled, style: EZText.section),
+          content: Text(
+            t.gameAlreadyInstalledReinstall(arg1: g.title),
+            style: EZText.label,
+          ),
+          actions: [
+            EZButton(t.cancel, onPressed: () => Navigator.pop(context, false)),
+            EZButton(
+              t.reinstall,
+              color: EZColors.accent,
+              textColor: const Color(0xFF111111),
+              onPressed: () => Navigator.pop(context, true),
+            ),
+          ],
+        ),
+      );
+      if (yes != true || !context.mounted) return;
+    }
     // prefer a working cloud link
     final link = g.links.cast<GameLink?>().firstWhere(
       (l) =>
@@ -823,6 +894,14 @@ class _GameDetails extends StatelessWidget {
     );
     toast(context, t.downloadAddedToQueueSeeTheInstall);
   }
+}
+
+/// True when the game is already on the headset — matched by normalized
+/// title/sheet_title against installed labels, packages and install history.
+bool _isInstalled(Game g) {
+  final k = Packages.instance.installedKeys;
+  return k.contains(Packages.norm(g.title)) ||
+      k.contains(Packages.norm(g.sheetTitle));
 }
 
 /// Game cover: local file from the covers cache when present, otherwise

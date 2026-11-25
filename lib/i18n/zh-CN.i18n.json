@@ -274,5 +274,9 @@
   "itemCount": {
     "other": "{n} 项"
   },
-  "backToCatalog": "返回目录"
+  "backToCatalog": "返回目录",
+  "installedBadge": "已安装",
+  "alreadyInstalled": "已安装",
+  "gameAlreadyInstalledReinstall": "{arg1} 已安装在头显上。重新安装？",
+  "reinstall": "重新安装"
 }

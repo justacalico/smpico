@@ -35,6 +35,14 @@ class Packages extends ChangeNotifier {
   String? error;
   final Set<String> _iconFailed = {};
 
+  /// Normalized installed labels + package names (+ names from install
+  /// history whose package is present). Used by PicoLand to mark games
+  /// already on the headset.
+  Set<String> installedKeys = {};
+
+  static String norm(String s) =>
+      s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9а-яё]+'), '');
+
   Future<void> refresh({bool thirdPartyOnly = true}) async {
     loading = true;
     error = null;
@@ -44,6 +52,7 @@ class Packages extends ChangeNotifier {
         thirdPartyOnly: thirdPartyOnly,
       );
       items = pkgs.map((e) => PackageEntry(e)).toList();
+      await _rebuildKeys();
       _loadLabels();
       _loadIcons();
     } catch (e) {
@@ -53,44 +62,96 @@ class Packages extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _loadLabels() async {
-    // batch: dumpsys package for all? too heavy — read per-package label lazily
-    for (final e in items) {
-      if (e.label.isNotEmpty) continue;
-      try {
-        final s = await Adb.instance.shell(
-          "dumpsys package ${e.name} | grep -m1 'label='",
-        );
-        final m = RegExp(r"label='([^']+)'|label=([^\s]+)").firstMatch(s);
-        if (m != null) {
-          e.label = m.group(1) ?? m.group(2) ?? '';
-          notifyListeners();
+  Future<void> _rebuildKeys() async {
+    final keys = <String>{
+      for (final e in items) norm(e.name),
+      for (final e in items)
+        if (e.label.isNotEmpty) norm(e.label),
+    };
+    try {
+      final f = await AppPaths.historyFile();
+      if (await f.exists()) {
+        final hist = jsonDecode(await f.readAsString()) as List;
+        final pkgs = items.map((e) => e.name).toSet();
+        for (final h in hist) {
+          if (h is Map &&
+              pkgs.contains(h['package']) &&
+              '${h['name']}'.isNotEmpty) {
+            keys.add(norm('${h['name']}'));
+          }
         }
-      } catch (_) {}
+      }
+    } catch (_) {}
+    installedKeys = keys;
+  }
+
+  /// All labels in a single device shell call — one `echo @@pkg; dumpsys`
+  /// pair per package, parsed by marker.
+  Future<void> _loadLabels() async {
+    final todo = items.where((e) => e.label.isEmpty).toList();
+    if (todo.isEmpty) return;
+    final cmd = StringBuffer();
+    for (final e in todo) {
+      cmd.writeln(
+        "echo '@@ ${e.name}'; dumpsys package ${e.name} | grep -m1 'label=';",
+      );
     }
+    try {
+      final out = await Adb.instance.shell(
+        cmd.toString(),
+        timeout: const Duration(minutes: 2),
+      );
+      final byName = {for (final e in todo) e.name: e};
+      String? cur;
+      for (final line in const LineSplitter().convert(out)) {
+        if (line.startsWith('@@ ')) {
+          cur = line.substring(3).trim();
+          continue;
+        }
+        final m = RegExp(r"label='([^']+)'|label=([^\s]+)").firstMatch(line);
+        if (m != null && cur != null) {
+          byName[cur]?.label = m.group(1) ?? m.group(2) ?? '';
+        }
+      }
+      await _rebuildKeys();
+    } catch (_) {}
+    notifyListeners();
   }
 
   Future<void> _loadIcons() async {
     final cache = await AppPaths.iconCache();
     await cache.create(recursive: true);
+    final pending = <PackageEntry>[];
     for (final e in items) {
       if (e.iconFile != null || _iconFailed.contains(e.name)) continue;
       final f = File(p.join(cache.path, '${e.name}.png'));
       if (await f.exists()) {
         e.iconFile = f;
-        notifyListeners();
         continue;
       }
-      try {
-        final extracted = await _extractIcon(e.name, f);
-        if (extracted) {
-          e.iconFile = f;
-        } else {
-          _iconFailed.add(e.name);
-        }
-      } catch (_) {
-        _iconFailed.add(e.name);
-      }
+      pending.add(e);
+    }
+    if (pending.isEmpty) {
+      notifyListeners();
+      return;
+    }
+    const batch = 4;
+    for (var i = 0; i < pending.length; i += batch) {
+      await Future.wait(
+        pending.sublist(i, (i + batch).clamp(0, pending.length)).map((e) async {
+          final f = File(p.join(cache.path, '${e.name}.png'));
+          try {
+            final extracted = await _extractIcon(e.name, f);
+            if (extracted) {
+              e.iconFile = f;
+            } else {
+              _iconFailed.add(e.name);
+            }
+          } catch (_) {
+            _iconFailed.add(e.name);
+          }
+        }),
+      );
       notifyListeners();
     }
   }
@@ -98,7 +159,9 @@ class Packages extends ChangeNotifier {
   Future<bool> _extractIcon(String pkg, File out) async {
     final apkPath = await Adb.instance.packageApkPath(pkg);
     if (apkPath == null) return false;
-    final tmp = File(p.join((await AppPaths.iconCache()).path, '_tmp.apk'));
+    final tmp = File(
+      p.join((await AppPaths.iconCache()).path, '_tmp_$pkg.apk'),
+    );
     final r = await Adb.instance.pull(apkPath, tmp.path);
     if (r.exitCode != 0) return false;
     final bytes = await tmp.readAsBytes();
