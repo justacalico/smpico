@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'i18n.dart';
 
-class Settings {
+class Settings extends ChangeNotifier {
   Settings._();
   static final Settings instance = Settings._();
 
@@ -33,6 +35,7 @@ class Settings {
     } else if (value is List<String>) {
       await _p.setStringList(key, value);
     }
+    notifyListeners();
   }
 
   bool contains(String key) => _p.containsKey(key);

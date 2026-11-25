@@ -390,6 +390,7 @@ const Map<String, String> kRuStrings = {
   'OVRport package': 'Пакет OVRport',
   'OVRport — Quest ports; FNAL — native PICO games':
       'OVRport — порты с Quest; FNAL — родные игры PICO',
+  'Off by default — most entries can only be opened through the channel post': 'По умолчанию выключено — большинство записей можно открыть только через пост в канале',
   'Off — only download, install later with the «Install» button':
       'Выключено — только скачать, установить потом кнопкой «Установить»',
   'Offer to open a screenshot': 'Предлагать открыть скриншот',
@@ -526,6 +527,8 @@ const Map<String, String> kRuStrings = {
       'Параметры подбираются по пакету и шлему',
   'Settings → Help → Guide': 'Настройки → Справка → Руководство',
   'Show': 'Показать',
+  'Show games without download links':
+      'Показывать игры без ссылок на скачивание',
   'Show files and folders whose names start with a dot':
       'Показывать файлы и папки, имена которых начинаются с точки',
   'Show in folder': 'Показать в папке',

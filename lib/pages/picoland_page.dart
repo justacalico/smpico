@@ -4,8 +4,9 @@ import 'package:flutter/services.dart';
 import '../core/catalog.dart';
 import '../core/devices.dart';
 import '../core/downloads.dart';
-import '../core/log.dart';
 import '../core/installer.dart';
+import '../core/log.dart';
+import '../settings.dart';
 import '../i18n.dart';
 import '../theme.dart';
 import '../widgets/common.dart';
@@ -27,19 +28,20 @@ class _PicoLandPageState extends State<PicoLandPage> {
   String? _type;
   int? _minSize;
   int? _maxSize;
-  bool _downloadableOnly = false;
   String _sort = 'name'; // name | size
 
   @override
   void initState() {
     super.initState();
     Catalog.instance.addListener(_r);
+    Settings.instance.addListener(_r);
   }
 
   void _r() => setState(() {});
   @override
   void dispose() {
     Catalog.instance.removeListener(_r);
+    Settings.instance.removeListener(_r);
     _kbFocus.dispose();
     super.dispose();
   }
@@ -77,7 +79,10 @@ class _PicoLandPageState extends State<PicoLandPage> {
       type: _type,
       minSize: _minSize,
       maxSize: _maxSize,
-      downloadableOnly: _downloadableOnly,
+      downloadableOnly: !Settings.instance.get(
+        'catalog_show_undownloadable',
+        false,
+      ),
     );
     if (_sort == 'name') {
       games.sort((a, b) => a.title.compareTo(b.title));
@@ -143,18 +148,6 @@ class _PicoLandPageState extends State<PicoLandPage> {
                   {'name': tr('A–Z'), 'size': tr('Size')},
                   _sort,
                   (v) => setState(() => _sort = v ?? 'name'),
-                ),
-                FilterChip(
-                  label: Text(
-                    tr('Downloadable'),
-                    style: const TextStyle(fontSize: 11),
-                  ),
-                  selected: _downloadableOnly,
-                  onSelected: (v) => setState(() => _downloadableOnly = v),
-                  backgroundColor: const Color(0xFF242424),
-                  selectedColor: const Color(0xFF2F3A1C),
-                  checkmarkColor: EZColors.accent,
-                  side: const BorderSide(color: Color(0xFF2E2E2E)),
                 ),
                 const SizedBox(width: 8),
                 _genreMenu(cat),

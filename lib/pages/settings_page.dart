@@ -121,6 +121,14 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           _section(tr('PicoLand catalog')),
+          _switch(
+            tr('Show games without download links'),
+            tr(
+              'Off by default — most entries can only be opened through the channel post',
+            ),
+            'catalog_show_undownloadable',
+            false,
+          ),
           _row(
             tr('Catalog address'),
             tr(
