@@ -194,12 +194,15 @@ class Downloads extends ChangeNotifier {
       await outDir.create(recursive: true);
       var done = 0;
       for (final f in ar) {
-        final target = File(p.join(outDir.path, f.name));
-        if (f.isFile) {
-          await target.create(recursive: true);
-          await target.writeAsBytes(f.content as List<int>);
+        final target = p.join(outDir.path, f.name);
+        // some archives flag directory entries as files; the trailing
+        // slash is the reliable check
+        if (f.isFile && !f.name.endsWith('/')) {
+          final file = File(target);
+          await file.create(recursive: true);
+          await file.writeAsBytes(f.content as List<int>);
         } else {
-          await target.create(recursive: true);
+          await Directory(target).create(recursive: true);
         }
         onProgress?.call(++done / ar.length);
       }
