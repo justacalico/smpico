@@ -518,6 +518,67 @@ class _GameDetails extends StatelessWidget {
                                           _download(context, g, install: true),
                               ),
                             ),
+                            ListenableBuilder(
+                              listenable: Devices.instance,
+                              builder: (_, __) {
+                                final serials = Devices.instance.serials;
+                                if (serials.length < 2 || g.links.isEmpty) {
+                                  return const SizedBox.shrink();
+                                }
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 4),
+                                  child: PopupMenuButton<String>(
+                                    tooltip: tr('Choose a headset'),
+                                    color: const Color(0xFF242424),
+                                    onSelected: (s) {
+                                      Devices.instance.selectDevice(s);
+                                      _download(context, g, install: true);
+                                    },
+                                    itemBuilder: (_) => serials
+                                        .map(
+                                          (s) => PopupMenuItem(
+                                            value: s,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  s ==
+                                                          Devices
+                                                              .instance
+                                                              .info
+                                                              ?.serial
+                                                      ? Icons.check_circle
+                                                      : Icons.headset,
+                                                  size: 15,
+                                                  color: EZColors.accent,
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  s,
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                    child: Container(
+                                      width: 34,
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: EZColors.accent,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Color(0xFF111111),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                             const SizedBox(width: 6),
                             EZIconButton(
                               Icons.settings,

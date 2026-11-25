@@ -130,6 +130,7 @@ const Map<String, String> kRuStrings = {
       'Не удалось проверить обновление каталога: {}',
   'Could not launch the app': 'Не удалось запустить приложение',
   'Could not open the catalog': 'Не удалось открыть каталог',
+  'Choose a headset': 'Выберите шлем',
   'Could not open the link': 'Не удалось открыть ссылку',
   'Create': 'Создать',
   'Create a folder (Ctrl+Shift+N)': 'Создать папку (Ctrl+Shift+N)',
