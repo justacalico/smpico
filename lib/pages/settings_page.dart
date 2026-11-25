@@ -256,25 +256,21 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _langPicker() {
-    return SegmentedButton<AppLang>(
-      segments: [
-        ButtonSegment(value: AppLang.en, label: Text(tr('EN'))),
-        ButtonSegment(value: AppLang.ru, label: Text(tr('RU'))),
+    return DropdownButton<AppLang>(
+      value: I18n.instance.lang,
+      dropdownColor: const Color(0xFF242424),
+      underline: const SizedBox(),
+      style: const TextStyle(fontSize: 12, color: EZColors.text),
+      items: const [
+        DropdownMenuItem(value: AppLang.en, child: Text('English')),
+        DropdownMenuItem(value: AppLang.ru, child: Text('Русский')),
       ],
-      selected: {I18n.instance.lang},
-      onSelectionChanged: (s) {
-        I18n.instance.setLang(s.first);
-        Settings.instance.set('language', s.first == AppLang.ru ? 'ru' : 'en');
+      onChanged: (v) {
+        if (v == null) return;
+        I18n.instance.setLang(v);
+        Settings.instance.set('language', v == AppLang.ru ? 'ru' : 'en');
         setState(() {});
       },
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.resolveWith(
-          (st) => st.contains(WidgetState.selected)
-              ? const Color(0xFF333333)
-              : const Color(0xFF242424),
-        ),
-        foregroundColor: WidgetStateProperty.all(EZColors.text),
-      ),
     );
   }
 
