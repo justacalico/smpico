@@ -94,14 +94,18 @@ class _EZButtonState extends State<EZButton> {
                 ),
                 const SizedBox(width: 6),
               ],
-              Text(
-                widget.text,
-                style: TextStyle(
-                  color: enabled
-                      ? (widget.textColor ?? EZColors.text)
-                      : const Color(0xFF5A5A5A),
-                  fontWeight: FontWeight.w600,
-                  fontSize: widget.fontSize,
+              Flexible(
+                child: Text(
+                  widget.text,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: enabled
+                        ? (widget.textColor ?? EZColors.text)
+                        : const Color(0xFF5A5A5A),
+                    fontWeight: FontWeight.w600,
+                    fontSize: widget.fontSize,
+                  ),
                 ),
               ),
             ],
