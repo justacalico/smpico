@@ -136,245 +136,232 @@ class _StreamPageState extends State<StreamPage> {
           Positioned.fill(
             child: IgnorePointer(
               ignoring: missing,
-              child: ColorFiltered(
-                colorFilter: missing
-                    ? const ColorFilter.mode(
-                        Color(0xFF808080),
-                        BlendMode.saturation,
-                      )
-                    : const ColorFilter.mode(Colors.transparent, BlendMode.dst),
-                child: Opacity(
-                  opacity: missing ? 0.35 : 1.0,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 340,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: EZColors.panel,
-                            border: Border.all(color: const Color(0xFF2C2C2C)),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.all(14),
-                          child: ListView(
-                            children: [
-                              Text(tr('Stream'), style: EZText.section),
-                              const SizedBox(height: 4),
-                              Text(
-                                tr(
-                                  'Shows the headset screen in a separate window (scrcpy)',
-                                ),
-                                style: EZText.hint,
-                              ),
-                              const SizedBox(height: 14),
-                              _group(tr('Picture')),
-                              _dropdown(
-                                tr('Image'),
-                                _eye,
-                                {
-                                  'both': tr('Both eyes'),
-                                  'left': tr('Left eye'),
-                                  'right': tr('Right eye'),
-                                },
-                                (v) {
-                                  setState(() => _eye = v);
-                                  Settings.instance.set('stream_eye', v);
-                                },
-                                hint: tr(
-                                  'Which eye image to show. One eye is lighter and looks like a normal video',
-                                ),
-                              ),
-                              _dropdown(
-                                tr('Resolution'),
-                                '$_maxSize',
-                                {
-                                  '0': tr('Native package'),
-                                  '1920': '1920',
-                                  '1280': '1280',
-                                  '1024': '1024',
-                                },
-                                (v) {
-                                  setState(() => _maxSize = int.parse(v));
-                                  Settings.instance.set(
-                                    'stream_max_size',
-                                    _maxSize,
-                                  );
-                                },
-                                hint: tr(
-                                  'Maximum side of the picture in pixels. Lower — smoother on weak PCs and cables',
-                                ),
-                              ),
-                              _dropdown(
-                                tr('Frame rate'),
-                                '$_fps',
-                                {
-                                  '0': tr('Native package'),
-                                  '72': '72',
-                                  '90': '90',
-                                  '60': '60',
-                                  '30': '30',
-                                },
-                                (v) {
-                                  setState(() => _fps = int.parse(v));
-                                  Settings.instance.set('stream_fps', _fps);
-                                },
-                                hint: tr(
-                                  'Frames per second. 72–90 matches the headset',
-                                ),
-                              ),
-                              _dropdown(
-                                tr('Codec'),
-                                _codec,
-                                {'h264': 'H.264', 'h265': 'H.265'},
-                                (v) {
-                                  setState(() => _codec = v);
-                                  Settings.instance.set('stream_codec', v);
-                                },
-                                hint: tr(
-                                  'H.265 is sharper at the same bitrate, H.264 works everywhere',
-                                ),
-                              ),
-                              _group(tr('Quality')),
-                              Text(
-                                '${tr('Bitrate, Mbit/s')}: ${_bitrate.round()}',
-                                style: EZText.label,
-                              ),
-                              Slider(
-                                value: _bitrate,
-                                min: 2,
-                                max: 60,
-                                divisions: 58,
-                                activeColor: EZColors.accent,
-                                onChanged: (v) => setState(() => _bitrate = v),
-                                onChangeEnd: (v) =>
-                                    Settings.instance.set('stream_bitrate', v),
-                              ),
-                              Text(
-                                tr(
-                                  'Image quality. Higher — sharper, but needs a good cable or Wi-Fi',
-                                ),
-                                style: EZText.hint,
-                              ),
-                              _group(tr('Sound')),
-                              _switch(
-                                tr('Audio'),
-                                tr('Play the headset sound on the PC'),
-                                _audio,
-                                (v) {
-                                  setState(() => _audio = v);
-                                  Settings.instance.set('stream_audio', v);
-                                },
-                              ),
-                              _switch(
-                                tr('Record to video'),
-                                tr(
-                                  'Save the stream to an MP4 file in the recordings folder',
-                                ),
-                                _record,
-                                (v) {
-                                  setState(() => _record = v);
-                                  Settings.instance.set('stream_record', v);
-                                },
-                              ),
-                              _switch(
-                                tr('Fullscreen'),
-                                tr('Open the stream window fullscreen'),
-                                _fullscreen,
-                                (v) => setState(() => _fullscreen = v),
-                              ),
-                              const SizedBox(height: 16),
-                              EZButton(
-                                _running
-                                    ? tr('Stop stream')
-                                    : tr('Start stream'),
-                                icon: _running ? Icons.stop : Icons.play_arrow,
-                                color: _running
-                                    ? EZColors.bad
-                                    : EZColors.accent,
-                                textColor: _running
-                                    ? Colors.white
-                                    : const Color(0xFF111111),
-                                onPressed: connected
-                                    ? (_running ? _stop : _start)
-                                    : null,
-                              ),
-                              if (_running)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    tr('Streaming — window is open'),
-                                    style: EZText.hint.copyWith(
-                                      color: EZColors.accent,
-                                    ),
-                                  ),
-                                ),
-                              if (_error != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    _error!,
-                                    style: EZText.hint.copyWith(
-                                      color: EZColors.bad,
-                                    ),
-                                  ),
-                                ),
-                              if (Devices.instance.info != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    tr(
-                                      'Headset is asleep — the picture will be black until you put it on.',
-                                    ),
-                                    style: EZText.hint,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 340,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: EZColors.panel,
+                        border: Border.all(color: const Color(0xFF2C2C2C)),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Container(
-                          decoration: cardDecoration(),
-                          child: Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  'assets/icons/headset.png',
-                                  height: 140,
-                                  errorBuilder: (_, __, ___) => const Icon(
-                                    Icons.cast,
-                                    size: 80,
-                                    color: EZColors.textDim,
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  tr('Headset screen on the PC'),
-                                  style: EZText.title,
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  connected
-                                      ? tr(
-                                          'Press «Start stream» — a separate scrcpy window opens',
-                                        )
-                                      : tr('Connect a headset to install'),
-                                  style: EZText.hint,
-                                ),
-                              ],
+                      padding: const EdgeInsets.all(14),
+                      child: ListView(
+                        children: [
+                          Text(tr('Stream'), style: EZText.section),
+                          const SizedBox(height: 4),
+                          Text(
+                            tr(
+                              'Shows the headset screen in a separate window (scrcpy)',
+                            ),
+                            style: EZText.hint,
+                          ),
+                          const SizedBox(height: 14),
+                          _group(tr('Picture')),
+                          _dropdown(
+                            tr('Image'),
+                            _eye,
+                            {
+                              'both': tr('Both eyes'),
+                              'left': tr('Left eye'),
+                              'right': tr('Right eye'),
+                            },
+                            (v) {
+                              setState(() => _eye = v);
+                              Settings.instance.set('stream_eye', v);
+                            },
+                            hint: tr(
+                              'Which eye image to show. One eye is lighter and looks like a normal video',
                             ),
                           ),
+                          _dropdown(
+                            tr('Resolution'),
+                            '$_maxSize',
+                            {
+                              '0': tr('Native package'),
+                              '1920': '1920',
+                              '1280': '1280',
+                              '1024': '1024',
+                            },
+                            (v) {
+                              setState(() => _maxSize = int.parse(v));
+                              Settings.instance.set(
+                                'stream_max_size',
+                                _maxSize,
+                              );
+                            },
+                            hint: tr(
+                              'Maximum side of the picture in pixels. Lower — smoother on weak PCs and cables',
+                            ),
+                          ),
+                          _dropdown(
+                            tr('Frame rate'),
+                            '$_fps',
+                            {
+                              '0': tr('Native package'),
+                              '72': '72',
+                              '90': '90',
+                              '60': '60',
+                              '30': '30',
+                            },
+                            (v) {
+                              setState(() => _fps = int.parse(v));
+                              Settings.instance.set('stream_fps', _fps);
+                            },
+                            hint: tr(
+                              'Frames per second. 72–90 matches the headset',
+                            ),
+                          ),
+                          _dropdown(
+                            tr('Codec'),
+                            _codec,
+                            {'h264': 'H.264', 'h265': 'H.265'},
+                            (v) {
+                              setState(() => _codec = v);
+                              Settings.instance.set('stream_codec', v);
+                            },
+                            hint: tr(
+                              'H.265 is sharper at the same bitrate, H.264 works everywhere',
+                            ),
+                          ),
+                          _group(tr('Quality')),
+                          Text(
+                            '${tr('Bitrate, Mbit/s')}: ${_bitrate.round()}',
+                            style: EZText.label,
+                          ),
+                          Slider(
+                            value: _bitrate,
+                            min: 2,
+                            max: 60,
+                            divisions: 58,
+                            activeColor: EZColors.accent,
+                            onChanged: (v) => setState(() => _bitrate = v),
+                            onChangeEnd: (v) =>
+                                Settings.instance.set('stream_bitrate', v),
+                          ),
+                          Text(
+                            tr(
+                              'Image quality. Higher — sharper, but needs a good cable or Wi-Fi',
+                            ),
+                            style: EZText.hint,
+                          ),
+                          _group(tr('Sound')),
+                          _switch(
+                            tr('Audio'),
+                            tr('Play the headset sound on the PC'),
+                            _audio,
+                            (v) {
+                              setState(() => _audio = v);
+                              Settings.instance.set('stream_audio', v);
+                            },
+                          ),
+                          _switch(
+                            tr('Record to video'),
+                            tr(
+                              'Save the stream to an MP4 file in the recordings folder',
+                            ),
+                            _record,
+                            (v) {
+                              setState(() => _record = v);
+                              Settings.instance.set('stream_record', v);
+                            },
+                          ),
+                          _switch(
+                            tr('Fullscreen'),
+                            tr('Open the stream window fullscreen'),
+                            _fullscreen,
+                            (v) => setState(() => _fullscreen = v),
+                          ),
+                          const SizedBox(height: 16),
+                          EZButton(
+                            _running ? tr('Stop stream') : tr('Start stream'),
+                            icon: _running ? Icons.stop : Icons.play_arrow,
+                            color: _running ? EZColors.bad : EZColors.accent,
+                            textColor: _running
+                                ? Colors.white
+                                : const Color(0xFF111111),
+                            onPressed: connected
+                                ? (_running ? _stop : _start)
+                                : null,
+                          ),
+                          if (_running)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(
+                                tr('Streaming — window is open'),
+                                style: EZText.hint.copyWith(
+                                  color: EZColors.accent,
+                                ),
+                              ),
+                            ),
+                          if (_error != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(
+                                _error!,
+                                style: EZText.hint.copyWith(
+                                  color: EZColors.bad,
+                                ),
+                              ),
+                            ),
+                          if (Devices.instance.info != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(
+                                tr(
+                                  'Headset is asleep — the picture will be black until you put it on.',
+                                ),
+                                style: EZText.hint,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Container(
+                      decoration: cardDecoration(),
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/icons/headset.png',
+                              height: 140,
+                              errorBuilder: (_, __, ___) => const Icon(
+                                Icons.cast,
+                                size: 80,
+                                color: EZColors.textDim,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              tr('Headset screen on the PC'),
+                              style: EZText.title,
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              connected
+                                  ? tr(
+                                      'Press «Start stream» — a separate scrcpy window opens',
+                                    )
+                                  : tr('Connect a headset to install'),
+                              style: EZText.hint,
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
+          if (missing)
+            Positioned.fill(child: Container(color: const Color(0xC41F1F1F))),
           if (missing) Center(child: _missingCard()),
         ],
       ),
