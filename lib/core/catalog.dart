@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:archive/archive.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart' as p;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -93,7 +95,10 @@ class Game {
     }
   }
 
-  String get coverUrl => '${Catalog.instance.base}/images/$cover';
+  String get coverUrl => '${Catalog.instance.imagesBase}/images/$cover';
+
+  /// Local cover file from the unpacked covers cache, when available.
+  String? get coverPath => Catalog.instance.coverPath(cover);
 
   int get bestSize {
     var s = 0;
@@ -114,7 +119,12 @@ class Catalog extends ChangeNotifier {
   Catalog._();
   static final Catalog instance = Catalog._();
 
+  /// Our mirrored feed — primary source, immune to upstream changes.
   static const repoBase =
+      'https://gitlab.com/HttpAnimations/smpico/-/raw/main/catalog';
+
+  /// Original EZPico feed, kept as fallback.
+  static const upstreamBase =
       'https://raw.githubusercontent.com/Cka3ka1337/EZPico/main';
 
   Database? _db;
@@ -125,9 +135,33 @@ class Catalog extends ChangeNotifier {
   bool available = false;
   String? error;
 
+  String? _resolvedBase;
+  String? _coversDir;
+
   String get customAddress => Settings.instance.get('catalog_address', '');
 
-  String get base => customAddress.isEmpty ? repoBase : customAddress;
+  /// Catalog sources in priority order. The custom address wins when set,
+  /// then our mirror, then upstream.
+  List<String> get sources => [
+        if (customAddress.isNotEmpty) customAddress,
+        repoBase,
+        upstreamBase,
+      ];
+
+  /// Source that last served the manifest (or the first choice before any
+  /// fetch happened).
+  String get base =>
+      _resolvedBase ?? (customAddress.isEmpty ? repoBase : customAddress);
+
+  /// Source for loose image files (images/<cover>). Our mirror doesn't
+  /// host them, so fall back to upstream unless a custom address is set.
+  String get imagesBase =>
+      _resolvedBase == null || _resolvedBase == repoBase
+          ? (customAddress.isNotEmpty ? customAddress : upstreamBase)
+          : _resolvedBase!;
+
+  String? coverPath(String? name) =>
+      name == null || _coversDir == null ? null : p.join(_coversDir!, name);
 
   Future<void> init() async {
     await _open();
@@ -138,8 +172,24 @@ class Catalog extends ChangeNotifier {
     sqfliteFfiInit();
     final dir = await AppPaths.catalogDir();
     await dir.create(recursive: true);
+    final covers = Directory(p.join(dir.path, 'covers'));
+    if (await File(p.join(covers.path, '.version')).exists()) {
+      _coversDir = covers.path;
+    }
     final dbFile = File(p.join(dir.path, 'catalog.db'));
-    if (!await dbFile.exists()) return;
+    if (!await dbFile.exists()) {
+      try {
+        final data = await rootBundle.load('assets/catalog.db');
+        await dbFile.writeAsBytes(
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+          flush: true,
+        );
+        dlog('catalog: seeded bundled snapshot');
+      } catch (e) {
+        dlog('catalog: bundled snapshot unavailable: $e');
+        return;
+      }
+    }
     _db = await databaseFactoryFfi.openDatabase(
       dbFile.path,
       options: OpenDatabaseOptions(readOnly: true),
@@ -182,6 +232,8 @@ class Catalog extends ChangeNotifier {
   }
 
   /// Fetch manifest.json, compare version, refresh db + covers if newer.
+  /// Sources are tried in order (custom, our mirror, upstream) until one
+  /// serves a valid manifest.
   Future<bool> checkUpdates({bool silent = false}) async {
     if (loading) return false;
     loading = true;
@@ -194,13 +246,28 @@ class Catalog extends ChangeNotifier {
           receiveTimeout: const Duration(minutes: 3),
         ),
       );
-      final maniRes = await dio.get('$base/manifest.json');
-      final manifest = maniRes.data is String
-          ? jsonDecode(maniRes.data as String)
-          : maniRes.data as Map<String, dynamic>;
+      Map<String, dynamic>? manifest;
+      String? src;
+      for (final s in sources) {
+        try {
+          final res = await dio.get('$s/manifest.json');
+          manifest = res.data is String
+              ? jsonDecode(res.data as String) as Map<String, dynamic>
+              : res.data as Map<String, dynamic>;
+          src = s;
+          break;
+        } catch (e) {
+          dlog('catalog manifest failed from $s: $e');
+        }
+      }
+      if (manifest == null || src == null) {
+        throw StateError('all catalog sources unreachable');
+      }
+      _resolvedBase = src;
       final remoteVersion = '${manifest['version']}';
-      dlog('catalog manifest: remote $remoteVersion, local $version');
+      dlog('catalog manifest: remote $remoteVersion, local $version ($src)');
       if (remoteVersion == version && _db != null) {
+        await _syncCovers(dio, manifest, remoteVersion);
         loading = false;
         notifyListeners();
         return false;
@@ -208,7 +275,7 @@ class Catalog extends ChangeNotifier {
       final dir = await AppPaths.catalogDir();
       await dir.create(recursive: true);
       final dbFile = File(p.join(dir.path, 'catalog.db'));
-      await dio.download('$base/${manifest['db']}', dbFile.path);
+      await dio.download('$src/${manifest['db']}', dbFile.path);
       final bytes = await dbFile.readAsBytes();
       final sum = sha256.convert(bytes).toString();
       if (sum != manifest['db_sha256']) {
@@ -222,6 +289,7 @@ class Catalog extends ChangeNotifier {
       await _db?.close();
       _db = null;
       await _open();
+      await _syncCovers(dio, manifest, remoteVersion);
       loading = false;
       notifyListeners();
       return true;
@@ -233,6 +301,65 @@ class Catalog extends ChangeNotifier {
       notifyListeners();
       return false;
     }
+  }
+
+  /// Download covers.zip once per catalog version into covers/ so covers
+  /// work offline. Tries every source since not all of them host the zip.
+  Future<void> _syncCovers(
+    Dio dio,
+    Map<String, dynamic> manifest,
+    String ver,
+  ) async {
+    final zip = manifest['covers_zip'];
+    if (zip == null) return;
+    final dir = await AppPaths.catalogDir();
+    final covers = Directory(p.join(dir.path, 'covers'));
+    final marker = File(p.join(covers.path, '.version'));
+    if (await marker.exists() && (await marker.readAsString()) == ver) {
+      _coversDir = covers.path;
+      return;
+    }
+    final tmp = File(p.join(dir.path, 'covers.zip'));
+    var got = false;
+    for (final s in sources) {
+      try {
+        await dio.download('$s/$zip', tmp.path);
+        got = true;
+        dlog('catalog covers.zip from $s');
+        break;
+      } catch (e) {
+        dlog('covers.zip failed from $s: $e');
+      }
+    }
+    if (!got) return;
+    final wantSum = manifest['covers_zip_sha256'];
+    if (wantSum != null &&
+        sha256.convert(await tmp.readAsBytes()).toString() != wantSum) {
+      dlog('covers.zip checksum mismatch');
+      await tmp.delete().catchError((_) => tmp);
+      return;
+    }
+    try {
+      final archive = ZipDecoder().decodeBytes(await tmp.readAsBytes());
+      if (await covers.exists()) await covers.delete(recursive: true);
+      await covers.create(recursive: true);
+      for (final e in archive.files) {
+        final out = p.join(covers.path, e.name);
+        if (!e.isFile || e.name.endsWith('/')) {
+          await Directory(out).create(recursive: true);
+        } else {
+          final f = File(out);
+          await f.create(recursive: true);
+          await f.writeAsBytes(e.content as List<int>);
+        }
+      }
+      await marker.writeAsString(ver);
+      _coversDir = covers.path;
+      dlog('catalog covers synced: $ver (${archive.files.length} files)');
+    } catch (e) {
+      dlog('covers unpack failed: $e');
+    }
+    await tmp.delete().catchError((_) => tmp);
   }
 
   List<Game> filter({

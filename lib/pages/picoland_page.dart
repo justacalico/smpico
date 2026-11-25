@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -359,15 +361,7 @@ class _GameCardState extends State<_GameCard> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    if (g.cover != null)
-                      Image.network(
-                        g.coverUrl,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) =>
-                            Container(color: const Color(0xFF1A1A1A)),
-                      )
-                    else
-                      Container(color: const Color(0xFF1A1A1A)),
+                    _coverImage(g, fit: BoxFit.cover),
                     if (g.ovrport)
                       Positioned(
                         top: 6,
@@ -484,13 +478,7 @@ class _GameDetails extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: g.cover != null
-                              ? Image.network(
-                                  g.coverUrl,
-                                  errorBuilder: (_, __, ___) => Container(
-                                    height: 300,
-                                    color: const Color(0xFF1A1A1A),
-                                  ),
-                                )
+                              ? _coverImage(g)
                               : Container(
                                   height: 300,
                                   color: const Color(0xFF1A1A1A),
@@ -835,4 +823,24 @@ class _GameDetails extends StatelessWidget {
     );
     toast(context, t.downloadAddedToQueueSeeTheInstall);
   }
+}
+
+/// Game cover: local file from the covers cache when present, otherwise
+/// the network image, otherwise a dark placeholder.
+Widget _coverImage(Game g, {BoxFit fit = BoxFit.contain}) {
+  const placeholder = ColoredBox(color: Color(0xFF1A1A1A));
+  if (g.cover == null) return placeholder;
+  final lp = g.coverPath;
+  if (lp != null && File(lp).existsSync()) {
+    return Image.file(
+      File(lp),
+      fit: fit,
+      errorBuilder: (_, __, ___) => placeholder,
+    );
+  }
+  return Image.network(
+    g.coverUrl,
+    fit: fit,
+    errorBuilder: (_, __, ___) => placeholder,
+  );
 }
