@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       build_all:
-        description: 'Build all targets (linux, linux-arm64, windows, windows-arm64, macos, macos-x64)'
+        description: 'Build all targets (linux, linux-arm64, windows, windows-arm64, macos)'
         type: boolean
         default: true
       create_release:
@@ -58,7 +58,7 @@ jobs:
             BUILD_ALL="true"
           fi
           if [ "$BUILD_ALL" = "true" ]; then
-            TARGETS='[{"target":"linux","os":"ubuntu-latest"},{"target":"linux-arm64","os":"ubuntu-24.04-arm","flutter":"git"},{"target":"windows","os":"windows-latest"},{"target":"windows-arm64","os":"windows-11-arm","flutter":"git"},{"target":"macos","os":"macos-latest","flutter_arch":"arm64"},{"target":"macos-x64","os":"macos-15-intel"}]'
+            TARGETS='[{"target":"linux","os":"ubuntu-latest"},{"target":"linux-arm64","os":"ubuntu-24.04-arm","flutter":"git"},{"target":"windows","os":"windows-latest"},{"target":"windows-arm64","os":"windows-11-arm","flutter":"git"},{"target":"macos","os":"macos-latest","flutter_arch":"arm64"}]'
           else
             TARGETS='[{"target":"linux","os":"ubuntu-latest"}]'
           fi
@@ -203,13 +203,8 @@ jobs:
           fi
           # Re-sign ad-hoc after packaging so the bundle stays runnable.
           codesign --force --deep --sign - "$APP"
-          if [ "${{ matrix.target }}" = "macos-x64" ]; then
-            OUT_ARCH=x86_64
-          else
-            OUT_ARCH=arm64
-          fi
-          (cd "$(dirname "$APP")" && zip -r "$ARTIFACTS_DIR/smpico-macos-$OUT_ARCH.zip" "smpico.app" >/dev/null)
-          hdiutil create -volname "SMPico" -srcfolder "$APP" -ov -format UDZO "$ARTIFACTS_DIR/smpico-macos-$OUT_ARCH.dmg" >/dev/null
+          (cd "$(dirname "$APP")" && zip -r "$ARTIFACTS_DIR/smpico-macos-arm64.zip" "smpico.app" >/dev/null)
+          hdiutil create -volname "SMPico" -srcfolder "$APP" -ov -format UDZO "$ARTIFACTS_DIR/smpico-macos-arm64.dmg" >/dev/null
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
