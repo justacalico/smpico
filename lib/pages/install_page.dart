@@ -557,16 +557,14 @@ class _DownloadCardState extends State<_DownloadCard> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Flexible(
-                  child: Text(
-                    stateText,
-                    style: TextStyle(
-                      color: stateColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                Text(
+                  stateText,
+                  style: TextStyle(
+                    color: stateColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(width: 8),
                 if (active)

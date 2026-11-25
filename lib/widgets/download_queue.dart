@@ -363,16 +363,14 @@ class _QueueJobRowState extends State<_QueueJobRow> {
                 ),
               ),
               const SizedBox(width: 10),
-              Flexible(
-                child: Text(
-                  stateText,
-                  style: TextStyle(
-                    color: stateColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              Text(
+                stateText,
+                style: TextStyle(
+                  color: stateColor,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(width: 6),
               if (active)
