@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
@@ -252,12 +253,18 @@ class Downloads extends ChangeNotifier {
       );
       var received = offset;
       job.received = offset;
+      var lastNotify = 0;
       await for (final chunk in res.data!.stream) {
         await raf.writeFrom(chunk);
         received += chunk.length;
         job.received = received;
         job.progress = job.total > 0 ? received / job.total : 0;
-        job._notify();
+        // notify at ~7fps so fast downloads don't rebuild the UI per chunk
+        final now = DateTime.now().millisecondsSinceEpoch;
+        if (now - lastNotify > 150) {
+          lastNotify = now;
+          job._notify();
+        }
       }
       await raf.close();
       if (job.total > 0 && received < job.total) {
@@ -347,25 +354,26 @@ class Downloads extends ChangeNotifier {
       ),
     );
     if (lower.endsWith('.zip')) {
-      final bytes = await File(path).readAsBytes();
-      final ar = ZipDecoder().decodeBytes(bytes);
-      await outDir.create(recursive: true);
-      var done = 0;
-      for (final f in ar) {
-        final target = p.join(outDir.path, f.name);
-        // some archives flag directory entries as files; the trailing
-        // slash is the reliable check
-        if (f.isFile && !f.name.endsWith('/')) {
-          final file = File(target);
-          await file.create(recursive: true);
-          await file.writeAsBytes(f.content as List<int>);
-        } else {
-          await Directory(target).create(recursive: true);
+      // decode + extract on a worker isolate so big archives don't jank the UI
+      final port = ReceivePort();
+      final iso = await Isolate.spawn(
+        _unpackZipWorker,
+        (port.sendPort, path, outDir.path),
+      );
+      await for (final m in port) {
+        if (m is double) {
+          onProgress?.call(m);
+        } else if (m is String) {
+          port.close();
+          iso.kill();
+          if (m == 'done') return outDir;
+          throw StateError(m);
         }
-        onProgress?.call(++done / ar.length);
       }
-      return outDir;
+      iso.kill();
+      return null;
     }
+
     if (lower.endsWith('.rar') ||
         lower.endsWith('.7z') ||
         lower.endsWith('.001')) {
@@ -392,5 +400,31 @@ class Downloads extends ChangeNotifier {
     }
     if (lower.endsWith('.apk')) return outDir;
     throw StateError('Invalid archive type: $path (supported: rar, 7z, zip)');
+  }
+
+  static void _unpackZipWorker((SendPort, String, String) args) {
+    final (send, path, outDirPath) = args;
+    try {
+      final bytes = File(path).readAsBytesSync();
+      final ar = ZipDecoder().decodeBytes(bytes);
+      Directory(outDirPath).createSync(recursive: true);
+      var done = 0;
+      for (final f in ar) {
+        final target = p.join(outDirPath, f.name);
+        // some archives flag directory entries as files; the trailing
+        // slash is the reliable check
+        if (f.isFile && !f.name.endsWith('/')) {
+          File(target)
+            ..createSync(recursive: true)
+            ..writeAsBytesSync(f.content as List<int>);
+        } else {
+          Directory(target).createSync(recursive: true);
+        }
+        send.send(++done / ar.length);
+      }
+      send.send('done');
+    } catch (e) {
+      send.send('zip unpack failed: $e');
+    }
   }
 }
