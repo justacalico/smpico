@@ -139,7 +139,7 @@ class _EZButtonState extends State<EZButton> {
     final enabled = widget.onPressed != null;
     var bg = widget.color ?? EZColors.button;
     if (!enabled) {
-      bg = bg.withOpacity(.5);
+      bg = bg.withValues(alpha: .5);
     } else if (_p) {
       bg = EZColors.buttonPressed;
     } else if (_h) {
@@ -326,7 +326,7 @@ class EmptyPlug extends StatelessWidget {
           Image.asset(
             'assets/icons/sad.png',
             height: 72,
-            errorBuilder: (_, __, ___) =>
+            errorBuilder: (_, _, _) =>
                 Icon(icon, size: 56, color: EZColors.textDim),
           ),
           const SizedBox(height: 12),

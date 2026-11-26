@@ -48,7 +48,7 @@ class SMPicoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: Settings.instance,
-      builder: (context, __) => MaterialApp(
+      builder: (context, _) => MaterialApp(
         title: 'SMPico',
         debugShowCheckedModeBanner: false,
         locale: TranslationProvider.of(context).locale.flutterLocale,

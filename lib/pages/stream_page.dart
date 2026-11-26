@@ -325,7 +325,7 @@ class _StreamPageState extends State<StreamPage> {
                             Image.asset(
                               'assets/icons/headset.png',
                               height: 140,
-                              errorBuilder: (_, __, ___) => const Icon(
+                              errorBuilder: (_, _, _) => const Icon(
                                 Icons.cast,
                                 size: 80,
                                 color: EZColors.textDim,
@@ -499,7 +499,7 @@ class _StreamPageState extends State<StreamPage> {
           ),
           Switch(
             value: value,
-            activeColor: EZColors.accent,
+            activeThumbColor: EZColors.accent,
             onChanged: onChanged,
           ),
         ],

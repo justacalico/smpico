@@ -242,7 +242,7 @@ class Packages extends ChangeNotifier {
     return 'APK saved ($saved)';
   }
 
-  /// Game save backup: pull /sdcard/Android/data/<pkg> + obb into a
+  /// Game save backup: pull /sdcard/Android/data/`<pkg>` + obb into a
   /// backup folder on the PC, via /data/local/tmp staging.
   Future<Directory?> backupSaves(String pkg) async {
     final dir = await AppPaths.backups();

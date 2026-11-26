@@ -182,7 +182,7 @@ class _PackageRowState extends State<_PackageRow> {
                 e.iconFile!,
                 width: 34,
                 height: 34,
-                errorBuilder: (_, __, ___) =>
+                errorBuilder: (_, _, _) =>
                     const Icon(Icons.android, color: EZColors.textDim),
               )
             : const Icon(Icons.android, size: 34, color: EZColors.textDim),

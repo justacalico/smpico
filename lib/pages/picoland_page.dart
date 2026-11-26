@@ -552,7 +552,7 @@ class _GameDetails extends StatelessWidget {
                             ),
                             ListenableBuilder(
                               listenable: Devices.instance,
-                              builder: (_, __) {
+                              builder: (_, _) {
                                 final serials = Devices.instance.serials;
                                 if (serials.length < 2 || g.links.isEmpty) {
                                   return const SizedBox.shrink();
@@ -620,7 +620,7 @@ class _GameDetails extends StatelessWidget {
                                   context,
                                   InstallOptions(),
                                 );
-                                if (o != null) {
+                                if (o != null && context.mounted) {
                                   _download(
                                     context,
                                     g,
@@ -655,9 +655,7 @@ class _GameDetails extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                t.specialInstall +
-                                    ' — ' +
-                                    t.nonStandardInstallationReadTheNotesBelow,
+                                '${t.specialInstall} — ${t.nonStandardInstallationReadTheNotesBelow}',
                                 style: const TextStyle(
                                   color: EZColors.warn,
                                   fontSize: 12,
@@ -917,12 +915,12 @@ Widget _coverImage(Game g, {BoxFit fit = BoxFit.contain}) {
     return Image.file(
       File(lp),
       fit: fit,
-      errorBuilder: (_, __, ___) => placeholder,
+      errorBuilder: (_, _, _) => placeholder,
     );
   }
   return Image.network(
     g.coverUrl,
     fit: fit,
-    errorBuilder: (_, __, ___) => placeholder,
+    errorBuilder: (_, _, _) => placeholder,
   );
 }

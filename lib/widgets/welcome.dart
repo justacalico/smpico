@@ -26,7 +26,11 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
   }
 
   Future<void> _load() async {
-    final lang = I18n.instance.lang == AppLang.ru ? 'ru' : 'en';
+    final lang = switch (I18n.instance.lang) {
+      AppLang.ru => 'ru',
+      AppLang.zhCn => 'zh',
+      _ => 'en',
+    };
     final t = await rootBundle.loadString('assets/docs/welcome_$lang.md');
     if (mounted) setState(() => _text = t);
   }
@@ -74,7 +78,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                 child: Markdown(
                   data: _text,
                   styleSheet: mdStyle,
-                  onTapLink: (_, href, __) {
+                  onTapLink: (_, href, _) {
                     if (href != null) openExternalUrl(context, href);
                   },
                 ),

@@ -22,8 +22,6 @@ class Devices extends ChangeNotifier {
   bool wifiSwitching = false;
   String? lastError;
 
-  Timer? _pollTimer;
-  Timer? _wakeTimer;
   DateTime _lastDetails = DateTime.fromMillisecondsSinceEpoch(0);
   bool _started = false;
 
@@ -33,11 +31,11 @@ class Devices extends ChangeNotifier {
     if (_started) return;
     _started = true;
     updateDevices();
-    _pollTimer = Timer.periodic(
+    Timer.periodic(
       const Duration(seconds: 3),
       (_) => updateDevices(),
     );
-    _wakeTimer = Timer.periodic(wakeEvery, (_) => _keepAwakeTick());
+    Timer.periodic(wakeEvery, (_) => _keepAwakeTick());
   }
 
   Future<void> updateDevices() async {

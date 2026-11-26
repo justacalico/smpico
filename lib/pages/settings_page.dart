@@ -126,7 +126,7 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 30,
               onPressed: () async {
                 await Updater.instance.check();
-                if (!mounted) return;
+                if (!context.mounted) return;
                 final u = Updater.instance;
                 toast(
                   context,
@@ -204,7 +204,7 @@ class _SettingsPageState extends State<SettingsPage> {
       hint,
       Switch(
         value: v,
-        activeColor: EZColors.accent,
+        activeThumbColor: EZColors.accent,
         onChanged: (nv) {
           Settings.instance.set(key, nv);
           setState(() {});

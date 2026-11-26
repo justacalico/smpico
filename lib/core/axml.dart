@@ -125,8 +125,9 @@ Uint8List _apkEntry(File apk, String name) {
       raf.setPositionSync(localOff + 30 + lnlen + lelen);
       final data = raf.readSync(csize);
       if (method == 0) return data;
-      if (method == 8)
+      if (method == 8) {
         return Uint8List.fromList(ZLibDecoder().decodeBytes(data, raw: true));
+      }
       throw StateError('unsupported zip method $method');
     }
     throw StateError('$name not in apk');
@@ -180,8 +181,9 @@ void _parseManifest(Uint8List data, ApkInfo info) {
             var q = base;
             var len = data[q] | (data[q + 1] << 8);
             q += 2;
-            if (len & 0x8000 != 0)
+            if (len & 0x8000 != 0) {
               len = ((len & 0x7fff) << 16) | (data[q] | (data[q + 1] << 8));
+            }
             final u16 = Uint16List(len);
             for (var i = 0; i < len; i++) {
               u16[i] = data[q + i * 2] | (data[q + i * 2 + 1] << 8);

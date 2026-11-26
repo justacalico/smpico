@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -101,7 +100,7 @@ class _DevicePageState extends State<DevicePage> {
                                   Image.asset(
                                     _headsetImage(d),
                                     height: 150,
-                                    errorBuilder: (_, __, ___) =>
+                                    errorBuilder: (_, _, _) =>
                                         const Icon(Icons.headset, size: 90),
                                   ),
                                   const SizedBox(height: 10),

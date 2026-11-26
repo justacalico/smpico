@@ -409,6 +409,7 @@ class _FilesPageState extends State<FilesPage> {
         PopupMenuItem(value: 'copypath', child: Text(t.copyPath)),
       ],
     );
+    if (!mounted) return;
     if (act == 'rename') {
       final name = await showDialog<String>(
         context: context,

@@ -123,8 +123,9 @@ class RemoteFiles extends ChangeNotifier {
   }
 
   Future<void> rename(RemoteEntry e, String newName) async {
-    if (newName.contains('/'))
+    if (newName.contains('/')) {
       throw ArgumentError('The name cannot contain «/»');
+    }
     await Adb.instance.move(e.path, p.posix.join(currentPath, newName));
     await refresh();
   }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class UpdateInfo {
   final String version;
@@ -16,7 +17,9 @@ class Updater extends ChangeNotifier {
   Updater._();
   static final Updater instance = Updater._();
 
-  static const appVersion = '1.0.0';
+  // last-known fallback; the real version comes from package_info_plus so
+  // CI-stamped builds compare correctly
+  static String appVersion = '1.0.0';
   static const updatesRepo = 'HttpAnimations/smpico';
 
   bool checking = false;
@@ -29,6 +32,9 @@ class Updater extends ChangeNotifier {
     error = null;
     available = null;
     notifyListeners();
+    try {
+      appVersion = (await PackageInfo.fromPlatform()).version;
+    } catch (_) {}
     try {
       final dio = Dio(BaseOptions(connectTimeout: const Duration(seconds: 15)));
       final r = await dio.get(

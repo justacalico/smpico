@@ -153,7 +153,7 @@ class Catalog extends ChangeNotifier {
   String get base =>
       _resolvedBase ?? (customAddress.isEmpty ? upstreamBase : customAddress);
 
-  /// Source for loose image files (images/<cover>). Our mirror doesn't
+  /// Source for loose image files (images/`<cover>`). Our mirror doesn't
   /// host them, so use the resolved base unless it is the mirror.
   String get imagesBase =>
       _resolvedBase == null || _resolvedBase == repoBase
@@ -376,10 +376,12 @@ class Catalog extends ChangeNotifier {
       if (q.isNotEmpty &&
           !'${g.title} ${g.sheetTitle} ${g.genres.join(' ')}'
               .toLowerCase()
-              .contains(q))
+              .contains(q)) {
         return false;
-      if (genreFilter.isNotEmpty && !g.genres.any(genreFilter.contains))
+      }
+      if (genreFilter.isNotEmpty && !g.genres.any(genreFilter.contains)) {
         return false;
+      }
       if (language != null && g.language != language) return false;
       if (type == 'ovrport' && !g.ovrport) return false;
       if (type == 'fnal' && g.ovrport) return false;
