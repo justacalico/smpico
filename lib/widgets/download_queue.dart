@@ -305,7 +305,19 @@ class _QueueJobRowState extends State<_QueueJobRow> {
     widget.job.addListener(_r);
   }
 
-  void _r() => setState(() {});
+  @override
+  void didUpdateWidget(_QueueJobRow old) {
+    super.didUpdateWidget(old);
+    if (old.job != widget.job) {
+      old.job.removeListener(_r);
+      widget.job.addListener(_r);
+    }
+  }
+
+  void _r() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
     widget.job.removeListener(_r);

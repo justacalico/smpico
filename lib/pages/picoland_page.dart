@@ -62,6 +62,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
 
   void _resetPage() {
     _visible = _pageSize;
+    if (_scroll.hasClients) _scroll.jumpTo(0);
   }
 
   void _r() => setState(() {});
@@ -241,34 +242,52 @@ class _PicoLandPageState extends State<PicoLandPage> {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: cat.loading && games.isEmpty
-                ? Center(child: Text(t.loadingTheCatalog, style: EZText.hint))
-                : !cat.available
-                ? EmptyPlug(
-                    Icons.cloud_off,
-                    t.catalogIsUnavailable,
-                    subtitle: cat.error,
+            // The grid stays mounted under any state overlays so its scroll
+            // position is never recreated mid-session.
+            child: Stack(
+              children: [
+                GridView.builder(
+                  key: const PageStorageKey('picolandGrid'),
+                  controller: _scroll,
+                  gridDelegate:
+                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 170,
+                        childAspectRatio: 0.68,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                  itemCount: _visible,
+                  itemBuilder: (_, i) => _GameCard(
+                    game: games[i],
+                    onTap: () {
+                      setState(() => _selected = games[i]);
+                      _kbFocus.requestFocus();
+                    },
+                  ),
+                ),
+                if (cat.loading && games.isEmpty)
+                  Positioned.fill(
+                    child: Center(
+                      child: Text(t.loadingTheCatalog, style: EZText.hint),
+                    ),
                   )
-                : games.isEmpty
-                ? EmptyPlug(Icons.search_off, t.nothingMatchesTheFilter)
-                : GridView.builder(
-                    controller: _scroll,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 170,
-                          childAspectRatio: 0.68,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                    itemCount: _visible,
-                    itemBuilder: (_, i) => _GameCard(
-                      game: games[i],
-                      onTap: () {
-                        setState(() => _selected = games[i]);
-                        _kbFocus.requestFocus();
-                      },
+                else if (!cat.available)
+                  Positioned.fill(
+                    child: EmptyPlug(
+                      Icons.cloud_off,
+                      t.catalogIsUnavailable,
+                      subtitle: cat.error,
+                    ),
+                  )
+                else if (games.isEmpty)
+                  Positioned.fill(
+                    child: EmptyPlug(
+                      Icons.search_off,
+                      t.nothingMatchesTheFilter,
                     ),
                   ),
+              ],
+            ),
           ),
         ],
       ),

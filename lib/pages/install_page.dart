@@ -344,7 +344,19 @@ class _JobCardState extends State<_JobCard> {
     widget.job.addListener(_r);
   }
 
-  void _r() => setState(() {});
+  @override
+  void didUpdateWidget(_JobCard old) {
+    super.didUpdateWidget(old);
+    if (old.job != widget.job) {
+      old.job.removeListener(_r);
+      widget.job.addListener(_r);
+    }
+  }
+
+  void _r() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
     widget.job.removeListener(_r);
@@ -478,7 +490,19 @@ class _DownloadCardState extends State<_DownloadCard> {
     widget.job.addListener(_r);
   }
 
-  void _r() => setState(() {});
+  @override
+  void didUpdateWidget(_DownloadCard old) {
+    super.didUpdateWidget(old);
+    if (old.job != widget.job) {
+      old.job.removeListener(_r);
+      widget.job.addListener(_r);
+    }
+  }
+
+  void _r() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
     widget.job.removeListener(_r);
