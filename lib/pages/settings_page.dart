@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../core/catalog.dart';
 import '../core/packages.dart';
 import '../core/paths.dart';
+import '../core/mcp_server.dart';
 import '../core/updater.dart';
 import '../i18n.dart';
 import '../settings.dart';
@@ -93,6 +94,28 @@ class _SettingsPageState extends State<SettingsPage> {
             t.maxConcurrentDownloads,
             t.maxConcurrentDownloadsHint,
             _concurrencyPicker(),
+          ),
+          _section(t.aiAgents),
+          _row(
+            t.mcpServer,
+            t.letsAiAgentsControlSmpicoThrough,
+            Switch(
+              value: Settings.instance.get('mcp_enabled', false),
+              activeThumbColor: EZColors.accent,
+              onChanged: (v) {
+                Settings.instance.set('mcp_enabled', v);
+                McpServer.instance.setEnabled(v);
+                setState(() {});
+              },
+            ),
+          ),
+          _row(
+            t.mcpAddress,
+            t.pointYourAgentAtThis,
+            SelectableText(
+              McpServer.instance.running ? McpServer.instance.url : '—',
+              style: EZText.hint,
+            ),
           ),
           _section(t.picolandCatalog),
           _switch(

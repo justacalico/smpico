@@ -774,6 +774,21 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'How many downloads run at once. Minimum 1, no upper limit.'
 	String get maxConcurrentDownloadsHint => 'How many downloads run at once. Minimum 1, no upper limit.';
 
+	/// en: 'AI agents'
+	String get aiAgents => 'AI agents';
+
+	/// en: 'MCP server'
+	String get mcpServer => 'MCP server';
+
+	/// en: 'Lets AI agents control SMPico through a local endpoint (127.0.0.1 only). Off by default.'
+	String get letsAiAgentsControlSmpicoThrough => 'Lets AI agents control SMPico through a local endpoint (127.0.0.1 only). Off by default.';
+
+	/// en: 'MCP address'
+	String get mcpAddress => 'MCP address';
+
+	/// en: 'Point your agent at this URL — streamable HTTP transport.'
+	String get pointYourAgentAtThis => 'Point your agent at this URL — streamable HTTP transport.';
+
 	/// en: 'Trailer'
 	String get trailer => 'Trailer';
 
@@ -1144,6 +1159,11 @@ extension on Translations {
 			'deleteAfterInstallHint' => 'Archive and unpacked files are removed once the game is installed, so the downloads folder stays small.',
 			'maxConcurrentDownloads' => 'Concurrent downloads',
 			'maxConcurrentDownloadsHint' => 'How many downloads run at once. Minimum 1, no upper limit.',
+			'aiAgents' => 'AI agents',
+			'mcpServer' => 'MCP server',
+			'letsAiAgentsControlSmpicoThrough' => 'Lets AI agents control SMPico through a local endpoint (127.0.0.1 only). Off by default.',
+			'mcpAddress' => 'MCP address',
+			'pointYourAgentAtThis' => 'Point your agent at this URL — streamable HTTP transport.',
 			'trailer' => 'Trailer',
 			'turnTheHeadsetOff' => 'Turn the headset off',
 			'type' => 'Type',

@@ -283,6 +283,11 @@ class TranslationsZhCn with BaseTranslations<AppLocale, Translations> implements
 	@override String get deleteAfterInstallHint => '游戏安装完成后删除压缩包和解压文件，下载目录不再膨胀。';
 	@override String get maxConcurrentDownloads => '并行下载数';
 	@override String get maxConcurrentDownloadsHint => '同时进行的下载数量。最少为 1，不设上限。';
+	@override String get aiAgents => 'AI 代理';
+	@override String get mcpServer => 'MCP 服务器';
+	@override String get letsAiAgentsControlSmpicoThrough => '允许 AI 代理通过本地端点（仅 127.0.0.1）控制 SMPico，默认关闭。';
+	@override String get mcpAddress => 'MCP 地址';
+	@override String get pointYourAgentAtThis => '将此 URL 配置给代理 —— streamable HTTP 传输。';
 	@override String get trailer => '预告片';
 	@override String get turnTheHeadsetOff => '关闭头显';
 	@override String get type => '类型';
@@ -577,6 +582,11 @@ extension on TranslationsZhCn {
 			'deleteAfterInstallHint' => '游戏安装完成后删除压缩包和解压文件，下载目录不再膨胀。',
 			'maxConcurrentDownloads' => '并行下载数',
 			'maxConcurrentDownloadsHint' => '同时进行的下载数量。最少为 1，不设上限。',
+			'aiAgents' => 'AI 代理',
+			'mcpServer' => 'MCP 服务器',
+			'letsAiAgentsControlSmpicoThrough' => '允许 AI 代理通过本地端点（仅 127.0.0.1）控制 SMPico，默认关闭。',
+			'mcpAddress' => 'MCP 地址',
+			'pointYourAgentAtThis' => '将此 URL 配置给代理 —— streamable HTTP 传输。',
 			'trailer' => '预告片',
 			'turnTheHeadsetOff' => '关闭头显',
 			'type' => '类型',

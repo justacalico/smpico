@@ -44,43 +44,7 @@ class RemoteFiles extends ChangeNotifier {
     error = null;
     notifyListeners();
     try {
-      final out = await Adb.instance.shell(
-        'ls -la "$path" 2>/dev/null || echo __NOENT__',
-      );
-      if (out.contains('__NOENT__')) {
-        error = 'Cannot open this folder';
-        loading = false;
-        notifyListeners();
-        return;
-      }
-      final list = <RemoteEntry>[];
-      for (final line in const LineSplitter().convert(out)) {
-        final l = line.trim();
-        if (l.isEmpty || l.startsWith('total')) continue;
-        final m = RegExp(
-          r'^([bcdlps-][rwxts-]{9})\s+\d+\s+\S+\s+\S+\s+(\d+)?\s*(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}|\w+\s+\d+\s+[\d:]+)\s+(.+)$',
-        ).firstMatch(l);
-        if (m == null) continue;
-        var name = m.group(4)!;
-        final isDir = m.group(1)!.startsWith('d');
-        // strip symlink target
-        name = name.split(' -> ').first;
-        if (name == '.' || name == '..') continue;
-        if (!showHidden && name.startsWith('.')) continue;
-        list.add(
-          RemoteEntry(
-            name,
-            p.posix.join(path, name),
-            isDir,
-            int.tryParse(m.group(2) ?? '') ?? 0,
-            m.group(3) ?? '',
-          ),
-        );
-      }
-      list.sort((a, b) {
-        if (a.isDir != b.isDir) return a.isDir ? -1 : 1;
-        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
-      });
+      final list = await entriesAt(path, showHidden: showHidden);
       if (pushHistory) {
         history.removeRange(historyPos + 1, history.length);
         history.add(path);
@@ -89,10 +53,53 @@ class RemoteFiles extends ChangeNotifier {
       currentPath = path;
       entries = list;
     } catch (e) {
-      error = '$e';
+      error = e is StateError ? 'Cannot open this folder' : '$e';
     }
     loading = false;
     notifyListeners();
+  }
+
+  /// Same ls+parse as [open], without touching navigation state — the MCP
+  /// server lists remote dirs through this so the Files page doesn't jump.
+  Future<List<RemoteEntry>> entriesAt(
+    String path, {
+    bool showHidden = false,
+  }) async {
+    final out = await Adb.instance.shell(
+      'ls -la "$path" 2>/dev/null || echo __NOENT__',
+    );
+    if (out.contains('__NOENT__')) {
+      throw StateError('Cannot open this folder');
+    }
+    final list = <RemoteEntry>[];
+    for (final line in const LineSplitter().convert(out)) {
+      final l = line.trim();
+      if (l.isEmpty || l.startsWith('total')) continue;
+      final m = RegExp(
+        r'^([bcdlps-][rwxts-]{9})\s+\d+\s+\S+\s+\S+\s+(\d+)?\s*(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}|\w+\s+\d+\s+[\d:]+)\s+(.+)$',
+      ).firstMatch(l);
+      if (m == null) continue;
+      var name = m.group(4)!;
+      final isDir = m.group(1)!.startsWith('d');
+      // strip symlink target
+      name = name.split(' -> ').first;
+      if (name == '.' || name == '..') continue;
+      if (!showHidden && name.startsWith('.')) continue;
+      list.add(
+        RemoteEntry(
+          name,
+          p.posix.join(path, name),
+          isDir,
+          int.tryParse(m.group(2) ?? '') ?? 0,
+          m.group(3) ?? '',
+        ),
+      );
+    }
+    list.sort((a, b) {
+      if (a.isDir != b.isDir) return a.isDir ? -1 : 1;
+      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    });
+    return list;
   }
 
   Future<void> refresh() => open(currentPath, pushHistory: false);

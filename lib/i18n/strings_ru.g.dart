@@ -282,6 +282,11 @@ class TranslationsRu with BaseTranslations<AppLocale, Translations> implements T
 	@override String get deleteAfterInstallHint => 'Архив и распакованные файлы удаляются после установки игры, папка загрузок не разрастается.';
 	@override String get maxConcurrentDownloads => 'Одновременные загрузки';
 	@override String get maxConcurrentDownloadsHint => 'Сколько загрузок идёт одновременно. Минимум 1, без верхнего предела.';
+	@override String get aiAgents => 'ИИ-агенты';
+	@override String get mcpServer => 'Сервер MCP';
+	@override String get letsAiAgentsControlSmpicoThrough => 'Позволяет ИИ-агентам управлять SMPico через локальный эндпоинт (только 127.0.0.1). По умолчанию выключено.';
+	@override String get mcpAddress => 'Адрес MCP';
+	@override String get pointYourAgentAtThis => 'Укажите агенту этот URL — транспорт streamable HTTP.';
 	@override String get trailer => 'Трейлер';
 	@override String get turnTheHeadsetOff => 'Выключить шлем';
 	@override String get type => 'Тип';
@@ -579,6 +584,11 @@ extension on TranslationsRu {
 			'deleteAfterInstallHint' => 'Архив и распакованные файлы удаляются после установки игры, папка загрузок не разрастается.',
 			'maxConcurrentDownloads' => 'Одновременные загрузки',
 			'maxConcurrentDownloadsHint' => 'Сколько загрузок идёт одновременно. Минимум 1, без верхнего предела.',
+			'aiAgents' => 'ИИ-агенты',
+			'mcpServer' => 'Сервер MCP',
+			'letsAiAgentsControlSmpicoThrough' => 'Позволяет ИИ-агентам управлять SMPico через локальный эндпоинт (только 127.0.0.1). По умолчанию выключено.',
+			'mcpAddress' => 'Адрес MCP',
+			'pointYourAgentAtThis' => 'Укажите агенту этот URL — транспорт streamable HTTP.',
 			'trailer' => 'Трейлер',
 			'turnTheHeadsetOff' => 'Выключить шлем',
 			'type' => 'Тип',

@@ -61,6 +61,14 @@ class Game {
   List<String> genres;
   List<GameLink> links;
 
+  /// Best link to queue: first working cloud link, else whatever is there.
+  GameLink? get bestDownloadLink => links.cast<GameLink?>().firstWhere(
+    (l) =>
+        l!.status == 'ok' &&
+        (l.kind == 'yandex' || l.kind == 'gdrive' || l.kind == 'sber'),
+    orElse: () => links.isNotEmpty ? links.first : null,
+  );
+
   Game.fromRow(Map<String, Object?> r)
     : id = r['id'] as int,
       slug = '${r['slug']}',

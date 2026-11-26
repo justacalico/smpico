@@ -933,13 +933,7 @@ class _GameDetails extends StatelessWidget {
       );
       if (yes != true || !context.mounted) return;
     }
-    // prefer a working cloud link
-    final link = g.links.cast<GameLink?>().firstWhere(
-      (l) =>
-          l!.status == 'ok' &&
-          (l.kind == 'yandex' || l.kind == 'gdrive' || l.kind == 'sber'),
-      orElse: () => g.links.isNotEmpty ? g.links.first : null,
-    );
+    final link = g.bestDownloadLink;
     if (link == null) {
       dlog('no usable link for ${g.title}');
       toast(context, t.noDownloadLinksOpenThePostIn);
