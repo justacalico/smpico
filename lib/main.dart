@@ -36,6 +36,7 @@ Future<void> main() async {
   Catalog.instance.init();
   Downloads.instance.init();
   McpServer.instance.init();
+  Updater.instance.init();
   if (Settings.instance.get('check_updates', true)) {
     Updater.instance.check();
   }

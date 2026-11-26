@@ -26,6 +26,14 @@ class Updater extends ChangeNotifier {
   UpdateInfo? available;
   String? error;
 
+  /// Fill appVersion once at startup so it reads correctly even when the
+  /// update check is disabled.
+  Future<void> init() async {
+    try {
+      appVersion = (await PackageInfo.fromPlatform()).version;
+    } catch (_) {}
+  }
+
   Future<void> check() async {
     if (checking) return;
     checking = true;

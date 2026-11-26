@@ -21,6 +21,28 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   @override
+  void initState() {
+    super.initState();
+    // the catalog, updater and MCP rows all show live singleton state —
+    // rebuild when any of it changes instead of going stale
+    Catalog.instance.addListener(_refresh);
+    Updater.instance.addListener(_refresh);
+    McpServer.instance.addListener(_refresh);
+  }
+
+  @override
+  void dispose() {
+    Catalog.instance.removeListener(_refresh);
+    Updater.instance.removeListener(_refresh);
+    McpServer.instance.removeListener(_refresh);
+    super.dispose();
+  }
+
+  void _refresh() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: EZColors.page,
