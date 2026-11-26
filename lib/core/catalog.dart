@@ -120,7 +120,7 @@ class Catalog extends ChangeNotifier {
 
   /// Original EZPico feed — always freshest, zero maintenance.
   static const upstreamBase =
-      'https://raw.githubusercontent.com/Cka3ka1337/EZPico/main';
+      'https://gitlab.com/Cka3ka1337/EZPico/-/raw/main';
 
   Database? _db;
   List<Game> games = [];

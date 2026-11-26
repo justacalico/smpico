@@ -149,7 +149,9 @@ class _PicoLandPageState extends State<PicoLandPage> {
       games.sort((a, b) => b.bestSize.compareTo(a.bestSize));
     }
     _total = games.length;
-    if (_visible > _total) _visible = _total;
+    if (_visible > _total || _visible < _pageSize) {
+      _visible = _total < _pageSize ? _total : _pageSize;
+    }
 
     return Padding(
       padding: const EdgeInsets.all(12),
