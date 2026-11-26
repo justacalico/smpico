@@ -5,7 +5,6 @@ import 'package:archive/archive.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart' as p;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -119,13 +118,9 @@ class Catalog extends ChangeNotifier {
   Catalog._();
   static final Catalog instance = Catalog._();
 
-  /// Original EZPico feed — primary source, always freshest.
+  /// Original EZPico feed — always freshest, zero maintenance.
   static const upstreamBase =
       'https://raw.githubusercontent.com/Cka3ka1337/EZPico/main';
-
-  /// Our mirrored feed — fallback when upstream is unreachable or broken.
-  static const repoBase =
-      'https://gitlab.com/HttpAnimations/smpico/-/raw/main/catalog';
 
   Database? _db;
   List<Game> games = [];
@@ -141,24 +136,18 @@ class Catalog extends ChangeNotifier {
   String get customAddress => Settings.instance.get('catalog_address', '');
 
   /// Catalog sources in priority order. The custom address wins when set,
-  /// then upstream (always fresh, zero maintenance), then our mirror.
+  /// then upstream.
   List<String> get sources => [
         if (customAddress.isNotEmpty) customAddress,
         upstreamBase,
-        repoBase,
       ];
 
   /// Source that last served the manifest (or the first choice before any
-  /// fetch happened).
+  /// fetch happened). Covers and loose images use the same base.
   String get base =>
       _resolvedBase ?? (customAddress.isEmpty ? upstreamBase : customAddress);
 
-  /// Source for loose image files (images/`<cover>`). Our mirror doesn't
-  /// host them, so use the resolved base unless it is the mirror.
-  String get imagesBase =>
-      _resolvedBase == null || _resolvedBase == repoBase
-          ? (customAddress.isNotEmpty ? customAddress : upstreamBase)
-          : _resolvedBase!;
+  String get imagesBase => base;
 
   String? coverPath(String? name) =>
       name == null || _coversDir == null ? null : p.join(_coversDir!, name);
@@ -177,19 +166,7 @@ class Catalog extends ChangeNotifier {
       _coversDir = covers.path;
     }
     final dbFile = File(p.join(dir.path, 'catalog.db'));
-    if (!await dbFile.exists()) {
-      try {
-        final data = await rootBundle.load('assets/catalog.db');
-        await dbFile.writeAsBytes(
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
-          flush: true,
-        );
-        dlog('catalog: seeded bundled snapshot');
-      } catch (e) {
-        dlog('catalog: bundled snapshot unavailable: $e');
-        return;
-      }
-    }
+    if (!await dbFile.exists()) return;
     _db = await databaseFactoryFfi.openDatabase(
       dbFile.path,
       options: OpenDatabaseOptions(readOnly: true),
@@ -232,7 +209,7 @@ class Catalog extends ChangeNotifier {
   }
 
   /// Fetch manifest.json, compare version, refresh db + covers if newer.
-  /// Sources are tried in order (custom, our mirror, upstream) until one
+  /// Sources are tried in order (custom, upstream) until one
   /// serves a valid manifest.
   Future<bool> checkUpdates({bool silent = false}) async {
     if (loading) return false;

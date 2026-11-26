@@ -81,7 +81,6 @@ flutter:
     - assets/icons/
     - assets/icons/svg/
     - assets/docs/
-    - assets/catalog.db
 
   # To add assets to your application, add an assets section, like this:
   # assets:

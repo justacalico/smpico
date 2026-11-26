@@ -292,7 +292,7 @@ class _SettingsPageState extends State<SettingsPage> {
         style: const TextStyle(fontSize: 12, color: EZColors.textBright),
         decoration: InputDecoration(
           isDense: true,
-          hintText: Catalog.repoBase,
+          hintText: Catalog.upstreamBase,
           hintStyle: EZText.hint,
           filled: true,
           fillColor: EZColors.consoleBg,
