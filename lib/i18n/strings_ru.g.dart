@@ -278,6 +278,10 @@ class TranslationsRu with BaseTranslations<AppLocale, Translations> implements T
 	@override String get theAppDoesNotRequestPermissionsThat => 'Приложение не запрашивает прав, которые можно изменить';
 	@override String get theHeadsetDoesNotFallAsleepWhile => 'Шлем не засыпает, пока работает SMPico (установка, перенос файлов, стрим). После закрытия SMPico сон снова обычный';
 	@override String get toolsFolder => 'Папка утилит';
+	@override String get deleteAfterInstall => 'Удалять загрузки после установки';
+	@override String get deleteAfterInstallHint => 'Архив и распакованные файлы удаляются после установки игры, папка загрузок не разрастается.';
+	@override String get maxConcurrentDownloads => 'Одновременные загрузки';
+	@override String get maxConcurrentDownloadsHint => 'Сколько загрузок идёт одновременно. Минимум 1, без верхнего предела.';
 	@override String get trailer => 'Трейлер';
 	@override String get turnTheHeadsetOff => 'Выключить шлем';
 	@override String get type => 'Тип';
@@ -571,6 +575,10 @@ extension on TranslationsRu {
 			'theAppDoesNotRequestPermissionsThat' => 'Приложение не запрашивает прав, которые можно изменить',
 			'theHeadsetDoesNotFallAsleepWhile' => 'Шлем не засыпает, пока работает SMPico (установка, перенос файлов, стрим). После закрытия SMPico сон снова обычный',
 			'toolsFolder' => 'Папка утилит',
+			'deleteAfterInstall' => 'Удалять загрузки после установки',
+			'deleteAfterInstallHint' => 'Архив и распакованные файлы удаляются после установки игры, папка загрузок не разрастается.',
+			'maxConcurrentDownloads' => 'Одновременные загрузки',
+			'maxConcurrentDownloadsHint' => 'Сколько загрузок идёт одновременно. Минимум 1, без верхнего предела.',
 			'trailer' => 'Трейлер',
 			'turnTheHeadsetOff' => 'Выключить шлем',
 			'type' => 'Тип',

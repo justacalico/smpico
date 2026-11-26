@@ -13,6 +13,7 @@ import 'log.dart';
 import 'paths.dart';
 import 'tools.dart';
 import '../i18n.dart';
+import '../settings.dart';
 
 enum InstallMethod { auto, direct, overport, repack }
 
@@ -295,6 +296,7 @@ class Installer extends ChangeNotifier {
       job.state = JobState.done;
       job.setStage('Install complete', 1);
       await _recordHistory(job);
+      await _cleanupDownload(job);
     } catch (e) {
       job.state = JobState.failed;
       job.error = '$e';
@@ -302,6 +304,35 @@ class Installer extends ChangeNotifier {
       job.addLog('error: $e');
     }
     notifyListeners();
+  }
+
+  /// Drop the source archive and its unpacked folder once the game is on
+  /// the headset, but only when they live in our downloads dir — files the
+  /// user picked from elsewhere stay untouched.
+  Future<void> _cleanupDownload(InstallJob job) async {
+    if (job.options.downloadOnly) return;
+    if (!Settings.instance.get<bool>('delete_after_install', true)) return;
+    try {
+      final dl = (await AppPaths.downloads()).path;
+      final src = job.sourcePath;
+      if (!p.isWithin(dl, src)) return;
+      final type = await FileSystemEntity.type(src);
+      if (type == FileSystemEntityType.file) {
+        await File(src).delete();
+        final base = p
+            .basenameWithoutExtension(src)
+            .replaceAll(RegExp(r'\.\d+$'), '');
+        final unpacked = Directory(p.join(p.dirname(src), base));
+        if (await unpacked.exists() && unpacked.path != src) {
+          await unpacked.delete(recursive: true);
+        }
+      } else if (type == FileSystemEntityType.directory) {
+        await Directory(src).delete(recursive: true);
+      }
+      job.addLog('removed downloaded files');
+    } catch (e) {
+      dlog('delete-after-install failed: $e');
+    }
   }
 
   Future<bool> _detectOvrport(File apk) async {

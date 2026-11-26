@@ -762,6 +762,18 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'Tools folder'
 	String get toolsFolder => 'Tools folder';
 
+	/// en: 'Delete downloads after install'
+	String get deleteAfterInstall => 'Delete downloads after install';
+
+	/// en: 'Archive and unpacked files are removed once the game is installed, so the downloads folder stays small.'
+	String get deleteAfterInstallHint => 'Archive and unpacked files are removed once the game is installed, so the downloads folder stays small.';
+
+	/// en: 'Concurrent downloads'
+	String get maxConcurrentDownloads => 'Concurrent downloads';
+
+	/// en: 'How many downloads run at once. Minimum 1, no upper limit.'
+	String get maxConcurrentDownloadsHint => 'How many downloads run at once. Minimum 1, no upper limit.';
+
 	/// en: 'Trailer'
 	String get trailer => 'Trailer';
 
@@ -1128,6 +1140,10 @@ extension on Translations {
 			'theAppDoesNotRequestPermissionsThat' => 'The app does not request permissions that can be changed',
 			'theHeadsetDoesNotFallAsleepWhile' => 'The headset does not fall asleep while SMPico is running (installs, file transfers, stream). Normal sleep returns when SMPico is closed',
 			'toolsFolder' => 'Tools folder',
+			'deleteAfterInstall' => 'Delete downloads after install',
+			'deleteAfterInstallHint' => 'Archive and unpacked files are removed once the game is installed, so the downloads folder stays small.',
+			'maxConcurrentDownloads' => 'Concurrent downloads',
+			'maxConcurrentDownloadsHint' => 'How many downloads run at once. Minimum 1, no upper limit.',
 			'trailer' => 'Trailer',
 			'turnTheHeadsetOff' => 'Turn the headset off',
 			'type' => 'Type',

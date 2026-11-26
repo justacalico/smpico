@@ -83,6 +83,17 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
           ),
+          _switch(
+            t.deleteAfterInstall,
+            t.deleteAfterInstallHint,
+            'delete_after_install',
+            true,
+          ),
+          _row(
+            t.maxConcurrentDownloads,
+            t.maxConcurrentDownloadsHint,
+            _concurrencyPicker(),
+          ),
           _section(t.picolandCatalog),
           _switch(
             t.showGamesWithoutDownloadLinks,
@@ -194,6 +205,37 @@ class _SettingsPageState extends State<SettingsPage> {
           trailing,
         ],
       ),
+    );
+  }
+
+  Widget _concurrencyPicker() {
+    final v = Settings.instance.get<int>('max_concurrent_downloads', 3);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        EZIconButton(
+          Icons.remove,
+          size: 26,
+          onPressed: v <= 1
+              ? null
+              : () {
+                  Settings.instance.set('max_concurrent_downloads', v - 1);
+                  setState(() {});
+                },
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text('$v', style: EZText.section),
+        ),
+        EZIconButton(
+          Icons.add,
+          size: 26,
+          onPressed: () {
+            Settings.instance.set('max_concurrent_downloads', v + 1);
+            setState(() {});
+          },
+        ),
+      ],
     );
   }
 

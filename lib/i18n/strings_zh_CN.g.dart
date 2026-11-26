@@ -279,6 +279,10 @@ class TranslationsZhCn with BaseTranslations<AppLocale, Translations> implements
 	@override String get theAppDoesNotRequestPermissionsThat => '该应用未请求可更改的权限';
 	@override String get theHeadsetDoesNotFallAsleepWhile => 'SMPico 运行期间头显不会休眠（安装、文件传输、串流）。关闭 SMPico 后恢复正常休眠';
 	@override String get toolsFolder => '工具文件夹';
+	@override String get deleteAfterInstall => '安装后删除下载内容';
+	@override String get deleteAfterInstallHint => '游戏安装完成后删除压缩包和解压文件，下载目录不再膨胀。';
+	@override String get maxConcurrentDownloads => '并行下载数';
+	@override String get maxConcurrentDownloadsHint => '同时进行的下载数量。最少为 1，不设上限。';
 	@override String get trailer => '预告片';
 	@override String get turnTheHeadsetOff => '关闭头显';
 	@override String get type => '类型';
@@ -569,6 +573,10 @@ extension on TranslationsZhCn {
 			'theAppDoesNotRequestPermissionsThat' => '该应用未请求可更改的权限',
 			'theHeadsetDoesNotFallAsleepWhile' => 'SMPico 运行期间头显不会休眠（安装、文件传输、串流）。关闭 SMPico 后恢复正常休眠',
 			'toolsFolder' => '工具文件夹',
+			'deleteAfterInstall' => '安装后删除下载内容',
+			'deleteAfterInstallHint' => '游戏安装完成后删除压缩包和解压文件，下载目录不再膨胀。',
+			'maxConcurrentDownloads' => '并行下载数',
+			'maxConcurrentDownloadsHint' => '同时进行的下载数量。最少为 1，不设上限。',
 			'trailer' => '预告片',
 			'turnTheHeadsetOff' => '关闭头显',
 			'type' => '类型',

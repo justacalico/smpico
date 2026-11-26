@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 
+import '../settings.dart';
 import 'installer.dart';
 import 'log.dart';
 import 'paths.dart';
@@ -89,16 +90,21 @@ class Downloads extends ChangeNotifier {
       if (opts is Map) job.installAfter = _optionsFromMap(opts);
       jobs.add(job);
       dlog('download restored: ${job.title} (${job.fileName ?? '?'})');
-      _run(job);
     }
     notifyListeners();
+    _pump();
   }
 
   Future<void> _persist() async {
     final f = _metaFile;
     if (f == null) return;
     final active = jobs
-        .where((j) => j.state == 'waiting' || j.state == 'downloading')
+        .where(
+          (j) =>
+              j.state == 'waiting' ||
+              j.state == 'downloading' ||
+              j.state == 'unpacking',
+        )
         .map(
           (j) => {
             'id': j.id,
@@ -160,8 +166,28 @@ class Downloads extends ChangeNotifier {
     notifyListeners();
     _persist();
     dlog('download queued: $title ($kind) $url');
-    _run(job);
+    _pump();
     return job;
+  }
+
+  int get _maxConcurrent {
+    final v = Settings.instance.get<int>('max_concurrent_downloads', 3);
+    return v < 1 ? 1 : v;
+  }
+
+  /// Start waiting jobs while there is a free slot.
+  void _pump() {
+    var slots = _maxConcurrent -
+        jobs
+            .where(
+              (j) => j.state == 'downloading' || j.state == 'unpacking',
+            )
+            .length;
+    for (final j in jobs.where((j) => j.state == 'waiting')) {
+      if (slots <= 0) break;
+      slots--;
+      _run(j);
+    }
   }
 
   Future<String?> _resolveUrl(DownloadJob job) async {
@@ -281,6 +307,7 @@ class Downloads extends ChangeNotifier {
     job._notify();
     notifyListeners();
     _persist();
+    _pump();
   }
 
   bool _rangeSatisfies(Response res, int have) {
@@ -309,6 +336,7 @@ class Downloads extends ChangeNotifier {
     job._notify();
     notifyListeners();
     _persist();
+    _pump();
   }
 
   String? _fileName(String url) {
@@ -332,6 +360,7 @@ class Downloads extends ChangeNotifier {
     job._notify();
     notifyListeners();
     _persist();
+    _pump();
   }
 
   void remove(DownloadJob job) {
