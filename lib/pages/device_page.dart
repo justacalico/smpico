@@ -381,7 +381,7 @@ class _DevActionState extends State<_DevAction> {
           duration: const Duration(milliseconds: 80),
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
           decoration: BoxDecoration(
-            color: _h ? const Color(0xFF292929) : const Color(0xFF1F1F1F),
+            color: _h ? const Color(0xFF292929) : EZColors.page,
             border: Border.all(
               color: _h
                   ? (widget.danger ? EZColors.bad : EZColors.accent)
@@ -446,7 +446,7 @@ class _DeviceSelectorState extends State<_DeviceSelector> {
     return PopupMenuButton<String>(
       tooltip: '',
       offset: const Offset(0, 46),
-      color: const Color(0xFF242424),
+      color: EZColors.card,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: const BorderSide(color: Color(0xFF3A3A3A)),
@@ -576,7 +576,7 @@ class _AdbConsoleState extends State<_AdbConsole> {
             if (_saved.isNotEmpty)
               PopupMenuButton<String>(
                 tooltip: t.savedCommands,
-                color: const Color(0xFF242424),
+                color: EZColors.card,
                 onSelected: (c) {
                   _ctrl.text = c;
                   _run();

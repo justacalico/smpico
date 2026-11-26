@@ -100,10 +100,6 @@ class Adb {
     Duration timeout = const Duration(seconds: 30),
   }) => out(_base() + ['shell', cmd], timeout: timeout);
 
-  Future<void> initServer() async {
-    await run(['start-server'], timeout: const Duration(seconds: 15));
-  }
-
   /// Returns (serial, status) pairs from `adb devices`.
   Future<List<(String, String)>> devices() async {
     final s = await out(['devices']);
@@ -185,20 +181,6 @@ class Adb {
   }) => run(_base() + ['pull', remote, local], timeout: timeout);
 
   /// pm install with optional extra flags (e.g. -i com.picovr.store).
-  Future<String> install(
-    String apkPath, {
-    String? installer,
-    bool grantAll = true,
-  }) async {
-    final args = _base() + ['install'];
-    if (grantAll) args.add('-g');
-    args.add('-r');
-    if (installer != null) args.addAll(['-i', installer]);
-    args.add(apkPath);
-    final r = await run(args, timeout: const Duration(minutes: 15));
-    return '${r.stdout}\n${r.stderr}'.trim();
-  }
-
   /// Push an APK then `pm install` it on the device — used for paths
   /// with characters adb can't handle directly.
   Future<String> installOnDevice(
@@ -231,24 +213,14 @@ class Adb {
               ..sort(),
       );
 
-  Future<int> remoteSize(String path) async {
-    final s = await shell('du -sk "$path" 2>/dev/null | cut -f1');
-    return (int.tryParse(s.trim()) ?? 0) * 1024;
-  }
-
   Future<void> tcpip() => run(_base() + ['tcpip', '5555']);
 
   Future<String> connect(String addr) =>
       out(['connect', '$addr:5555'], timeout: const Duration(seconds: 15));
 
-  Future<String> disconnect(String addr) => out(['disconnect', addr]);
-
   Future<void> reboot() => shell('reboot');
 
   Future<void> shutdown() => shell('reboot -p');
-
-  Future<void> waitForDevice() =>
-      run(_base() + ['wait-for-device'], timeout: const Duration(minutes: 5));
 
   Future<DeviceInfo> details() async {
     final d = DeviceInfo();

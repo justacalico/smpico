@@ -183,7 +183,8 @@ class Downloads extends ChangeNotifier {
               (j) => j.state == 'downloading' || j.state == 'unpacking',
             )
             .length;
-    for (final j in jobs.where((j) => j.state == 'waiting')) {
+    for (final j
+        in jobs.where((j) => j.state == 'waiting').toList().reversed) {
       if (slots <= 0) break;
       slots--;
       _run(j);

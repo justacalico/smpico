@@ -60,12 +60,28 @@ class _PicoLandPageState extends State<PicoLandPage> {
     }
   }
 
+  /// When the whole page fits the viewport there are no scroll events to
+  /// trigger load-more — keep growing until it scrolls or runs out.
+  void _growIfShort() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scroll.hasClients) return;
+      if (_visible < _total && _scroll.position.maxScrollExtent <= 0) {
+        setState(() => _visible += _pageSize);
+        _growIfShort();
+      }
+    });
+  }
+
   void _resetPage() {
     _visible = _pageSize;
     if (_scroll.hasClients) _scroll.jumpTo(0);
+    _growIfShort();
   }
 
-  void _r() => setState(() {});
+  void _r() {
+    setState(() {});
+    _growIfShort();
+  }
 
   void _onDevice() {
     if (Devices.instance.info != null &&
@@ -327,7 +343,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
       padding: const EdgeInsets.only(right: 6),
       child: PopupMenuButton<String?>(
         tooltip: label,
-        color: const Color(0xFF242424),
+        color: EZColors.card,
         onSelected: onSel,
         itemBuilder: (_) => items.entries
             .map(
@@ -348,9 +364,9 @@ class _PicoLandPageState extends State<PicoLandPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
           decoration: BoxDecoration(
-            color: const Color(0xFF242424),
+            color: EZColors.card,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(0xFF2E2E2E)),
+            border: Border.all(color: EZColors.cardBorder),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -374,7 +390,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
   Widget _genreMenu(Catalog cat) {
     return PopupMenuButton<String>(
       tooltip: t.findACategory,
-      color: const Color(0xFF242424),
+      color: EZColors.card,
       onSelected: (g) => setState(() {
         _genres.contains(g) ? _genres.remove(g) : _genres.add(g);
         _resetPage();
@@ -402,10 +418,10 @@ class _PicoLandPageState extends State<PicoLandPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         decoration: BoxDecoration(
-          color: const Color(0xFF242424),
+          color: EZColors.card,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: _genres.isEmpty ? const Color(0xFF2E2E2E) : EZColors.accent,
+            color: _genres.isEmpty ? EZColors.cardBorder : EZColors.accent,
           ),
         ),
         child: Text(
@@ -623,7 +639,7 @@ class _GameDetails extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 4),
                                   child: PopupMenuButton<String>(
                                     tooltip: t.chooseAHeadset,
-                                    color: const Color(0xFF242424),
+                                    color: EZColors.card,
                                     onSelected: (s) {
                                       Devices.instance.selectDevice(s);
                                       _download(context, g, install: true);

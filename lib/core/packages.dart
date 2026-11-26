@@ -220,12 +220,6 @@ class Packages extends ChangeNotifier {
     return res;
   }
 
-  Future<String> uninstallForUser(String pkg) async {
-    final res = await Adb.instance.uninstall(pkg, forUser: true);
-    await refresh();
-    return res;
-  }
-
   /// Save the APK(s) of a package to a PC folder.
   Future<String> saveApk(String pkg, Directory target) async {
     await target.create(recursive: true);
@@ -260,23 +254,6 @@ class Packages extends ChangeNotifier {
       await Adb.instance.pull(remote, local.path);
     }
     return dest;
-  }
-
-  Future<void> restoreSaves(String pkg, Directory backup) async {
-    for (final sub in ['data', 'obb']) {
-      final local = Directory(p.join(backup.path, 'Android_${sub}_$pkg'));
-      if (!await local.exists()) continue;
-      const tmp = '/sdcard/smpico_restore_tmp';
-      await Adb.instance.mkdir(tmp);
-      // the pulled dir contains <pkg>/ inside
-      final inner = Directory(p.join(local.path, pkg));
-      final src = await inner.exists() ? inner.path : local.path;
-      await Adb.instance.push(src, '$tmp/$pkg');
-      await Adb.instance.shell(
-        'cp -r $tmp/$pkg /sdcard/Android/$sub/ && rm -rf $tmp/$pkg',
-      );
-    }
-    await Adb.instance.rm('/sdcard/smpico_restore_tmp');
   }
 
   Future<List<String>> permissions(String pkg) async {

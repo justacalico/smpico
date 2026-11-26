@@ -303,7 +303,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _langPicker() {
     return DropdownButton<String>(
       value: Settings.instance.get('language', 'system'),
-      dropdownColor: const Color(0xFF242424),
+      dropdownColor: EZColors.card,
       underline: const SizedBox(),
       style: const TextStyle(fontSize: 12, color: EZColors.text),
       items: [
@@ -337,7 +337,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final cur = Settings.instance.get('accent', 'Green');
     return DropdownButton<String>(
       value: EZColors.accentChoices.containsKey(cur) ? cur : 'Green',
-      dropdownColor: const Color(0xFF242424),
+      dropdownColor: EZColors.card,
       underline: const SizedBox(),
       style: const TextStyle(fontSize: 12),
       items: EZColors.accentChoices.keys
@@ -403,6 +403,8 @@ class _SettingsPageState extends State<SettingsPage> {
     var count = 0;
     if (await d.exists()) {
       await for (final e in d.list()) {
+        // leave in-flight .part files — deleting one mid-write breaks the job
+        if (e.path.endsWith('.part')) continue;
         try {
           if (e is File) freed += await e.length();
           await e.delete(recursive: true);

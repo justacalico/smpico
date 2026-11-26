@@ -20,9 +20,15 @@ Runs on Windows, macOS and Linux. Built with Flutter.
 - **Stream** — scrcpy with per-eye cropping, resolution, fps, bitrate,
   codec and recording controls
 - **PicoLand** — the community game catalog with covers, genre filters and
-  one-click download & install from Yandex Disk, Google Drive and SberDisk
-- **Settings** — language (EN/RU), accent color, folders, catalog updates,
-  help and reset
+  one-click download & install from Yandex Disk, Google Drive and SberDisk.
+  Downloads survive restarts and resume mid-file, run several at once
+  (configurable), and can clean themselves up after a successful install
+- **Settings** — language (EN/RU/ZH), accent color, folders, catalog updates,
+  download behavior, the AI-agent MCP server, help and reset
+- **MCP server** *(off by default)* — a streamable-HTTP endpoint on
+  `127.0.0.1` that lets AI agents drive the same queues and device
+  operations the UI uses: device status, app management, catalog search
+  and downloads, installs, remote files and raw adb shell
 
 ## Building
 

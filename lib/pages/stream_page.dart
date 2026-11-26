@@ -447,7 +447,7 @@ class _StreamPageState extends State<StreamPage> {
                   value: value,
                   isDense: true,
                   underline: const SizedBox(),
-                  dropdownColor: const Color(0xFF242424),
+                  dropdownColor: EZColors.card,
                   style: const TextStyle(
                     color: EZColors.textBright,
                     fontSize: 12,

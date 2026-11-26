@@ -22,7 +22,7 @@ Future<void> main() async {
     size: Size(1280, 800),
     minimumSize: Size(560, 480),
     center: true,
-    backgroundColor: Color(0xFF1F1F1F),
+    backgroundColor: EZColors.page,
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
     title: 'SMPico',

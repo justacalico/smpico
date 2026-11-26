@@ -254,7 +254,6 @@ class TranslationsRu with BaseTranslations<AppLocale, Translations> implements T
 	@override String selected({required Object arg1}) => 'Выбрано: ${arg1}';
 	@override String serialNumber({required Object arg1}) => 'Серийный номер: ${arg1}';
 	@override String get settings => 'Настройки';
-	@override String get show => 'Показать';
 	@override String get showGamesWithoutDownloadLinks => 'Показывать игры без ссылок на скачивание';
 	@override String get showPopUpNotificationsAboutInstallsBackups => 'Всплывающие уведомления об установках, бэкапах и скриншотах';
 	@override String get showsTheHeadsetScreenInASeparate => 'Показывает экран шлема в отдельном окне (scrcpy)';
@@ -302,10 +301,8 @@ class TranslationsRu with BaseTranslations<AppLocale, Translations> implements T
 	@override String get version => 'Версия';
 	@override String get versionIsUnknown => 'Версия неизвестна';
 	@override String get waiting => 'Ожидание';
-	@override String get welcomeScreen => 'Окно приветствия';
 	@override String get welcomeToSMPico => 'Добро пожаловать в SMPico';
 	@override String get whichEyeImageToShowOneEye => 'Картинку какого глаза показывать. Один глаз легче и выглядит как обычное видео';
-	@override String get whichInternetResourcesSMPicoUsesAndWhat => 'Какие интернет-ресурсы использует SMPico и что он хранит на этом ПК';
 	@override String get wiFiMode => 'Wi-Fi режим';
 	@override String get windowsNotifications => 'Уведомления Windows';
 	@override String get yellow => 'Жёлтый';
@@ -556,7 +553,6 @@ extension on TranslationsRu {
 			'selected' => ({required Object arg1}) => 'Выбрано: ${arg1}',
 			'serialNumber' => ({required Object arg1}) => 'Серийный номер: ${arg1}',
 			'settings' => 'Настройки',
-			'show' => 'Показать',
 			'showGamesWithoutDownloadLinks' => 'Показывать игры без ссылок на скачивание',
 			'showPopUpNotificationsAboutInstallsBackups' => 'Всплывающие уведомления об установках, бэкапах и скриншотах',
 			'showsTheHeadsetScreenInASeparate' => 'Показывает экран шлема в отдельном окне (scrcpy)',
@@ -604,10 +600,8 @@ extension on TranslationsRu {
 			'version' => 'Версия',
 			'versionIsUnknown' => 'Версия неизвестна',
 			'waiting' => 'Ожидание',
-			'welcomeScreen' => 'Окно приветствия',
 			'welcomeToSMPico' => 'Добро пожаловать в SMPico',
 			'whichEyeImageToShowOneEye' => 'Картинку какого глаза показывать. Один глаз легче и выглядит как обычное видео',
-			'whichInternetResourcesSMPicoUsesAndWhat' => 'Какие интернет-ресурсы использует SMPico и что он хранит на этом ПК',
 			'wiFiMode' => 'Wi-Fi режим',
 			'windowsNotifications' => 'Уведомления Windows',
 			'yellow' => 'Жёлтый',

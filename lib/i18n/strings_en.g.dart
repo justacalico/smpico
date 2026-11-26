@@ -690,9 +690,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'Settings'
 	String get settings => 'Settings';
 
-	/// en: 'Show'
-	String get show => 'Show';
-
 	/// en: 'Show games without download links'
 	String get showGamesWithoutDownloadLinks => 'Show games without download links';
 
@@ -834,17 +831,11 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'Waiting'
 	String get waiting => 'Waiting';
 
-	/// en: 'Welcome screen'
-	String get welcomeScreen => 'Welcome screen';
-
 	/// en: 'Welcome to SMPico'
 	String get welcomeToSMPico => 'Welcome to SMPico';
 
 	/// en: 'Which eye image to show. One eye is lighter and looks like a normal video'
 	String get whichEyeImageToShowOneEye => 'Which eye image to show. One eye is lighter and looks like a normal video';
-
-	/// en: 'Which internet resources SMPico uses and what it stores on this PC'
-	String get whichInternetResourcesSMPicoUsesAndWhat => 'Which internet resources SMPico uses and what it stores on this PC';
 
 	/// en: 'Wi-Fi mode'
 	String get wiFiMode => 'Wi-Fi mode';
@@ -1131,7 +1122,6 @@ extension on Translations {
 			'selected' => ({required Object arg1}) => 'Selected: ${arg1}',
 			'serialNumber' => ({required Object arg1}) => 'Serial number: ${arg1}',
 			'settings' => 'Settings',
-			'show' => 'Show',
 			'showGamesWithoutDownloadLinks' => 'Show games without download links',
 			'showPopUpNotificationsAboutInstallsBackups' => 'Show pop-up notifications about installs, backups and screenshots',
 			'showsTheHeadsetScreenInASeparate' => 'Shows the headset screen in a separate window (scrcpy)',
@@ -1179,10 +1169,8 @@ extension on Translations {
 			'version' => 'Version',
 			'versionIsUnknown' => 'Version is unknown',
 			'waiting' => 'Waiting',
-			'welcomeScreen' => 'Welcome screen',
 			'welcomeToSMPico' => 'Welcome to SMPico',
 			'whichEyeImageToShowOneEye' => 'Which eye image to show. One eye is lighter and looks like a normal video',
-			'whichInternetResourcesSMPicoUsesAndWhat' => 'Which internet resources SMPico uses and what it stores on this PC',
 			'wiFiMode' => 'Wi-Fi mode',
 			'windowsNotifications' => 'Windows notifications',
 			'yellow' => 'Yellow',

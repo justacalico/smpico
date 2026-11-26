@@ -73,13 +73,6 @@ class Tools {
 
   Future<String?> sevenZip() => _which(Platform.isWindows ? '7z.exe' : '7z');
 
-  Future<String?> openssl() async {
-    final t = await _dir();
-    final f = File(p.join(t.path, 'openssl$_ext'));
-    if (await f.exists()) return f.path;
-    return _which('openssl');
-  }
-
   Future<File?> _jar(String name) async {
     final t = await _dir();
     for (final cand in [
@@ -106,19 +99,6 @@ class Tools {
   }
 
   Future<File?> apksignerJar() => _jar('apksigner.jar');
-
-  Future<File?> signApkJar() => _jar('SignApk.jar');
-
-  Future<File?> overportJar() async {
-    final t = await _dir();
-    for (final n in const ['overportcli-1.2.2-all.jar', 'overportcli.jar']) {
-      for (final cand in [n, 'overport/$n']) {
-        final f = File(p.join(t.path, cand));
-        if (await f.exists()) return f;
-      }
-    }
-    return null;
-  }
 
   /// Names of tools that are missing, matching the original's
   /// "tools not found" check.

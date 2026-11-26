@@ -164,8 +164,6 @@ class RemoteFiles extends ChangeNotifier {
     }
     return list;
   }
-
-  Future<int> dirSize(String path) => Adb.instance.remoteSize(path);
 }
 
 class Transfer {

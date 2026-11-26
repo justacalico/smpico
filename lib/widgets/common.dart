@@ -64,7 +64,7 @@ class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
               decoration: BoxDecoration(
                 color: const Color(0xFF2B2B2B),
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFF3D3D3D)),
+                border: Border.all(color: EZColors.separator),
                 boxShadow: const [
                   BoxShadow(
                     color: Color(0x88000000),
@@ -76,7 +76,7 @@ class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
               child: Text(
                 widget.message,
                 style: const TextStyle(
-                  color: Color(0xFFECECEC),
+                  color: EZColors.textBright,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.none,
@@ -259,55 +259,11 @@ class _EZIconButtonState extends State<EZIconButton> {
 
 /// The big rounded container (#container, rgba(46,46,46,.6), radius 20)
 /// with a label on top — mirrors Container + #containerLabel.
-class EZPanel extends StatelessWidget {
-  final String? label;
-  final Widget child;
-  final EdgeInsets padding;
-  const EZPanel({
-    super.key,
-    this.label,
-    required this.child,
-    this.padding = const EdgeInsets.all(16),
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (label != null)
-          Padding(
-            padding: const EdgeInsets.only(left: 8, bottom: 8),
-            child: Text(label!, style: EZText.containerLabel),
-          ),
-        Expanded(
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: EZColors.container,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: padding,
-            child: child,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class HSeparator extends StatelessWidget {
   const HSeparator({super.key});
   @override
   Widget build(BuildContext context) =>
       Container(height: 1, color: EZColors.separator);
-}
-
-class VSeparator extends StatelessWidget {
-  const VSeparator({super.key});
-  @override
-  Widget build(BuildContext context) =>
-      Container(width: 1, color: EZColors.separator);
 }
 
 /// Empty-state plug (icon + title + subtitle centered).
@@ -369,7 +325,3 @@ class StatusDot extends StatelessWidget {
 }
 
 /// Green check circle for cracked matrix.
-Widget sectionHeader(String text) => Padding(
-  padding: const EdgeInsets.only(top: 14, bottom: 6),
-  child: Text(text.toUpperCase(), style: EZText.group),
-);

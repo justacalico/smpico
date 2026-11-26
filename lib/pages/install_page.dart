@@ -230,7 +230,7 @@ class _InstallPageState extends State<InstallPage> {
                                 ? t.dropAnAPKArchiveOrFolderHere
                                 : t.connectAHeadsetToInstall,
                             style: const TextStyle(
-                              color: Color(0xFFECECEC),
+                              color: EZColors.textBright,
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
@@ -290,7 +290,7 @@ class _ModeSegment extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF1A1A1A),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFF2E2E2E)),
+        border: Border.all(color: EZColors.cardBorder),
       ),
       child: Row(
         children: [

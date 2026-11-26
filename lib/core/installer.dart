@@ -323,7 +323,11 @@ class Installer extends ChangeNotifier {
             .basenameWithoutExtension(src)
             .replaceAll(RegExp(r'\.\d+$'), '');
         final unpacked = Directory(p.join(p.dirname(src), base));
-        if (await unpacked.exists() && unpacked.path != src) {
+        // base can be empty for names like ".2.zip" — never delete a dir
+        // that isn't strictly inside the downloads folder
+        if (base.isNotEmpty &&
+            await unpacked.exists() &&
+            p.isWithin(dl, unpacked.path)) {
           await unpacked.delete(recursive: true);
         }
       } else if (type == FileSystemEntityType.directory) {

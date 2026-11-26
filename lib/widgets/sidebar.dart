@@ -42,7 +42,7 @@ class Sidebar extends StatelessWidget {
               height: itemH,
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFF242424),
+                  color: EZColors.card,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Align(

@@ -402,7 +402,7 @@ class _FilesPageState extends State<FilesPage> {
     final act = await showMenu<String>(
       context: context,
       position: const RelativeRect.fromLTRB(200, 200, 0, 0),
-      color: const Color(0xFF242424),
+      color: EZColors.card,
       items: [
         PopupMenuItem(value: 'rename', child: Text(t.rename)),
         PopupMenuItem(value: 'delete', child: Text(t.delete)),
@@ -571,10 +571,10 @@ class _QuickPath extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: active ? const Color(0xFF2F3A1C) : const Color(0xFF242424),
+          color: active ? const Color(0xFF2F3A1C) : EZColors.card,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: active ? EZColors.accent : const Color(0xFF2E2E2E),
+            color: active ? EZColors.accent : EZColors.cardBorder,
           ),
         ),
         child: Text(

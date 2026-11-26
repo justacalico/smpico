@@ -158,10 +158,3 @@ String fmtBytes(int bytes) {
   return '${v.toStringAsFixed(v >= 100 ? 0 : 1)} ${units[u]}';
 }
 
-String fmtUptime(int sec) {
-  final d = sec ~/ 86400;
-  final h = (sec % 86400) ~/ 3600;
-  if (d > 0) return '$d d $h h';
-  final m = (sec % 3600) ~/ 60;
-  return '$h h $m min';
-}

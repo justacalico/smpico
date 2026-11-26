@@ -254,7 +254,6 @@ class TranslationsZhCn with BaseTranslations<AppLocale, Translations> implements
 	@override String selected({required Object arg1}) => '已选择：${arg1}';
 	@override String serialNumber({required Object arg1}) => '序列号：${arg1}';
 	@override String get settings => '设置';
-	@override String get show => '显示';
 	@override String get showGamesWithoutDownloadLinks => '显示没有下载链接的游戏';
 	@override String get showPopUpNotificationsAboutInstallsBackups => '显示关于安装、备份和截图的弹窗通知';
 	@override String get showsTheHeadsetScreenInASeparate => '在单独窗口中显示头显画面（scrcpy）';
@@ -303,10 +302,8 @@ class TranslationsZhCn with BaseTranslations<AppLocale, Translations> implements
 	@override String get version => '版本';
 	@override String get versionIsUnknown => '版本未知';
 	@override String get waiting => '等待中';
-	@override String get welcomeScreen => '欢迎界面';
 	@override String get welcomeToSMPico => '欢迎使用 SMPico';
 	@override String get whichEyeImageToShowOneEye => '显示哪只眼的画面。单眼更省资源，看起来与普通视频一样';
-	@override String get whichInternetResourcesSMPicoUsesAndWhat => 'SMPico 使用哪些网络资源以及在此电脑上存储什么';
 	@override String get wiFiMode => 'Wi-Fi 模式';
 	@override String get windowsNotifications => 'Windows 通知';
 	@override String get yellow => '黄色';
@@ -553,7 +550,6 @@ extension on TranslationsZhCn {
 			'selected' => ({required Object arg1}) => '已选择：${arg1}',
 			'serialNumber' => ({required Object arg1}) => '序列号：${arg1}',
 			'settings' => '设置',
-			'show' => '显示',
 			'showGamesWithoutDownloadLinks' => '显示没有下载链接的游戏',
 			'showPopUpNotificationsAboutInstallsBackups' => '显示关于安装、备份和截图的弹窗通知',
 			'showsTheHeadsetScreenInASeparate' => '在单独窗口中显示头显画面（scrcpy）',
@@ -602,10 +598,8 @@ extension on TranslationsZhCn {
 			'version' => '版本',
 			'versionIsUnknown' => '版本未知',
 			'waiting' => '等待中',
-			'welcomeScreen' => '欢迎界面',
 			'welcomeToSMPico' => '欢迎使用 SMPico',
 			'whichEyeImageToShowOneEye' => '显示哪只眼的画面。单眼更省资源，看起来与普通视频一样',
-			'whichInternetResourcesSMPicoUsesAndWhat' => 'SMPico 使用哪些网络资源以及在此电脑上存储什么',
 			'wiFiMode' => 'Wi-Fi 模式',
 			'windowsNotifications' => 'Windows 通知',
 			'yellow' => '黄色',
