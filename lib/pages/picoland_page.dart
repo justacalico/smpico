@@ -34,6 +34,11 @@ class _PicoLandPageState extends State<PicoLandPage> {
   int? _maxSize;
   String _sort = 'name'; // name | size
 
+  static const _pageSize = 48;
+  int _visible = _pageSize;
+  int _total = 0;
+  final _scroll = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +48,20 @@ class _PicoLandPageState extends State<PicoLandPage> {
     Devices.instance.addListener(_onDevice);
     Installer.instance.addListener(_onJobs);
     if (Devices.instance.info != null) Packages.instance.refresh();
+    _scroll.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (!_scroll.hasClients) return;
+    if (_visible < _total &&
+        _scroll.position.pixels >
+            _scroll.position.maxScrollExtent - 400) {
+      setState(() => _visible += _pageSize);
+    }
+  }
+
+  void _resetPage() {
+    _visible = _pageSize;
   }
 
   void _r() => setState(() {});
@@ -73,6 +92,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
     Packages.instance.removeListener(_r);
     Devices.instance.removeListener(_onDevice);
     Installer.instance.removeListener(_onJobs);
+    _scroll.dispose();
     _kbFocus.dispose();
     _search.dispose();
     super.dispose();
@@ -92,12 +112,19 @@ class _PicoLandPageState extends State<PicoLandPage> {
       },
       child: Container(
         color: EZColors.page,
-        child: _selected != null
-            ? _GameDetails(
+        child: IndexedStack(
+          index: _selected == null ? 0 : 1,
+          children: [
+            _catalog(),
+            if (_selected != null)
+              _GameDetails(
                 game: _selected!,
                 onBack: () => setState(() => _selected = null),
               )
-            : _catalog(),
+            else
+              const SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }
@@ -121,6 +148,8 @@ class _PicoLandPageState extends State<PicoLandPage> {
     } else {
       games.sort((a, b) => b.bestSize.compareTo(a.bestSize));
     }
+    _total = games.length;
+    if (_visible > _total) _visible = _total;
 
     return Padding(
       padding: const EdgeInsets.all(12),
@@ -159,7 +188,10 @@ class _PicoLandPageState extends State<PicoLandPage> {
                         ),
                         contentPadding: const EdgeInsets.symmetric(vertical: 9),
                       ),
-                      onChanged: (v) => setState(() => _query = v),
+                      onChanged: (v) => setState(() {
+                        _query = v;
+                        _resetPage();
+                      }),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -167,7 +199,10 @@ class _PicoLandPageState extends State<PicoLandPage> {
                     t.type,
                     {null: t.all, 'ovrport': 'OVRport', 'fnal': 'FNAL'},
                     _type,
-                    (v) => setState(() => _type = v),
+                    (v) => setState(() {
+                      _type = v;
+                      _resetPage();
+                    }),
                   ),
                   _filterMenu(
                     t.size,
@@ -179,7 +214,10 @@ class _PicoLandPageState extends State<PicoLandPage> {
                     t.sort,
                     {'name': t.aZ, 'size': t.size},
                     _sort,
-                    (v) => setState(() => _sort = v ?? 'name'),
+                    (v) => setState(() {
+                      _sort = v ?? 'name';
+                      _resetPage();
+                    }),
                   ),
                   const SizedBox(width: 8),
                   _genreMenu(cat),
@@ -212,6 +250,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
                 : games.isEmpty
                 ? EmptyPlug(Icons.search_off, t.nothingMatchesTheFilter)
                 : GridView.builder(
+                    controller: _scroll,
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
                           maxCrossAxisExtent: 170,
@@ -219,7 +258,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                         ),
-                    itemCount: games.length,
+                    itemCount: _visible,
                     itemBuilder: (_, i) => _GameCard(
                       game: games[i],
                       onTap: () {
@@ -253,6 +292,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
         'm' => 5 << 30,
         _ => null,
       };
+      _resetPage();
     });
   }
 
@@ -316,6 +356,7 @@ class _PicoLandPageState extends State<PicoLandPage> {
       color: const Color(0xFF242424),
       onSelected: (g) => setState(() {
         _genres.contains(g) ? _genres.remove(g) : _genres.add(g);
+        _resetPage();
       }),
       itemBuilder: (_) => cat.genres
           .map(
