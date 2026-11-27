@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v1.0.8 - 2026-11-27
+
+- - -
+
 ## v1.0.7 - 2026-11-27
 
 - - -
