@@ -31,6 +31,15 @@ Windows, macOS and Linux. Built with Flutter.
   and downloads, installs, remote files, raw adb shell. Same code paths
   the UI uses
 
+## Downloads
+
+Prebuilt packages are on the
+[releases page](https://github.com/justacalico/smpico/releases):
+
+- Windows — x86_64 and ARM64 `.zip`
+- Linux — x86_64 and ARM64 `.tar.gz` / `.zip`
+- macOS — Apple Silicon `.dmg` / `.zip`
+
 ## Building
 
 ```
