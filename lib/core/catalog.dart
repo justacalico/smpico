@@ -139,7 +139,7 @@ class Catalog extends ChangeNotifier {
   String? error;
 
   String? _resolvedBase;
-  String? _coversDir;
+  String? coversDir;
 
   String get customAddress => Settings.instance.get('catalog_address', '');
 
@@ -158,7 +158,7 @@ class Catalog extends ChangeNotifier {
   String get imagesBase => base;
 
   String? coverPath(String? name) =>
-      name == null || _coversDir == null ? null : p.join(_coversDir!, name);
+      name == null || coversDir == null ? null : p.join(coversDir!, name);
 
   Future<void> init() async {
     await _open();
@@ -171,7 +171,7 @@ class Catalog extends ChangeNotifier {
     await dir.create(recursive: true);
     final covers = Directory(p.join(dir.path, 'covers'));
     if (await File(p.join(covers.path, '.version')).exists()) {
-      _coversDir = covers.path;
+      coversDir = covers.path;
     }
     final dbFile = File(p.join(dir.path, 'catalog.db'));
     if (!await dbFile.exists()) return;
@@ -301,7 +301,7 @@ class Catalog extends ChangeNotifier {
     final covers = Directory(p.join(dir.path, 'covers'));
     final marker = File(p.join(covers.path, '.version'));
     if (await marker.exists() && (await marker.readAsString()) == ver) {
-      _coversDir = covers.path;
+      coversDir = covers.path;
       return;
     }
     final tmp = File(p.join(dir.path, 'covers.zip'));
@@ -339,7 +339,7 @@ class Catalog extends ChangeNotifier {
         }
       }
       await marker.writeAsString(ver);
-      _coversDir = covers.path;
+      coversDir = covers.path;
       dlog('catalog covers synced: $ver (${archive.files.length} files)');
     } catch (e) {
       dlog('covers unpack failed: $e');

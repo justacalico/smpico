@@ -37,7 +37,9 @@ class _AppManagerPageState extends State<AppManagerPage> {
   void _maybeLoad() {
     if (!_loaded && Devices.instance.connected) {
       _loaded = true;
-      Packages.instance.refresh();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Packages.instance.refresh();
+      });
     }
   }
 

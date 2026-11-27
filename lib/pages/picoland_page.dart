@@ -47,7 +47,13 @@ class _PicoLandPageState extends State<PicoLandPage> {
     Packages.instance.addListener(_r);
     Devices.instance.addListener(_onDevice);
     Installer.instance.addListener(_onJobs);
-    if (Devices.instance.info != null) Packages.instance.refresh();
+    if (Devices.instance.info != null) {
+      // refresh notifies synchronously — defer past the initial build or
+      // listeners on sibling pages get a setState-during-build crash
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (Devices.instance.info != null) Packages.instance.refresh();
+      });
+    }
     _scroll.addListener(_onScroll);
   }
 
@@ -98,7 +104,13 @@ class _PicoLandPageState extends State<PicoLandPage> {
         .length;
     if (d != _lastDone) {
       _lastDone = d;
-      if (Devices.instance.info != null) Packages.instance.refresh();
+      if (Devices.instance.info != null) {
+      // refresh notifies synchronously — defer past the initial build or
+      // listeners on sibling pages get a setState-during-build crash
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (Devices.instance.info != null) Packages.instance.refresh();
+      });
+    }
     }
   }
 

@@ -32,7 +32,9 @@ class _FilesPageState extends State<FilesPage> {
     Transfers.instance.addListener(_r);
     Devices.instance.addListener(_r);
     if (Devices.instance.connected) {
-      RemoteFiles.instance.open('/sdcard');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        RemoteFiles.instance.open('/sdcard');
+      });
     }
   }
 

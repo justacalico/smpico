@@ -40,6 +40,16 @@ class Packages extends ChangeNotifier {
   /// already on the headset.
   Set<String> installedKeys = {};
 
+  /// Lets tests inject a package list without going through adb.
+  @visibleForTesting
+  void seedItems(List<PackageEntry> list, {Set<String>? keys}) {
+    items = list;
+    installedKeys = keys ?? {};
+    error = null;
+    loading = false;
+    notifyListeners();
+  }
+
   static String norm(String s) =>
       s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9а-яё]+'), '');
 

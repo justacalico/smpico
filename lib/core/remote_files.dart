@@ -59,6 +59,16 @@ class RemoteFiles extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Lets tests inject a listing without going through adb.
+  @visibleForTesting
+  void seedEntries(String path, List<RemoteEntry> list) {
+    currentPath = path;
+    entries = list;
+    error = null;
+    loading = false;
+    notifyListeners();
+  }
+
   /// Same ls+parse as [open], without touching navigation state — the MCP
   /// server lists remote dirs through this so the Files page doesn't jump.
   Future<List<RemoteEntry>> entriesAt(

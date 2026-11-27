@@ -25,7 +25,13 @@ class Tools {
     return found;
   }
 
+  /// When true, PATH lookups are skipped — every tool resolves missing.
+  /// Tests set this so goldens are deterministic and no real adb/scrcpy
+  /// ever fires, regardless of the machine's PATH.
+  static bool bundledOnly = false;
+
   Future<String?> _which(String name) async {
+    if (bundledOnly) return null;
     try {
       final cmd = Platform.isWindows ? 'where' : 'which';
       final r = await Process.run(cmd, [name]);
