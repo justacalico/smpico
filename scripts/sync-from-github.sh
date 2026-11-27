@@ -11,9 +11,17 @@ GITHUB_REPO="justacalico/smpico"
 
 cd "$PROJECT_DIR"
 
-# Determine which GitHub release to sync.
+# Determine which GitHub release to sync. Tag pipelines sync their own tag;
+# manual runs take RELEASE_TAG, defaulting to the newest versioned release.
+RELEASE_TAG="${RELEASE_TAG:-${CI_COMMIT_TAG:-}}"
 if [ -z "$RELEASE_TAG" ]; then
-  RELEASE_TAG=$(gh release view -R "$GITHUB_REPO" --json tagName -q .tagName)
+  RELEASE_TAG=$(gh release list -R "$GITHUB_REPO" -L 20 --json tagName,isPrerelease \
+    -q '[.[] | select(.isPrerelease | not) | .tagName] | first')
+fi
+
+if [ "$RELEASE_TAG" = "nightly" ]; then
+  echo "nightly stays on GitHub — nothing to sync" >&2
+  exit 1
 fi
 
 echo "Syncing GitHub release: $RELEASE_TAG"
@@ -73,3 +81,7 @@ glab release create "$RELEASE_TAG" \
   --ref "$RELEASE_COMMIT" \
   --use-package-registry \
   "$PROJECT_DIR/release-assets"/*
+
+# The GitLab copy is canonical now — drop the GitHub release so GitHub stays
+# a CI-only mirror. The git tag itself stays, the release build needs it.
+gh release delete "$RELEASE_TAG" -R "$GITHUB_REPO" --yes --cleanup-tag=false

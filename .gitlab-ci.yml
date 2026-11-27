@@ -92,14 +92,17 @@ auto-release:
   script:
     - bash scripts/auto-release.sh
 
-# Manual trigger (API/web): pulls the GitHub release's assets into a GitLab
-# release and re-points the tag to the GitHub release commit.
+# Pulls the GitHub release's assets into a GitLab release and re-points the
+# tag to the GitHub release commit. Runs automatically at the end of a
+# version-tag pipeline (github-sync has already waited for the release
+# build), and stays available as a manual trigger/api pipeline.
 github-release-sync:
   stage: release
   tags: [linux-truenas]
   image: alpine:3.19
   resource_group: release-sync
   rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
     - if: $CI_PIPELINE_SOURCE == "trigger"
     - if: $CI_PIPELINE_SOURCE == "api"
   variables:

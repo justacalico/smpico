@@ -34,7 +34,7 @@ Windows, macOS and Linux. Built with Flutter.
 ## Downloads
 
 Prebuilt packages are on the
-[releases page](https://github.com/justacalico/smpico/releases):
+[releases page](https://gitlab.com/HttpAnimations/smpico/-/releases):
 
 - Windows — x86_64 and ARM64 `.zip`
 - Linux — x86_64 and ARM64 `.tar.gz` / `.zip`
